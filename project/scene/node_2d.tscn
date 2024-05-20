@@ -1,0 +1,122 @@
+[gd_scene load_steps=9 format=3 uid="uid://cq6l3kel1nvfi"]
+
+[ext_resource type="Script" path="res://src/Tetraizor/DrawManager.cs" id="1_db5wj"]
+[ext_resource type="Texture2D" uid="uid://bgup2ob8uq8yl" path="res://res/ui/icons.png" id="1_nn46a"]
+[ext_resource type="Script" path="res://src/Tetraizor/CameraManager.cs" id="1_vh3h2"]
+[ext_resource type="Texture2D" uid="uid://dntdyc3jk3ruc" path="res://res/ui/blank.png" id="2_tef56"]
+[ext_resource type="Script" path="res://src/Tetraizor/UIManager.cs" id="4_o8e6h"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7nnmx"]
+atlas = ExtResource("1_nn46a")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7l71v"]
+atlas = ExtResource("1_nn46a")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_joccv"]
+atlas = ExtResource("1_nn46a")
+region = Rect2(64, 0, 32, 32)
+
+[node name="Root" type="Node"]
+
+[node name="Canvas" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
+
+[node name="Camera2D" type="Camera2D" parent="Canvas"]
+position = Vector2(576, 325)
+ignore_rotation = false
+script = ExtResource("1_vh3h2")
+
+[node name="Control" type="Control" parent="Canvas"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+metadata/_edit_lock_ = true
+metadata/_edit_group_ = true
+
+[node name="DrawingArea" type="Control" parent="Canvas/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -256.0
+offset_top = -256.0
+offset_right = 256.0
+offset_bottom = 256.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(256, 256)
+metadata/_edit_group_ = true
+
+[node name="DrawingRenderer" type="TextureRect" parent="Canvas/Control/DrawingArea"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.000854492
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_tef56")
+stretch_mode = 3
+
+[node name="TempDrawingRenderer" type="Control" parent="Canvas/Control/DrawingArea" node_paths=PackedStringArray("_camera", "_canvas")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(256, 256)
+script = ExtResource("1_db5wj")
+_camera = NodePath("../../../Camera2D")
+_canvas = NodePath("../DrawingRenderer")
+
+[node name="Interface" type="CanvasLayer" parent="."]
+
+[node name="UI" type="Control" parent="Interface" node_paths=PackedStringArray("_penButton", "_eraserButton", "_clearButton")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+script = ExtResource("4_o8e6h")
+_penButton = NodePath("HBoxContainer/PencilButton")
+_eraserButton = NodePath("HBoxContainer/EraserButton")
+_clearButton = NodePath("HBoxContainer/ClearButton")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Interface/UI"]
+layout_mode = 0
+offset_right = 248.0
+offset_bottom = 68.0
+
+[node name="PencilButton" type="TextureButton" parent="Interface/UI/HBoxContainer"]
+texture_filter = 1
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+texture_normal = SubResource("AtlasTexture_7nnmx")
+stretch_mode = 5
+
+[node name="EraserButton" type="TextureButton" parent="Interface/UI/HBoxContainer"]
+texture_filter = 1
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+texture_normal = SubResource("AtlasTexture_7l71v")
+stretch_mode = 5
+
+[node name="ClearButton" type="TextureButton" parent="Interface/UI/HBoxContainer"]
+texture_filter = 1
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+texture_normal = SubResource("AtlasTexture_joccv")
+stretch_mode = 5
