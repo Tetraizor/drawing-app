@@ -1,0 +1,318 @@
+[gd_scene load_steps=16 format=3 uid="uid://dsmbwe0n6rnum"]
+
+[ext_resource type="Script" path="res://src/Tetraizor/UI/CanvasUIManager.cs" id="1_w03sc"]
+[ext_resource type="Texture2D" uid="uid://dnnhsogukhf2e" path="res://res/ui/modal.png" id="2_yg58p"]
+[ext_resource type="Texture2D" uid="uid://c6qvmr7nvpnr7" path="res://res/ui/modal_tail.png" id="3_d3ipc"]
+[ext_resource type="Texture2D" uid="uid://ckspggyiicxna" path="res://res/ui/button_active.png" id="4_7v4n4"]
+[ext_resource type="Texture2D" uid="uid://byt4st6yr8tgy" path="res://res/ui/button_circle_deactive.png" id="5_cn0sk"]
+[ext_resource type="Texture2D" uid="uid://c4knnv5m7e6dw" path="res://res/ui/gear_active.png" id="6_cx58l"]
+[ext_resource type="Texture2D" uid="uid://c7gmv5uyo2v8f" path="res://res/ui/undo_active.png" id="7_rtuob"]
+[ext_resource type="Texture2D" uid="uid://clm4mojq4dafy" path="res://res/ui/undo_deactive.png" id="8_sj18l"]
+[ext_resource type="Texture2D" uid="uid://d01tbjqbr2hya" path="res://res/ui/redo_active.png" id="9_15fsr"]
+[ext_resource type="Texture2D" uid="uid://b4qa1bbadx8lj" path="res://res/ui/redo_deactive.png" id="10_6xoih"]
+[ext_resource type="Texture2D" uid="uid://dq1ckyyu0ilm7" path="res://res/ui/brush_active.png" id="11_h00hq"]
+[ext_resource type="Texture2D" uid="uid://4dwmsp5njou3" path="res://res/ui/pen_active.png" id="12_y5hjb"]
+[ext_resource type="Texture2D" uid="uid://dihok0ni5rdns" path="res://res/ui/eraser_active.png" id="13_t1wx5"]
+[ext_resource type="Texture2D" uid="uid://c164ahq6phqq4" path="res://res/ui/color_box.png" id="14_lu5gf"]
+[ext_resource type="Texture2D" uid="uid://de8y6m45kikg1" path="res://res/ui/color_box_content.png" id="19_ocair"]
+
+[node name="UI" type="Control" node_paths=PackedStringArray("_buttonSettings")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+script = ExtResource("1_w03sc")
+_buttonSettings = NodePath("TopButtonsMargin/TopButtons/LeftButtons/SettingsButton")
+
+[node name="ColorModal" type="NinePatchRect" parent="."]
+visible = false
+use_parent_material = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_right = 320.0
+offset_bottom = 316.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_yg58p")
+region_rect = Rect2(0, 11, 198, 183)
+patch_margin_left = 71
+patch_margin_top = 110
+patch_margin_right = 72
+patch_margin_bottom = 111
+
+[node name="TextureRect" type="TextureRect" parent="ColorModal"]
+visible = false
+use_parent_material = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_d3ipc")
+
+[node name="TopButtonsMargin" type="MarginContainer" parent="."]
+use_parent_material = true
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 78.0
+grow_horizontal = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 8
+
+[node name="TopButtons" type="HBoxContainer" parent="TopButtonsMargin"]
+use_parent_material = true
+layout_mode = 2
+
+[node name="LeftButtons" type="HBoxContainer" parent="TopButtonsMargin/TopButtons"]
+use_parent_material = true
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+theme_override_constants/separation = 0
+
+[node name="SettingsButton" type="TextureButton" parent="TopButtonsMargin/TopButtons/LeftButtons"]
+texture_filter = 1
+use_parent_material = true
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+texture_normal = ExtResource("4_7v4n4")
+texture_disabled = ExtResource("5_cn0sk")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="TextureRect" type="TextureRect" parent="TopButtonsMargin/TopButtons/LeftButtons/SettingsButton"]
+use_parent_material = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_cx58l")
+expand_mode = 5
+stretch_mode = 5
+
+[node name="Spacer" type="Control" parent="TopButtonsMargin/TopButtons/LeftButtons"]
+use_parent_material = true
+custom_minimum_size = Vector2(24, 60)
+layout_mode = 2
+
+[node name="ClearButton2" type="TextureButton" parent="TopButtonsMargin/TopButtons/LeftButtons"]
+texture_filter = 1
+use_parent_material = true
+custom_minimum_size = Vector2(58, 46)
+layout_mode = 2
+size_flags_vertical = 4
+texture_normal = ExtResource("7_rtuob")
+texture_disabled = ExtResource("8_sj18l")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Spacer2" type="Control" parent="TopButtonsMargin/TopButtons/LeftButtons"]
+use_parent_material = true
+custom_minimum_size = Vector2(4, 60)
+layout_mode = 2
+
+[node name="ClearButton3" type="TextureButton" parent="TopButtonsMargin/TopButtons/LeftButtons"]
+texture_filter = 1
+use_parent_material = true
+custom_minimum_size = Vector2(58, 46)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+size_flags_stretch_ratio = 0.0
+texture_normal = ExtResource("9_15fsr")
+texture_disabled = ExtResource("10_6xoih")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Spacer3" type="Control" parent="TopButtonsMargin/TopButtons/LeftButtons"]
+use_parent_material = true
+custom_minimum_size = Vector2(24, 60)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.0
+
+[node name="RightButtons" type="Control" parent="TopButtonsMargin/TopButtons"]
+use_parent_material = true
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 0
+
+[node name="HBox" type="HBoxContainer" parent="TopButtonsMargin/TopButtons/RightButtons"]
+use_parent_material = true
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -398.0
+grow_horizontal = 0
+grow_vertical = 2
+alignment = 2
+
+[node name="ToolButtons" type="HBoxContainer" parent="TopButtonsMargin/TopButtons/RightButtons/HBox"]
+use_parent_material = true
+layout_mode = 2
+
+[node name="ClearButton" type="TextureButton" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons"]
+texture_filter = 1
+use_parent_material = true
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+texture_normal = ExtResource("4_7v4n4")
+texture_disabled = ExtResource("5_cn0sk")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="TextureRect" type="TextureRect" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons/ClearButton"]
+use_parent_material = true
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -4.5
+offset_top = 8.43
+offset_right = 0.5
+offset_bottom = -9.57
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("11_h00hq")
+expand_mode = 3
+
+[node name="Spacer1" type="Control" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons"]
+use_parent_material = true
+custom_minimum_size = Vector2(4, 60)
+layout_mode = 2
+
+[node name="PencilButton" type="TextureButton" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons"]
+texture_filter = 1
+use_parent_material = true
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+texture_normal = ExtResource("4_7v4n4")
+texture_disabled = ExtResource("5_cn0sk")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="TextureRect" type="TextureRect" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons/PencilButton"]
+use_parent_material = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1.305
+offset_top = 6.96
+offset_right = 3.695
+offset_bottom = -10.04
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("12_y5hjb")
+expand_mode = 3
+
+[node name="Spacer2" type="Control" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons"]
+use_parent_material = true
+custom_minimum_size = Vector2(4, 60)
+layout_mode = 2
+
+[node name="EraserButton" type="TextureButton" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons"]
+texture_filter = 1
+use_parent_material = true
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+size_flags_horizontal = 4
+texture_normal = ExtResource("4_7v4n4")
+texture_disabled = ExtResource("5_cn0sk")
+ignore_texture_size = true
+stretch_mode = 5
+metadata/_edit_group_ = true
+
+[node name="TextureRect" type="TextureRect" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons/EraserButton"]
+use_parent_material = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -3.26
+offset_top = 10.085
+offset_right = 1.74001
+offset_bottom = -6.91499
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("13_t1wx5")
+expand_mode = 3
+
+[node name="Spacer2" type="Control" parent="TopButtonsMargin/TopButtons/RightButtons/HBox"]
+use_parent_material = true
+custom_minimum_size = Vector2(50, 60)
+layout_mode = 2
+
+[node name="ColorButtons" type="HBoxContainer" parent="TopButtonsMargin/TopButtons/RightButtons/HBox"]
+use_parent_material = true
+layout_mode = 2
+
+[node name="PatternSelection" type="TextureButton" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons"]
+texture_filter = 1
+use_parent_material = true
+custom_minimum_size = Vector2(70, 70)
+layout_mode = 2
+size_flags_horizontal = 0
+texture_normal = ExtResource("14_lu5gf")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="TextureRect" type="TextureRect" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/PatternSelection"]
+modulate = Color(0.79783, 0.414295, 0.706718, 1)
+use_parent_material = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("19_ocair")
+expand_mode = 3
+
+[node name="Spacer1" type="Control" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons"]
+use_parent_material = true
+custom_minimum_size = Vector2(24, 60)
+layout_mode = 2
+
+[node name="ColorSelection" type="TextureButton" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons"]
+texture_filter = 1
+use_parent_material = true
+custom_minimum_size = Vector2(70, 70)
+layout_mode = 2
+size_flags_horizontal = 0
+texture_normal = ExtResource("14_lu5gf")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="TextureRect" type="TextureRect" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorSelection"]
+modulate = Color(0.79783, 0.414295, 0.706718, 1)
+use_parent_material = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("19_ocair")
+expand_mode = 3

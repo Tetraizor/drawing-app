@@ -1,6 +1,8 @@
 using System.Diagnostics;
 using Godot;
 
+namespace Tetraizor.Managers;
+
 public partial class CameraManager : Camera2D
 {
     private bool _isMoving = false;
@@ -43,6 +45,7 @@ public partial class CameraManager : Camera2D
     {
         Vector2 cameraSize = GetViewportRect().Size / Zoom;
         Vector2 relativePosition = GetScreenCenterPosition() - cameraSize / 2;
+
         return screenPosition / Zoom + relativePosition;
     }
 }

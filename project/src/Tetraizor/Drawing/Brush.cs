@@ -1,3 +1,5 @@
+namespace Tetraizor.Drawing;
+
 public class Brush
 {
     private float _size;

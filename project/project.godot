@@ -11,19 +11,29 @@ config_version=5
 [application]
 
 config/name="Drawing App"
-run/main_scene="res://scene/node_2d.tscn"
-config/features=PackedStringArray("4.2", "C#", "Mobile")
+run/main_scene="res://scene/root/draw_scene.tscn"
+config/features=PackedStringArray("4.3", "C#", "Mobile")
 config/icon="res://res/project/app_icon.png"
 
 [display]
 
+window/size/viewport_width=648
 window/size/always_on_top=true
-window/stretch/mode="viewport"
+window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 
 [dotnet]
 
 project/assembly_name="Drawing App"
+
+[file_customization]
+
+folder_colors={
+"res://res/": "teal",
+"res://scene/": "blue",
+"res://src/": "red",
+"res://src/Tetraizor/Utils/": "yellow"
+}
 
 [input]
 

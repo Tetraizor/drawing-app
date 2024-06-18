@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using Godot;
 
+namespace Tetraizor.Utils;
+
 public class GraphicsUtils
 {
     public static Vector2I[] GetBresenhamsPoints(Vector2I start, Vector2I end)

@@ -1,0 +1,164 @@
+[gd_scene load_steps=8 format=3 uid="uid://cq6l3kel1nvfi"]
+
+[ext_resource type="Script" path="res://src/Tetraizor/Drawing/DrawManager.cs" id="1_db5wj"]
+[ext_resource type="Script" path="res://src/Tetraizor/Managers/CameraManager.cs" id="1_vh3h2"]
+[ext_resource type="Texture2D" uid="uid://dntdyc3jk3ruc" path="res://res/ui/blank.png" id="2_tef56"]
+[ext_resource type="PackedScene" uid="uid://dsmbwe0n6rnum" path="res://scene/ui/canvas_ui.tscn" id="4_55ij1"]
+[ext_resource type="Script" path="res://src/Tetraizor/UI/DebugUIManager.cs" id="5_mxxw4"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lymr5"]
+bg_color = Color(0.0235294, 0.0235294, 0.0235294, 0.835294)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_krdrq"]
+bg_color = Color(0.381703, 0.381703, 0.381703, 0.643137)
+
+[node name="Root" type="Node"]
+
+[node name="Canvas" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
+
+[node name="Camera2D" type="Camera2D" parent="Canvas"]
+position = Vector2(325, 325)
+ignore_rotation = false
+script = ExtResource("1_vh3h2")
+
+[node name="Control" type="Control" parent="Canvas"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+metadata/_edit_lock_ = true
+metadata/_edit_group_ = true
+
+[node name="DrawingArea" type="Control" parent="Canvas/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -256.0
+offset_top = -256.0
+offset_right = 256.0
+offset_bottom = 256.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(256, 256)
+metadata/_edit_group_ = true
+
+[node name="DrawingRenderer" type="TextureRect" parent="Canvas/Control/DrawingArea"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.000854492
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_tef56")
+stretch_mode = 3
+
+[node name="TempDrawingRenderer" type="Control" parent="Canvas/Control/DrawingArea" node_paths=PackedStringArray("_cameraManager", "_canvas")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(256, 256)
+script = ExtResource("1_db5wj")
+_cameraManager = NodePath("../../../Camera2D")
+_canvas = NodePath("../DrawingRenderer")
+
+[node name="Interface" type="CanvasLayer" parent="."]
+
+[node name="CanvasUI" parent="Interface" node_paths=PackedStringArray("_buttonSettings") instance=ExtResource("4_55ij1")]
+scale = Vector2(0.999221, 1)
+_buttonSettings = NodePath("TopButtonsMargin/TopButtons/LeftButtons/SettingsButton")
+
+[node name="MenuUI" type="Control" parent="Interface"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="DebugUIManager" type="Node" parent="Interface/MenuUI" node_paths=PackedStringArray("_panelMain", "_sliderScale", "_labelScaleFeedback", "_buttonCloseMainPanel")]
+script = ExtResource("5_mxxw4")
+_panelMain = NodePath("../MenuUI")
+_sliderScale = NodePath("../MenuUI/MarginContainer/VBoxContainer/HBoxContainer/HSlider")
+_labelScaleFeedback = NodePath("../MenuUI/MarginContainer/VBoxContainer/HBoxContainer/Item1Label")
+_buttonCloseMainPanel = NodePath("../MenuUI/MarginContainer/Button")
+
+[node name="MenuUI" type="Panel" parent="Interface/MenuUI"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_lymr5")
+
+[node name="MarginContainer" type="MarginContainer" parent="Interface/MenuUI/MenuUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 24
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Interface/MenuUI/MenuUI/MarginContainer"]
+layout_mode = 2
+
+[node name="Title" type="RichTextLabel" parent="Interface/MenuUI/MenuUI/MarginContainer/VBoxContainer"]
+layout_mode = 2
+bbcode_enabled = true
+text = "[center][b][font_size=24]Debug Menu[/font_size][/b][/center]"
+fit_content = true
+
+[node name="Control" type="Control" parent="Interface/MenuUI/MenuUI/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+
+[node name="Item1Label" type="RichTextLabel" parent="Interface/MenuUI/MenuUI/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+bbcode_enabled = true
+text = "UI Scale"
+fit_content = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Interface/MenuUI/MenuUI/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HSlider" type="HSlider" parent="Interface/MenuUI/MenuUI/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+min_value = 0.2
+max_value = 2.0
+step = 0.0
+value = 1.2
+
+[node name="Item1Label" type="Label" parent="Interface/MenuUI/MenuUI/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(72, 0)
+layout_mode = 2
+text = "120%"
+horizontal_alignment = 2
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Button" type="Button" parent="Interface/MenuUI/MenuUI/MarginContainer"]
+custom_minimum_size = Vector2(36, 36)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_krdrq")
+text = "X"

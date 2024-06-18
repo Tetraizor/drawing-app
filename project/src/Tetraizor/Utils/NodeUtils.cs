@@ -16,8 +16,6 @@ public static class NodeExtensions
             nodeToSearch = node.GetViewport();
         }
 
-        GD.Print("Searching for " + typeof(T).Name + " in " + nodeToSearch.GetPath());
-
         if (nodeToSearch is T)
         {
             return nodeToSearch as T;

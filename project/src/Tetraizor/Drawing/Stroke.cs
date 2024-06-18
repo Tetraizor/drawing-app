@@ -1,5 +1,7 @@
 using Godot;
 
+namespace Tetraizor.Drawing;
+
 public class Stroke
 {
     private Vector2I _position;

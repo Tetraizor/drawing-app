@@ -1,5 +1,9 @@
 using Godot;
 using System.Collections.Generic;
+using Tetraizor.Managers;
+using Tetraizor.Utils;
+
+namespace Tetraizor.Drawing;
 
 public partial class DrawManager : Control
 {
@@ -10,7 +14,7 @@ public partial class DrawManager : Control
 
     private bool _isDrawing = false;
 
-    [Export] private CameraManager _camera;
+    [Export] private CameraManager _cameraManager;
     [Export] private TextureRect _canvas;
 
     // Actual texture that holds all the drawing.
@@ -21,7 +25,6 @@ public partial class DrawManager : Control
 
     // Image that holds the actual drawing.
     private Image _renderedImage;
-
 
     private Image _bufferImage;
 
@@ -82,7 +85,7 @@ public partial class DrawManager : Control
 
         if (@event is InputEventMouseMotion mouseMotion)
         {
-            Vector2 worldPosition = _camera.ScreenToWorldPosition(mouseMotion.Position) - GlobalPosition;
+            Vector2 worldPosition = _cameraManager.ScreenToWorldPosition(mouseMotion.Position) - GlobalPosition;
             _cursorPosition = worldPosition;
 
             if (_isDrawing)
@@ -154,7 +157,7 @@ public partial class DrawManager : Control
 
         _strokeImage.Fill(Colors.Transparent);
 
-        var stroke = new Stroke((Vector2I)(_camera.ScreenToWorldPosition(position) - GlobalPosition), .5f);
+        var stroke = new Stroke((Vector2I)(_cameraManager.ScreenToWorldPosition(position) - GlobalPosition), .5f);
         _tempStrokes.Add(stroke);
     }
 
