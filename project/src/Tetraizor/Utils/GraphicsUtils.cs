@@ -37,7 +37,7 @@ public class GraphicsUtils
         }
 
         int error = dx / 2;
-        int ystep = (y0 < y1) ? 1 : -1;
+        int yStep = (y0 < y1) ? 1 : -1;
         int y = y0;
 
         for (int x = x0; x <= x1; x++)
@@ -54,12 +54,54 @@ public class GraphicsUtils
             error -= dy;
             if (error < 0)
             {
-                y += ystep;
+                y += yStep;
                 error += dx;
             }
         }
 
         return points;
+    }
+
+    public static Vector2I[] GetFilledCirclePoints(int radius)
+    {
+        List<Vector2I> points = new List<Vector2I>();
+
+        int x = radius;
+        int y = 0;
+        int p = 1 - radius;
+
+        while (x >= y)
+        {
+            DrawScanLine(points, radius, x, y);
+            y++;
+            if (p <= 0)
+            {
+                p = p + 2 * y + 1;
+            }
+            else
+            {
+                x--;
+                p = p + 2 * y - 2 * x + 1;
+            }
+        }
+
+        return points.ToArray();
+    }
+
+    private static void DrawScanLine(List<Vector2I> points, int radius, int x, int y)
+    {
+        PutPixelLine(points, radius - x, radius + x, radius + y); // Horizontal line at y
+        PutPixelLine(points, radius - y, radius + y, radius + x); // Horizontal line at x
+        PutPixelLine(points, radius - x, radius + x, radius - y); // Horizontal line at -y
+        PutPixelLine(points, radius - y, radius + y, radius - x); // Horizontal line at -x
+    }
+
+    static void PutPixelLine(List<Vector2I> points, int xStart, int xEnd, int y)
+    {
+        for (int x = xStart; x <= xEnd; x++)
+        {
+            points.Add(new Vector2I(x, y));
+        }
     }
 
     private static void Swap(ref int a, ref int b)

@@ -15,10 +15,18 @@ run/main_scene="res://scene/root/draw_scene.tscn"
 config/features=PackedStringArray("4.3", "C#", "Mobile")
 config/icon="res://res/project/app_icon.png"
 
+[autoload]
+
+NodeManager="*res://src/Tetraizor/Autoloads/NodeManager.cs"
+InputManager="*res://src/Tetraizor/Autoloads/InputManager.cs"
+ToolManager="*res://src/Tetraizor/Autoloads/ToolManager.cs"
+
 [display]
 
 window/size/viewport_width=648
 window/size/always_on_top=true
+window/size/window_width_override=512
+window/size/window_height_override=512
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 

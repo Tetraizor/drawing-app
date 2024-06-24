@@ -1,6 +1,7 @@
-[gd_scene load_steps=16 format=3 uid="uid://dsmbwe0n6rnum"]
+[gd_scene load_steps=20 format=3 uid="uid://dsmbwe0n6rnum"]
 
 [ext_resource type="Script" path="res://src/Tetraizor/UI/CanvasUIManager.cs" id="1_w03sc"]
+[ext_resource type="Script" path="res://src/Tetraizor/UI/Control/NinePatchScalable.cs" id="2_ltaul"]
 [ext_resource type="Texture2D" uid="uid://dnnhsogukhf2e" path="res://res/ui/modal.png" id="2_yg58p"]
 [ext_resource type="Texture2D" uid="uid://c6qvmr7nvpnr7" path="res://res/ui/modal_tail.png" id="3_d3ipc"]
 [ext_resource type="Texture2D" uid="uid://ckspggyiicxna" path="res://res/ui/button_active.png" id="4_7v4n4"]
@@ -9,14 +10,17 @@
 [ext_resource type="Texture2D" uid="uid://c7gmv5uyo2v8f" path="res://res/ui/undo_active.png" id="7_rtuob"]
 [ext_resource type="Texture2D" uid="uid://clm4mojq4dafy" path="res://res/ui/undo_deactive.png" id="8_sj18l"]
 [ext_resource type="Texture2D" uid="uid://d01tbjqbr2hya" path="res://res/ui/redo_active.png" id="9_15fsr"]
+[ext_resource type="Texture2D" uid="uid://jyvy3xq2rchw" path="res://res/ui/brush_deactive.png" id="9_ssx4w"]
 [ext_resource type="Texture2D" uid="uid://b4qa1bbadx8lj" path="res://res/ui/redo_deactive.png" id="10_6xoih"]
+[ext_resource type="Texture2D" uid="uid://pk408m251k4f" path="res://res/ui/pen_deactive.png" id="11_6gnea"]
 [ext_resource type="Texture2D" uid="uid://dq1ckyyu0ilm7" path="res://res/ui/brush_active.png" id="11_h00hq"]
 [ext_resource type="Texture2D" uid="uid://4dwmsp5njou3" path="res://res/ui/pen_active.png" id="12_y5hjb"]
+[ext_resource type="Texture2D" uid="uid://bnp3mh5qciwxg" path="res://res/ui/eraser_deactive.png" id="13_76lsq"]
 [ext_resource type="Texture2D" uid="uid://dihok0ni5rdns" path="res://res/ui/eraser_active.png" id="13_t1wx5"]
 [ext_resource type="Texture2D" uid="uid://c164ahq6phqq4" path="res://res/ui/color_box.png" id="14_lu5gf"]
 [ext_resource type="Texture2D" uid="uid://de8y6m45kikg1" path="res://res/ui/color_box_content.png" id="19_ocair"]
 
-[node name="UI" type="Control" node_paths=PackedStringArray("_buttonSettings")]
+[node name="UI" type="Control" node_paths=PackedStringArray("_buttonSettings", "_buttonBrush", "_buttonPen", "_buttonEraser")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -28,37 +32,9 @@ size_flags_vertical = 3
 mouse_filter = 2
 script = ExtResource("1_w03sc")
 _buttonSettings = NodePath("TopButtonsMargin/TopButtons/LeftButtons/SettingsButton")
-
-[node name="ColorModal" type="NinePatchRect" parent="."]
-visible = false
-use_parent_material = true
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_right = 320.0
-offset_bottom = 316.0
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("2_yg58p")
-region_rect = Rect2(0, 11, 198, 183)
-patch_margin_left = 71
-patch_margin_top = 110
-patch_margin_right = 72
-patch_margin_bottom = 111
-
-[node name="TextureRect" type="TextureRect" parent="ColorModal"]
-visible = false
-use_parent_material = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("3_d3ipc")
+_buttonBrush = NodePath("TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons/BrushButton")
+_buttonPen = NodePath("TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons/PencilButton")
+_buttonEraser = NodePath("TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons/EraserButton")
 
 [node name="TopButtonsMargin" type="MarginContainer" parent="."]
 use_parent_material = true
@@ -171,7 +147,7 @@ alignment = 2
 use_parent_material = true
 layout_mode = 2
 
-[node name="ClearButton" type="TextureButton" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons"]
+[node name="BrushButton" type="TextureButton" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons"]
 texture_filter = 1
 use_parent_material = true
 custom_minimum_size = Vector2(48, 0)
@@ -181,7 +157,21 @@ texture_disabled = ExtResource("5_cn0sk")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="TextureRect" type="TextureRect" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons/ClearButton"]
+[node name="DeactiveIcon" type="TextureRect" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons/BrushButton"]
+use_parent_material = true
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -5.0
+offset_top = 8.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("9_ssx4w")
+expand_mode = 3
+
+[node name="ActiveIcon" type="TextureRect" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons/BrushButton"]
 use_parent_material = true
 layout_mode = 1
 anchors_preset = -1
@@ -212,15 +202,30 @@ texture_disabled = ExtResource("5_cn0sk")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="TextureRect" type="TextureRect" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons/PencilButton"]
+[node name="DeactiveIcon" type="TextureRect" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons/PencilButton"]
 use_parent_material = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -1.305
+offset_left = -2.57001
 offset_top = 6.96
-offset_right = 3.695
+offset_right = 2.42999
+offset_bottom = -10.04
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("11_6gnea")
+expand_mode = 3
+
+[node name="ActiveIcon" type="TextureRect" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons/PencilButton"]
+use_parent_material = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -2.57
+offset_top = 6.96
+offset_right = 2.43
 offset_bottom = -10.04
 grow_horizontal = 2
 grow_vertical = 2
@@ -244,7 +249,22 @@ ignore_texture_size = true
 stretch_mode = 5
 metadata/_edit_group_ = true
 
-[node name="TextureRect" type="TextureRect" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons/EraserButton"]
+[node name="DeactiveIcon" type="TextureRect" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons/EraserButton"]
+use_parent_material = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -3.26001
+offset_top = 10.085
+offset_right = 1.74
+offset_bottom = -6.91499
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("13_76lsq")
+expand_mode = 3
+
+[node name="ActiveIcon" type="TextureRect" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons/EraserButton"]
 use_parent_material = true
 layout_mode = 1
 anchors_preset = 15
@@ -303,6 +323,40 @@ layout_mode = 2
 size_flags_horizontal = 0
 texture_normal = ExtResource("14_lu5gf")
 ignore_texture_size = true
+stretch_mode = 5
+
+[node name="ColorModal" type="Control" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorSelection"]
+visible = false
+use_parent_material = true
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -171.0
+offset_top = 14.0
+offset_bottom = 234.0
+grow_horizontal = 0
+grow_vertical = 0
+script = ExtResource("2_ltaul")
+Texture = ExtResource("2_yg58p")
+MiddleRect = Rect2(62.005, 65.73, 73.165, 64.375)
+DrawScale = 0.36
+
+[node name="TextureRect" type="TextureRect" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorSelection/ColorModal"]
+use_parent_material = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -50.0
+offset_top = -10.0
+offset_right = -24.0
+offset_bottom = 13.0
+grow_horizontal = 0
+texture = ExtResource("3_d3ipc")
+expand_mode = 1
 stretch_mode = 5
 
 [node name="TextureRect" type="TextureRect" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorSelection"]
