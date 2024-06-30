@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b4qa1bbadx8lj"
-path="res://.godot/imported/redo_deactive.png-0597a7750f48522d6930664b13d8c395.ctex"
+uid="uid://83p1h1a1u2gy"
+path="res://.godot/imported/round_rectangle_2x.png-f48b72abb187fe53f06fd234cf0b45f0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://res/ui/redo_deactive.png"
-dest_files=["res://.godot/imported/redo_deactive.png-0597a7750f48522d6930664b13d8c395.ctex"]
+source_file="res://res/ui/assets/round_rectangle_2x.png"
+dest_files=["res://.godot/imported/round_rectangle_2x.png-f48b72abb187fe53f06fd234cf0b45f0.ctex"]
 
 [params]
 

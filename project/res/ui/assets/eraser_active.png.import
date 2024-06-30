@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://4dwmsp5njou3"
-path="res://.godot/imported/pen_active.png-47fde0e64c638c9cf236df189b2985f7.ctex"
+uid="uid://dihok0ni5rdns"
+path="res://.godot/imported/eraser_active.png-19ea4c90ce8a5198de199932c3bba6c2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://res/ui/pen_active.png"
-dest_files=["res://.godot/imported/pen_active.png-47fde0e64c638c9cf236df189b2985f7.ctex"]
+source_file="res://res/ui/assets/eraser_active.png"
+dest_files=["res://.godot/imported/eraser_active.png-19ea4c90ce8a5198de199932c3bba6c2.ctex"]
 
 [params]
 

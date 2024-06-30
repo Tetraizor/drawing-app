@@ -1,0 +1,42 @@
+[gd_resource type="Theme" load_steps=6 format=3 uid="uid://bohl6pf5sabnk"]
+
+[ext_resource type="Texture2D" uid="uid://viorj1ob53s6" path="res://res/ui/assets/circle_64.png" id="1_0wsle"]
+[ext_resource type="Texture2D" uid="uid://83p1h1a1u2gy" path="res://res/ui/assets/round_rectangle_2x.png" id="1_83xxj"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4bk80"]
+texture = ExtResource("1_83xxj")
+texture_margin_left = 20.0
+texture_margin_top = 20.0
+texture_margin_right = 20.0
+texture_margin_bottom = 20.0
+region_rect = Rect2(0, 0, 138, 138)
+modulate_color = Color(0.545098, 0.545098, 0.545098, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_sbuu2"]
+texture = ExtResource("1_83xxj")
+texture_margin_left = 18.0
+texture_margin_top = 18.0
+texture_margin_right = 18.0
+texture_margin_bottom = 18.0
+region_rect = Rect2(0, 0, 138, 138)
+modulate_color = Color(0.808594, 0.808594, 0.808594, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tmmwo"]
+texture = ExtResource("1_83xxj")
+texture_margin_left = 20.0
+texture_margin_top = 20.0
+texture_margin_right = 20.0
+texture_margin_bottom = 20.0
+axis_stretch_horizontal = 1
+region_rect = Rect2(0, 0, 138, 138)
+modulate_color = Color(0.243137, 0.243137, 0.243137, 1)
+
+[resource]
+default_base_scale = 1.0
+default_font_size = 24
+HSlider/icons/grabber = ExtResource("1_0wsle")
+HSlider/icons/grabber_disabled = ExtResource("1_0wsle")
+HSlider/icons/grabber_highlight = ExtResource("1_0wsle")
+HSlider/styles/grabber_area = SubResource("StyleBoxTexture_4bk80")
+HSlider/styles/grabber_area_highlight = SubResource("StyleBoxTexture_sbuu2")
+HSlider/styles/slider = SubResource("StyleBoxTexture_tmmwo")

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d01tbjqbr2hya"
-path="res://.godot/imported/redo_active.png-7301511bdbed672f549966c4869789c2.ctex"
+uid="uid://c6qvmr7nvpnr7"
+path="res://.godot/imported/modal_tail.png-4ca77f06d795d3b94b8a4fc48d27b56e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://res/ui/redo_active.png"
-dest_files=["res://.godot/imported/redo_active.png-7301511bdbed672f549966c4869789c2.ctex"]
+source_file="res://res/ui/assets/modal_tail.png"
+dest_files=["res://.godot/imported/modal_tail.png-4ca77f06d795d3b94b8a4fc48d27b56e.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://byt4st6yr8tgy"
-path="res://.godot/imported/button_circle_deactive.png-e39d5056f91bdda9938330df8cd2e77d.ctex"
+uid="uid://dn7pmf03y3r3f"
+path="res://.godot/imported/arrow.png-eb29b8470c62c30be2fdd89a7eb07d2a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://res/ui/button_circle_deactive.png"
-dest_files=["res://.godot/imported/button_circle_deactive.png-e39d5056f91bdda9938330df8cd2e77d.ctex"]
+source_file="res://res/ui/assets/arrow.png"
+dest_files=["res://.godot/imported/arrow.png-eb29b8470c62c30be2fdd89a7eb07d2a.ctex"]
 
 [params]
 

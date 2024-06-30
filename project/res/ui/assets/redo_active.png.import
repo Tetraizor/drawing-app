@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bnp3mh5qciwxg"
-path="res://.godot/imported/eraser_deactive.png-5a5e39c523298286fa234b773036ee59.ctex"
+uid="uid://d01tbjqbr2hya"
+path="res://.godot/imported/redo_active.png-464c662da3cea2b2eeedfe514aa50594.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://res/ui/eraser_deactive.png"
-dest_files=["res://.godot/imported/eraser_deactive.png-5a5e39c523298286fa234b773036ee59.ctex"]
+source_file="res://res/ui/assets/redo_active.png"
+dest_files=["res://.godot/imported/redo_active.png-464c662da3cea2b2eeedfe514aa50594.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dihok0ni5rdns"
-path="res://.godot/imported/eraser_active.png-2b49d84226ab58bea0fc1fe1be55685e.ctex"
+uid="uid://c164ahq6phqq4"
+path="res://.godot/imported/color_box.png-eee8881e149ee2ae82a4f53d082ada96.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://res/ui/eraser_active.png"
-dest_files=["res://.godot/imported/eraser_active.png-2b49d84226ab58bea0fc1fe1be55685e.ctex"]
+source_file="res://res/ui/assets/color_box.png"
+dest_files=["res://.godot/imported/color_box.png-eee8881e149ee2ae82a4f53d082ada96.ctex"]
 
 [params]
 

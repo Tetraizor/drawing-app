@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c7gmv5uyo2v8f"
-path="res://.godot/imported/undo_active.png-5ec45d7a4067bff4b9ddd8a9b08d8246.ctex"
+uid="uid://pk408m251k4f"
+path="res://.godot/imported/pen_deactive.png-c59d2fcca7e382e7a6e50f64fb4c15f2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://res/ui/undo_active.png"
-dest_files=["res://.godot/imported/undo_active.png-5ec45d7a4067bff4b9ddd8a9b08d8246.ctex"]
+source_file="res://res/ui/assets/pen_deactive.png"
+dest_files=["res://.godot/imported/pen_deactive.png-c59d2fcca7e382e7a6e50f64fb4c15f2.ctex"]
 
 [params]
 

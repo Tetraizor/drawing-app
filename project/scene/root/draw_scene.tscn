@@ -1,13 +1,17 @@
-[gd_scene load_steps=10 format=3 uid="uid://cq6l3kel1nvfi"]
+[gd_scene load_steps=12 format=3 uid="uid://cq6l3kel1nvfi"]
 
 [ext_resource type="Script" path="res://src/Tetraizor/Managers/CameraManager.cs" id="1_vh3h2"]
 [ext_resource type="PackedScene" uid="uid://dsmbwe0n6rnum" path="res://scene/ui/canvas_ui.tscn" id="4_55ij1"]
 [ext_resource type="Script" path="res://src/Tetraizor/Drawing/DrawManager.cs" id="5_bxepn"]
 [ext_resource type="Script" path="res://src/Tetraizor/UI/DebugUIManager.cs" id="5_mxxw4"]
+[ext_resource type="LabelSettings" uid="uid://wdoo4r55rt1f" path="res://res/ui/config/label_p.tres" id="6_5s1tb"]
 [ext_resource type="Script" path="res://src/Tetraizor/Managers/CanvasManager.cs" id="6_wl32j"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lymr5"]
 bg_color = Color(0.0235294, 0.0235294, 0.0235294, 0.835294)
+
+[sub_resource type="LabelSettings" id="LabelSettings_m1s05"]
+font_size = 48
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kj44t"]
 
@@ -71,10 +75,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 32
-theme_override_constants/margin_top = 24
-theme_override_constants/margin_right = 32
-theme_override_constants/margin_bottom = 24
+theme_override_constants/margin_left = 72
+theme_override_constants/margin_top = 64
+theme_override_constants/margin_right = 72
+theme_override_constants/margin_bottom = 64
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Interface/MenuUI/MenuUI/MarginContainer"]
 layout_mode = 2
@@ -82,18 +86,17 @@ layout_mode = 2
 [node name="Title" type="RichTextLabel" parent="Interface/MenuUI/MenuUI/MarginContainer/VBoxContainer"]
 layout_mode = 2
 bbcode_enabled = true
-text = "[center][font_size=24]Debug Menu[/font_size][/center]"
+text = "[center][font_size=68]Debug Menu[/font_size][/center]"
 fit_content = true
 
 [node name="Control" type="Control" parent="Interface/MenuUI/MenuUI/MarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 12)
+custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 
 [node name="Item1Label" type="RichTextLabel" parent="Interface/MenuUI/MenuUI/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 bbcode_enabled = true
-text = "UI Scale"
 fit_content = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Interface/MenuUI/MenuUI/MarginContainer/VBoxContainer"]
@@ -109,9 +112,10 @@ step = 0.0
 value = 1.2
 
 [node name="Item1Label" type="Label" parent="Interface/MenuUI/MenuUI/MarginContainer/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(72, 0)
+custom_minimum_size = Vector2(164, 0)
 layout_mode = 2
 text = "120%"
+label_settings = SubResource("LabelSettings_m1s05")
 horizontal_alignment = 2
 vertical_alignment = 1
 autowrap_mode = 2
@@ -121,7 +125,7 @@ custom_minimum_size = Vector2(0, 18)
 layout_mode = 2
 
 [node name="Control2" type="Panel" parent="Interface/MenuUI/MenuUI/MarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 2)
+custom_minimum_size = Vector2(0, 4)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_kj44t")
 
@@ -129,80 +133,104 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_kj44t")
 custom_minimum_size = Vector2(0, 18)
 layout_mode = 2
 
-[node name="CreateCanvasTitle" type="RichTextLabel" parent="Interface/MenuUI/MenuUI/MarginContainer/VBoxContainer"]
+[node name="CreateCanvasTitle" type="Label" parent="Interface/MenuUI/MenuUI/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
-bbcode_enabled = true
 text = "Create New Canvas"
-fit_content = true
+label_settings = ExtResource("6_5s1tb")
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="Interface/MenuUI/MenuUI/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 
 [node name="Item1Label2" type="Label" parent="Interface/MenuUI/MenuUI/MarginContainer/VBoxContainer/HBoxContainer2"]
-custom_minimum_size = Vector2(90, 0)
+custom_minimum_size = Vector2(156, 0)
 layout_mode = 2
 text = "Width"
+label_settings = ExtResource("6_5s1tb")
 vertical_alignment = 1
 autowrap_mode = 2
 
 [node name="TextEdit" type="TextEdit" parent="Interface/MenuUI/MenuUI/MarginContainer/VBoxContainer/HBoxContainer2"]
-custom_minimum_size = Vector2(128, 36)
+custom_minimum_size = Vector2(128, 64)
 layout_mode = 2
+theme_override_constants/line_spacing = 5
+theme_override_font_sizes/font_size = 36
 placeholder_text = "512"
 
+[node name="Control6" type="Control" parent="Interface/MenuUI/MenuUI/MarginContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(12, 18)
+layout_mode = 2
+size_flags_horizontal = 3
+
 [node name="Item1Label" type="Label" parent="Interface/MenuUI/MenuUI/MarginContainer/VBoxContainer/HBoxContainer2"]
-custom_minimum_size = Vector2(40, 0)
+custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
 text = "px"
+label_settings = ExtResource("6_5s1tb")
 vertical_alignment = 1
 autowrap_mode = 2
 
 [node name="Control3" type="Control" parent="Interface/MenuUI/MenuUI/MarginContainer/VBoxContainer/HBoxContainer2"]
-custom_minimum_size = Vector2(0, 18)
+custom_minimum_size = Vector2(12, 18)
 layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Control4" type="Panel" parent="Interface/MenuUI/MenuUI/MarginContainer/VBoxContainer/HBoxContainer2"]
-custom_minimum_size = Vector2(1, 0)
+custom_minimum_size = Vector2(4, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_qemqn")
 
 [node name="Control5" type="Control" parent="Interface/MenuUI/MenuUI/MarginContainer/VBoxContainer/HBoxContainer2"]
-custom_minimum_size = Vector2(0, 18)
+custom_minimum_size = Vector2(12, 18)
 layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Item1Label3" type="Label" parent="Interface/MenuUI/MenuUI/MarginContainer/VBoxContainer/HBoxContainer2"]
-custom_minimum_size = Vector2(90, 0)
+custom_minimum_size = Vector2(164, 0)
 layout_mode = 2
 text = "Height"
+label_settings = ExtResource("6_5s1tb")
 vertical_alignment = 1
 autowrap_mode = 2
 
 [node name="TextEdit2" type="TextEdit" parent="Interface/MenuUI/MenuUI/MarginContainer/VBoxContainer/HBoxContainer2"]
-custom_minimum_size = Vector2(128, 36)
+custom_minimum_size = Vector2(128, 64)
 layout_mode = 2
+theme_override_constants/line_spacing = 5
+theme_override_font_sizes/font_size = 36
 placeholder_text = "512"
 
+[node name="Control7" type="Control" parent="Interface/MenuUI/MenuUI/MarginContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(12, 18)
+layout_mode = 2
+size_flags_horizontal = 3
+
 [node name="Item1Label4" type="Label" parent="Interface/MenuUI/MenuUI/MarginContainer/VBoxContainer/HBoxContainer2"]
-custom_minimum_size = Vector2(24.49, 0)
+custom_minimum_size = Vector2(70.32, 0)
 layout_mode = 2
 text = "px"
+label_settings = ExtResource("6_5s1tb")
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="Button" type="Button" parent="Interface/MenuUI/MenuUI/MarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2(90, 36.04)
+[node name="Control8" type="Control" parent="Interface/MenuUI/MenuUI/MarginContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(128, 18)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button" type="Button" parent="Interface/MenuUI/MenuUI/MarginContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(150, 36.04)
 layout_mode = 2
 size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 31
 text = "Create"
 
 [node name="Button" type="Button" parent="Interface/MenuUI/MenuUI/MarginContainer"]
-custom_minimum_size = Vector2(36, 36)
+custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
+theme_override_font_sizes/font_size = 51
 theme_override_styles/normal = SubResource("StyleBoxFlat_krdrq")
 text = "X"

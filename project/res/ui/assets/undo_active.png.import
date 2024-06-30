@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://blirxdhodqa7u"
-path="res://.godot/imported/gear_deactive.png-26ee8aba449c4c9fe78d59fd58abcd3b.ctex"
+uid="uid://c7gmv5uyo2v8f"
+path="res://.godot/imported/undo_active.png-6abb487645019a89e87eac11b508629e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://res/ui/gear_deactive.png"
-dest_files=["res://.godot/imported/gear_deactive.png-26ee8aba449c4c9fe78d59fd58abcd3b.ctex"]
+source_file="res://res/ui/assets/undo_active.png"
+dest_files=["res://.godot/imported/undo_active.png-6abb487645019a89e87eac11b508629e.ctex"]
 
 [params]
 

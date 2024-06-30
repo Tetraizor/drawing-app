@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dq1ckyyu0ilm7"
-path="res://.godot/imported/brush_active.png-9bdd408a93f7f12366bf2aa544deca7e.ctex"
+uid="uid://byt4st6yr8tgy"
+path="res://.godot/imported/button_circle_deactive.png-d6b58abcb44dbdc94042a09f1b531f5d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://res/ui/brush_active.png"
-dest_files=["res://.godot/imported/brush_active.png-9bdd408a93f7f12366bf2aa544deca7e.ctex"]
+source_file="res://res/ui/assets/button_circle_deactive.png"
+dest_files=["res://.godot/imported/button_circle_deactive.png-d6b58abcb44dbdc94042a09f1b531f5d.ctex"]
 
 [params]
 

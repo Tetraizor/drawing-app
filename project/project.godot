@@ -23,9 +23,10 @@ ToolManager="*res://src/Tetraizor/Autoloads/ToolManager.cs"
 
 [display]
 
-window/size/viewport_width=648
+window/size/viewport_width=2048
+window/size/viewport_height=2048
 window/size/always_on_top=true
-window/size/window_width_override=512
+window/size/window_width_override=720
 window/size/window_height_override=512
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
@@ -42,6 +43,10 @@ folder_colors={
 "res://src/": "red",
 "res://src/Tetraizor/Utils/": "yellow"
 }
+
+[gui]
+
+theme/custom="res://res/ui/config/main_theme.tres"
 
 [input]
 
