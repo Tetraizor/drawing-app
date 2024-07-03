@@ -39,6 +39,7 @@ public partial class CanvasManager : AutoloadBase<CanvasManager>
     public void CreateEmptyCanvas(Vector2I size)
     {
         Control layerContainer = new Control();
+        layerContainer.MouseFilter = Control.MouseFilterEnum.Ignore;
         AddChild(layerContainer);
 
         var canvas = new Canvas(layerContainer, size);
