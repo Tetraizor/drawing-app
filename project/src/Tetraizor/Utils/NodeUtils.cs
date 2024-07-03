@@ -1,8 +1,8 @@
-using Godot;
-
 namespace Tetraizor.Utils;
 
-public static class NodeExtensions
+using Godot;
+
+public static class NodeUtils
 {
     public static void PrintNodePath(this Node node)
     {

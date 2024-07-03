@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bfs7rmu3jesm8"]
+
+[ext_resource type="Shader" path="res://res/shader/ui/color_selection/hsv_rect_main_color_shader.gdshader" id="1_iceje"]
+
+[resource]
+shader = ExtResource("1_iceje")
+shader_parameter/hue = null

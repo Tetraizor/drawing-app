@@ -1,0 +1,6 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://d3a20he0cakqe"]
+
+[ext_resource type="Shader" path="res://res/shader/ui/color_selection/hsv_rect_sub_color_shader.gdshader" id="1_tgw52"]
+
+[resource]
+shader = ExtResource("1_tgw52")

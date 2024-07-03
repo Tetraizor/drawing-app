@@ -24,6 +24,92 @@ public class ColorUtils
         Alpha
     }
 
+    public static Vector3 RGBtoHSV(Color color)
+    {
+        float r = color.R;
+        float g = color.G;
+        float b = color.B;
+
+        float max = Math.Max(r, Math.Max(g, b));
+        float min = Math.Min(r, Math.Min(g, b));
+
+        float h = 0;
+        if (max == min) // Check for division by zero
+        {
+            h = 0;
+        }
+        else
+        {
+            if (max == r)
+                h = 60 * (g - b) / (max - min) + (g < b ? 360 : 0);
+            else if (max == g)
+                h = 60 * (b - r) / (max - min) + 120;
+            else if (max == b)
+                h = 60 * (r - g) / (max - min) + 240;
+        }
+
+        float s = max == 0 ? 0 : 1 - min / max;
+        float v = max;
+
+        return new Vector3(h / 360, s, 1.0f - v);
+    }
+
+    public static Color HSVtoRGB(Vector3 hsv)
+    {
+        hsv.X = hsv.X * 360.0f;
+
+        float h = hsv.X;
+        float s = hsv.Y;
+        float v = hsv.Z;
+
+        float c = v * s;
+        float x = c * (1 - Math.Abs((h / 60) % 2 - 1));
+        float m = v - c;
+
+        float r = 0;
+        float g = 0;
+        float b = 0;
+
+        if (h >= 0 && h < 60)
+        {
+            r = c;
+            g = x;
+            b = 0;
+        }
+        else if (h >= 60 && h < 120)
+        {
+            r = x;
+            g = c;
+            b = 0;
+        }
+        else if (h >= 120 && h < 180)
+        {
+            r = 0;
+            g = c;
+            b = x;
+        }
+        else if (h >= 180 && h < 240)
+        {
+            r = 0;
+            g = x;
+            b = c;
+        }
+        else if (h >= 240 && h < 300)
+        {
+            r = x;
+            g = 0;
+            b = c;
+        }
+        else if (h >= 300 && h < 360)
+        {
+            r = c;
+            g = 0;
+            b = x;
+        }
+
+        return new Color(r + m, g + m, b + m);
+    }
+
     public static Color BlendColors(Color background, Color overlay, BlendMode blendMode)
     {
         Color blended = background;
