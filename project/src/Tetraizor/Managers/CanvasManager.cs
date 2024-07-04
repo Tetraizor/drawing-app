@@ -1,91 +1,128 @@
 using System.Collections.Generic;
 using Godot;
 using Tetraizor.Autoloads;
+using Tetraizor.Data;
 using Tetraizor.Drawing;
 
 namespace Tetraizor.Managers;
 
 public partial class CanvasManager : AutoloadBase<CanvasManager>
 {
-    private Texture _originalTexture;
-    private Texture _bufferTexture;
+    #region Canvas Properties
+    [Export] private PackedScene _layerCardScene = GD.Load<PackedScene>("res://prefab/ui/layer_renderer.tscn");
 
-    private List<Canvas> _canvasList = new();
-    public List<Canvas> CanvasList => _canvasList;
+    public Vector2I Size => _size;
+    private Vector2I _size;
 
+    public List<Layer> Layers => _layers;
+    private List<Layer> _layers = new();
+
+    public Layer CurrentLayer => _currentLayer;
+    private Layer _currentLayer;
+    #endregion
+
+    #region Signals
+    [Signal] public delegate void LayerCreatedEventHandler(int layerIndex);
+    [Signal] public delegate void LayerDeletedEventHandler(int layerIndex);
+    [Signal] public delegate void LayerSelectedEventHandler(int layerIndex);
+    #endregion
+
+    #region References
+    public Control LayerContainer => _layerContainer;
+    private Control _layerContainer;
+    #endregion
+
+    #region Godot Methods
     // TODO: Remove this method.
     public override void _Ready()
     {
         base._Ready();
-
-        CreateEmptyCanvas(new Vector2I(2048, 2048));
+        CreateCanvas(new Vector2I(512, 512));
     }
+    #endregion
 
-    public Canvas GetCanvas(int index)
+    #region Canvas Methods
+
+    public void CreateCanvas(Vector2I size)
     {
-        if (index < 0 || index >= _canvasList.Count) throw new System.IndexOutOfRangeException();
+        _size = size;
 
-        return _canvasList[index];
+        _layerContainer = new Control
+        {
+            MouseFilter = Control.MouseFilterEnum.Ignore,
+            Name = "LayerContainer",
+            Position = new Vector2(0, 0),
+            Size = new Vector2(size.X, size.Y),
+        };
+
+        AddChild(_layerContainer);
+
+        var clearRenderer = new ColorRect
+        {
+            Color = Colors.White,
+            Size = size
+        };
+
+        _layerContainer.AddChild(clearRenderer);
+
+        CreateLayer();
     }
+    #endregion
 
-    public LayerRenderer GetLayer(Canvas canvas, int index)
+    #region Layer Methods
+
+    public LayerRenderer CreateLayerRenderer()
     {
-        if (canvas == null) throw new System.ArgumentNullException(nameof(canvas));
-        if (index < 0 || index >= canvas.Layers.Count) throw new System.IndexOutOfRangeException();
-
-        return canvas.Layers[index];
+        var layerCard = _layerCardScene.Instantiate<LayerRenderer>();
+        return layerCard;
     }
 
-    public void CreateEmptyCanvas(Vector2I size)
+    public Layer CreateLayer(Image image = null)
     {
-        Control layerContainer = new Control();
-        layerContainer.MouseFilter = Control.MouseFilterEnum.Ignore;
-        AddChild(layerContainer);
+        var newLayer = image == null ? new Layer(this, Colors.Transparent) : new Layer(this, image);
 
-        var canvas = new Canvas(layerContainer, size);
+        _currentLayer = newLayer;
 
-        layerContainer.Size = new Vector2(size.X, size.Y);
-        layerContainer.Position = new Vector2(0, 0);
+        EmitSignal(SignalName.LayerCreated, Layers.IndexOf(newLayer));
 
-        var background = new Image();
-        background.SetData(size.X, size.Y, false, Image.Format.Rgba8, new byte[size.X * size.Y * 4]);
-        background.Fill(Colors.White);
+        SelectLayer(newLayer);
 
-        var layer = new Image();
-        layer.SetData(size.X, size.Y, false, Image.Format.Rgba8, new byte[size.X * size.Y * 4]);
-        layer.Fill(Colors.Transparent);
-
-        CreateLayer(canvas, background);
-        CreateLayer(canvas, layer);
-
-        _canvasList.Add(canvas);
-
-        layerContainer.Name = $"Canvas{_canvasList.Count - 1}";
+        return newLayer;
     }
 
-    public LayerRenderer CreateLayer(Canvas canvas, Image image)
+    public void DeleteLayer(int layerIndex)
     {
-        var layer = new LayerRenderer();
-        layer.Setup(canvas, image);
-        layer.Name = $"Layer{canvas.Layers.Count}";
+        if (layerIndex < 0 || layerIndex >= Layers.Count) throw new System.IndexOutOfRangeException();
 
-        canvas.LayerContainer.AddChild(layer);
-
-        canvas.Layers.Add(layer);
-
-        return layer;
+        DeleteLayer(Layers[layerIndex]);
     }
-}
 
-public class Canvas
-{
-    public Vector2I Size { get; private set; }
-    public List<LayerRenderer> Layers { get; private set; } = new();
-    public Control LayerContainer { get; private set; }
-
-    public Canvas(Control layerContainer, Vector2I size)
+    public void DeleteLayer(Layer layer)
     {
-        Size = size;
-        LayerContainer = layerContainer;
+        if (layer == null) throw new System.ArgumentNullException(nameof(layer));
+        if (!_layers.Contains(layer)) throw new System.ArgumentException("Layer not found.");
+
+        _layers.Remove(layer);
+        layer.Dispose();
+
+        EmitSignal(SignalName.LayerDeleted, Layers.IndexOf(layer));
     }
+
+    public void SelectLayer(Layer layer)
+    {
+        if (layer == null) throw new System.ArgumentNullException(nameof(layer));
+        if (!_layers.Contains(layer)) throw new System.ArgumentException("Layer not found.");
+
+        SelectLayer(Layers.IndexOf(layer));
+    }
+
+    public void SelectLayer(int index)
+    {
+        if (index < 0 || index >= Layers.Count) throw new System.IndexOutOfRangeException();
+
+        _currentLayer = Layers[index];
+        EmitSignal(SignalName.LayerSelected, index);
+    }
+
+    #endregion
 }

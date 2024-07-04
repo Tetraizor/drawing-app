@@ -25,7 +25,6 @@ ToolManager="*res://src/Tetraizor/Autoloads/ToolManager.cs"
 
 window/size/viewport_width=2048
 window/size/viewport_height=2048
-window/size/always_on_top=true
 window/size/window_width_override=1920
 window/size/window_height_override=1080
 window/stretch/mode="canvas_items"
@@ -38,6 +37,7 @@ project/assembly_name="Drawing App"
 [file_customization]
 
 folder_colors={
+"res://prefab/": "purple",
 "res://res/": "teal",
 "res://scene/": "blue",
 "res://src/": "red",

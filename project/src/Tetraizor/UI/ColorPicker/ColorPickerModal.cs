@@ -1,6 +1,7 @@
 using Godot;
-using System;
+
 using Tetraizor.Autoloads;
+using Tetraizor.UI.ControlHelpers;
 using Tetraizor.Utils;
 
 namespace Tetraizor.UI.ColorPicker;
@@ -21,11 +22,26 @@ public partial class ColorPickerModal : TextureButton
         }
     }
 
+    # region Color Properties
+
+    [ExportGroup("Node References")]
     [Export] private Curve _transitionCurve;
 
     [Export] private MainSelectionArea _mainSelectionArea;
     [Export] private SubSelectionArea _subSelectionArea;
 
+    [Export] private Control _root;
+
+    [Export] private Control _modal;
+
+    [Export] private Control _buttonColor;
+
+    [Export] private Control _initialColorPreview;
+    [Export] private Control _selectedColorPreview;
+
+    #endregion
+
+    # region Color Properties
     private Color _primaryColor;
     public Color PrimaryColor => _primaryColor;
 
@@ -33,29 +49,37 @@ public partial class ColorPickerModal : TextureButton
 
     private bool _isOn = false;
 
-    [Export] private Control _modal;
     private Vector2 _closedPosition = Vector2.Zero;
+    #endregion
 
-    [Export] private Control _initialColorPreview;
-    [Export] private Control _selectedColorPreview;
-
-    [Export] private Control _buttonColor;
-
+    # region Signals
     [Signal] public delegate void PrimaryColorChangedEventHandler(Color color);
+    #endregion
+
+    # region Godot Methods
 
     public override void _Ready()
     {
+        // Events
         _mainSelectionArea.SelectionPositionChanged += OnMainSelectionPositionChanged;
         _subSelectionArea.SelectionPositionChanged += OnSubSelectionPositionChanged;
 
         PrimaryColorChanged += OnPrimaryColorChanged;
 
-        _closedPosition = _modal.Position;
-
         Pressed += () => ToggleModal();
+
+        var emptySpaceClickDetector = NodeManager.Instance.FindNodeOfType<EmptySpaceClickDetector>(_root);
+        emptySpaceClickDetector.PressedOnEmptySpace += () => ToggleModal(false);
+
+        // Setup
+        _closedPosition = _modal.Position;
 
         OnPrimaryColorChanged(new Color(0, 0, 0, 1));
     }
+
+    #endregion
+
+    # region Modal Controls 
 
     public void ToggleModal()
     {
@@ -68,10 +92,8 @@ public partial class ColorPickerModal : TextureButton
 
         _isOn = state;
 
-        GD.Print("isOn: " + _isOn);
         if (_isOn)
         {
-
             _hsv = ColorUtils.RGBtoHSV(_primaryColor);
 
             _mainSelectionArea.SetSelectionPosition(new Vector2(_hsv.Y, _hsv.Z));
@@ -109,6 +131,10 @@ public partial class ColorPickerModal : TextureButton
         _modal.Position = initialPosition.Lerp(targetPosition, _transitionCurve.Sample(progress));
     }
 
+    #endregion
+
+    # region Callbacks
+
     private void OnPrimaryColorChanged(Color color)
     {
         _primaryColor = color;
@@ -116,7 +142,6 @@ public partial class ColorPickerModal : TextureButton
         _selectedColorPreview.Modulate = color;
         _buttonColor.Modulate = color;
     }
-
 
     private void OnMainSelectionPositionChanged(Vector2 normalizedPosition)
     {
@@ -135,4 +160,6 @@ public partial class ColorPickerModal : TextureButton
         _primaryColor = ColorUtils.HSVtoRGB(_hsv);
         EmitSignal(SignalName.PrimaryColorChanged, _primaryColor);
     }
+
+    # endregion
 }

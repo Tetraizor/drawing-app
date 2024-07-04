@@ -1,8 +1,7 @@
-[gd_scene load_steps=31 format=3 uid="uid://dsmbwe0n6rnum"]
+[gd_scene load_steps=36 format=3 uid="uid://dsmbwe0n6rnum"]
 
 [ext_resource type="Script" path="res://src/Tetraizor/UI/CanvasUIManager.cs" id="1_w03sc"]
-[ext_resource type="Script" path="res://src/Tetraizor/UI/Control/NinePatchScalable.cs" id="2_ltaul"]
-[ext_resource type="Texture2D" uid="uid://dnnhsogukhf2e" path="res://res/ui/assets/modal.png" id="2_yg58p"]
+[ext_resource type="Script" path="res://src/Tetraizor/UI/ControlHelpers/EmptySpaceClickDetector.cs" id="2_2xg1t"]
 [ext_resource type="Texture2D" uid="uid://c6qvmr7nvpnr7" path="res://res/ui/assets/modal_tail.png" id="3_d3ipc"]
 [ext_resource type="Texture2D" uid="uid://ckspggyiicxna" path="res://res/ui/assets/button_active.png" id="4_7v4n4"]
 [ext_resource type="Texture2D" uid="uid://byt4st6yr8tgy" path="res://res/ui/assets/button_circle_deactive.png" id="5_cn0sk"]
@@ -27,6 +26,12 @@
 [ext_resource type="Texture2D" uid="uid://dntdyc3jk3ruc" path="res://res/ui/assets/blank.png" id="21_8ygvs"]
 [ext_resource type="Material" uid="uid://d3a20he0cakqe" path="res://res/shader/ui/color_selection/hsv_rect_sub_color.tres" id="23_bxr57"]
 [ext_resource type="Script" path="res://src/Tetraizor/UI/ColorPicker/SubSelectionArea.cs" id="24_bqq0f"]
+[ext_resource type="Script" path="res://src/Tetraizor/UI/ControlHelpers/NinePatchScalable.cs" id="28_sclux"]
+[ext_resource type="Texture2D" uid="uid://viorj1ob53s6" path="res://res/ui/assets/circle_64.png" id="28_uugqm"]
+[ext_resource type="Texture2D" uid="uid://dnnhsogukhf2e" path="res://res/ui/assets/modal.png" id="29_38nit"]
+[ext_resource type="LabelSettings" uid="uid://c8f6kxylow01o" path="res://res/ui/config/label_h2.tres" id="30_bajhn"]
+[ext_resource type="Script" path="res://src/Tetraizor/UI/LayerManager/LayerManagerModal.cs" id="30_ych6e"]
+[ext_resource type="PackedScene" uid="uid://dfkndqkbav7n7" path="res://prefab/ui/layer_card.tscn" id="31_wuwyj"]
 
 [sub_resource type="Curve" id="Curve_dl03u"]
 max_value = 1.1
@@ -50,37 +55,55 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-mouse_filter = 2
+mouse_filter = 1
 script = ExtResource("1_w03sc")
-_buttonSettings = NodePath("TopButtonsMargin/TopButtons/LeftButtons/SettingsButton")
-_buttonBrush = NodePath("TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons/BrushButton")
-_buttonPen = NodePath("TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons/PencilButton")
-_buttonEraser = NodePath("TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons/EraserButton")
+_buttonSettings = NodePath("Container/TopButtonsMargin/TopButtons/LeftButtons/SettingsButton")
+_buttonBrush = NodePath("Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons/BrushButton")
+_buttonPen = NodePath("Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons/PencilButton")
+_buttonEraser = NodePath("Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons/EraserButton")
 
-[node name="TopButtonsMargin" type="MarginContainer" parent="."]
+[node name="Control" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_2xg1t")
+
+[node name="Container" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="TopButtonsMargin" type="MarginContainer" parent="Container"]
 use_parent_material = true
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_bottom = 156.0
+offset_bottom = 172.0
 grow_horizontal = 2
 theme_override_constants/margin_left = 48
 theme_override_constants/margin_top = 32
 theme_override_constants/margin_right = 48
 theme_override_constants/margin_bottom = 0
 
-[node name="TopButtons" type="HBoxContainer" parent="TopButtonsMargin"]
+[node name="TopButtons" type="HBoxContainer" parent="Container/TopButtonsMargin"]
 use_parent_material = true
 layout_mode = 2
 
-[node name="LeftButtons" type="HBoxContainer" parent="TopButtonsMargin/TopButtons"]
+[node name="LeftButtons" type="HBoxContainer" parent="Container/TopButtonsMargin/TopButtons"]
 use_parent_material = true
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 0
 
-[node name="SettingsButton" type="TextureButton" parent="TopButtonsMargin/TopButtons/LeftButtons"]
+[node name="SettingsButton" type="TextureButton" parent="Container/TopButtonsMargin/TopButtons/LeftButtons"]
 texture_filter = 1
 use_parent_material = true
 custom_minimum_size = Vector2(140, 140)
@@ -91,7 +114,7 @@ texture_disabled = ExtResource("5_cn0sk")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="TextureRect" type="TextureRect" parent="TopButtonsMargin/TopButtons/LeftButtons/SettingsButton"]
+[node name="TextureRect" type="TextureRect" parent="Container/TopButtonsMargin/TopButtons/LeftButtons/SettingsButton"]
 use_parent_material = true
 layout_mode = 1
 anchors_preset = 15
@@ -103,12 +126,12 @@ texture = ExtResource("6_cx58l")
 expand_mode = 5
 stretch_mode = 5
 
-[node name="Spacer" type="Control" parent="TopButtonsMargin/TopButtons/LeftButtons"]
+[node name="Spacer" type="Control" parent="Container/TopButtonsMargin/TopButtons/LeftButtons"]
 use_parent_material = true
 custom_minimum_size = Vector2(50, 60)
 layout_mode = 2
 
-[node name="ClearButton2" type="TextureButton" parent="TopButtonsMargin/TopButtons/LeftButtons"]
+[node name="ClearButton2" type="TextureButton" parent="Container/TopButtonsMargin/TopButtons/LeftButtons"]
 texture_filter = 1
 use_parent_material = true
 custom_minimum_size = Vector2(140, 140)
@@ -119,12 +142,12 @@ texture_disabled = ExtResource("8_sj18l")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="Spacer2" type="Control" parent="TopButtonsMargin/TopButtons/LeftButtons"]
+[node name="Spacer2" type="Control" parent="Container/TopButtonsMargin/TopButtons/LeftButtons"]
 use_parent_material = true
 custom_minimum_size = Vector2(16, 60)
 layout_mode = 2
 
-[node name="ClearButton3" type="TextureButton" parent="TopButtonsMargin/TopButtons/LeftButtons"]
+[node name="ClearButton3" type="TextureButton" parent="Container/TopButtonsMargin/TopButtons/LeftButtons"]
 texture_filter = 1
 use_parent_material = true
 custom_minimum_size = Vector2(140, 140)
@@ -137,20 +160,20 @@ texture_disabled = ExtResource("10_6xoih")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="Spacer3" type="Control" parent="TopButtonsMargin/TopButtons/LeftButtons"]
+[node name="Spacer3" type="Control" parent="Container/TopButtonsMargin/TopButtons/LeftButtons"]
 use_parent_material = true
 custom_minimum_size = Vector2(24, 60)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.0
 
-[node name="RightButtons" type="Control" parent="TopButtonsMargin/TopButtons"]
+[node name="RightButtons" type="Control" parent="Container/TopButtonsMargin/TopButtons"]
 use_parent_material = true
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 size_flags_horizontal = 10
 
-[node name="HBox" type="HBoxContainer" parent="TopButtonsMargin/TopButtons/RightButtons"]
+[node name="HBox" type="HBoxContainer" parent="Container/TopButtonsMargin/TopButtons/RightButtons"]
 use_parent_material = true
 layout_mode = 1
 anchors_preset = 11
@@ -162,11 +185,11 @@ grow_horizontal = 0
 grow_vertical = 2
 alignment = 2
 
-[node name="ToolButtons" type="HBoxContainer" parent="TopButtonsMargin/TopButtons/RightButtons/HBox"]
+[node name="ToolButtons" type="HBoxContainer" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox"]
 use_parent_material = true
 layout_mode = 2
 
-[node name="BrushButton" type="TextureButton" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons"]
+[node name="BrushButton" type="TextureButton" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons"]
 texture_filter = 1
 use_parent_material = true
 custom_minimum_size = Vector2(128, 128)
@@ -176,7 +199,7 @@ texture_disabled = ExtResource("5_cn0sk")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="DeactiveIcon" type="TextureRect" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons/BrushButton"]
+[node name="DeactiveIcon" type="TextureRect" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons/BrushButton"]
 use_parent_material = true
 layout_mode = 1
 anchors_preset = -1
@@ -190,7 +213,7 @@ grow_vertical = 2
 texture = ExtResource("9_ssx4w")
 expand_mode = 3
 
-[node name="ActiveIcon" type="TextureRect" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons/BrushButton"]
+[node name="ActiveIcon" type="TextureRect" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons/BrushButton"]
 use_parent_material = true
 layout_mode = 1
 anchors_preset = -1
@@ -205,12 +228,12 @@ grow_vertical = 2
 texture = ExtResource("11_h00hq")
 expand_mode = 3
 
-[node name="Spacer1" type="Control" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons"]
+[node name="Spacer1" type="Control" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons"]
 use_parent_material = true
 custom_minimum_size = Vector2(32, 60)
 layout_mode = 2
 
-[node name="PencilButton" type="TextureButton" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons"]
+[node name="PencilButton" type="TextureButton" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons"]
 texture_filter = 1
 use_parent_material = true
 custom_minimum_size = Vector2(128, 128)
@@ -221,7 +244,7 @@ texture_disabled = ExtResource("5_cn0sk")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="DeactiveIcon" type="TextureRect" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons/PencilButton"]
+[node name="DeactiveIcon" type="TextureRect" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons/PencilButton"]
 use_parent_material = true
 layout_mode = 1
 anchors_preset = 15
@@ -236,7 +259,7 @@ grow_vertical = 2
 texture = ExtResource("11_6gnea")
 expand_mode = 3
 
-[node name="ActiveIcon" type="TextureRect" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons/PencilButton"]
+[node name="ActiveIcon" type="TextureRect" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons/PencilButton"]
 use_parent_material = true
 layout_mode = 1
 anchors_preset = 15
@@ -251,12 +274,12 @@ grow_vertical = 2
 texture = ExtResource("12_y5hjb")
 expand_mode = 3
 
-[node name="Spacer2" type="Control" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons"]
+[node name="Spacer2" type="Control" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons"]
 use_parent_material = true
 custom_minimum_size = Vector2(32, 60)
 layout_mode = 2
 
-[node name="EraserButton" type="TextureButton" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons"]
+[node name="EraserButton" type="TextureButton" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons"]
 texture_filter = 1
 use_parent_material = true
 custom_minimum_size = Vector2(128, 128)
@@ -268,7 +291,7 @@ ignore_texture_size = true
 stretch_mode = 5
 metadata/_edit_group_ = true
 
-[node name="DeactiveIcon" type="TextureRect" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons/EraserButton"]
+[node name="DeactiveIcon" type="TextureRect" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons/EraserButton"]
 use_parent_material = true
 layout_mode = 1
 anchors_preset = 15
@@ -283,7 +306,7 @@ grow_vertical = 2
 texture = ExtResource("13_76lsq")
 expand_mode = 3
 
-[node name="ActiveIcon" type="TextureRect" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons/EraserButton"]
+[node name="ActiveIcon" type="TextureRect" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons/EraserButton"]
 use_parent_material = true
 layout_mode = 1
 anchors_preset = 15
@@ -298,16 +321,16 @@ grow_vertical = 2
 texture = ExtResource("13_t1wx5")
 expand_mode = 3
 
-[node name="Spacer2" type="Control" parent="TopButtonsMargin/TopButtons/RightButtons/HBox"]
+[node name="Spacer2" type="Control" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox"]
 use_parent_material = true
 custom_minimum_size = Vector2(128, 60)
 layout_mode = 2
 
-[node name="ColorButtons" type="HBoxContainer" parent="TopButtonsMargin/TopButtons/RightButtons/HBox"]
+[node name="ColorButtons" type="HBoxContainer" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox"]
 use_parent_material = true
 layout_mode = 2
 
-[node name="PatternSelection" type="TextureButton" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons"]
+[node name="PatternSelection" type="TextureButton" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons"]
 texture_filter = 1
 use_parent_material = true
 custom_minimum_size = Vector2(140, 140)
@@ -317,7 +340,7 @@ texture_normal = ExtResource("14_lu5gf")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="PatternPreview" type="TextureRect" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/PatternSelection"]
+[node name="PatternPreview" type="TextureRect" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/PatternSelection"]
 modulate = Color(0.79783, 0.414295, 0.706718, 1)
 use_parent_material = true
 layout_mode = 1
@@ -329,12 +352,12 @@ grow_vertical = 2
 texture = ExtResource("19_ocair")
 expand_mode = 3
 
-[node name="Spacer1" type="Control" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons"]
+[node name="Spacer1" type="Control" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons"]
 use_parent_material = true
 custom_minimum_size = Vector2(24, 60)
 layout_mode = 2
 
-[node name="ColorPicker" type="TextureButton" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons" node_paths=PackedStringArray("_mainSelectionArea", "_subSelectionArea", "_modal", "_initialColorPreview", "_selectedColorPreview", "_buttonColor")]
+[node name="ColorPicker" type="TextureButton" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons" node_paths=PackedStringArray("_mainSelectionArea", "_subSelectionArea", "_modal", "_buttonColor", "_initialColorPreview", "_selectedColorPreview")]
 texture_filter = 1
 use_parent_material = true
 custom_minimum_size = Vector2(140, 140)
@@ -348,11 +371,11 @@ _transitionCurve = SubResource("Curve_dl03u")
 _mainSelectionArea = NodePath("ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/MainColorBox/MainSelectionArea")
 _subSelectionArea = NodePath("ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/MainColorBox/SubSelectionArea")
 _modal = NodePath("ColorModal")
+_buttonColor = NodePath("ColorPreview")
 _initialColorPreview = NodePath("ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/BottomBox/InıtialColor")
 _selectedColorPreview = NodePath("ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/BottomBox/NewColor")
-_buttonColor = NodePath("ColorPreview")
 
-[node name="ColorPreview" type="TextureRect" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker"]
+[node name="ColorPreview" type="TextureRect" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker"]
 modulate = Color(0.348648, 0.611974, 0.731654, 1)
 use_parent_material = true
 custom_minimum_size = Vector2(59, 59)
@@ -365,7 +388,7 @@ grow_vertical = 2
 texture = ExtResource("19_ocair")
 expand_mode = 3
 
-[node name="ColorModal" type="Control" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker"]
+[node name="ColorModal" type="Control" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker"]
 use_parent_material = true
 layout_mode = 1
 anchors_preset = 3
@@ -379,13 +402,12 @@ offset_right = -11.0
 offset_bottom = -353.0
 grow_horizontal = 0
 grow_vertical = 0
-script = ExtResource("2_ltaul")
-Texture = ExtResource("2_yg58p")
-MiddleRect = Rect2(62.005, 65.73, 73.165, 64.375)
-DrawScale = 0.7
+script = ExtResource("28_sclux")
+Texture = ExtResource("29_38nit")
+MiddleRect = Rect2(48, 48, 100, 100)
 metadata/_edit_group_ = true
 
-[node name="Tail" type="TextureRect" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal"]
+[node name="Tail" type="TextureRect" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal"]
 use_parent_material = true
 layout_mode = 1
 anchors_preset = 1
@@ -400,7 +422,7 @@ texture = ExtResource("3_d3ipc")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="SafeMargin" type="MarginContainer" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal"]
+[node name="SafeMargin" type="MarginContainer" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -412,10 +434,10 @@ theme_override_constants/margin_top = 13
 theme_override_constants/margin_right = 12
 theme_override_constants/margin_bottom = 15
 
-[node name="SafeSpace" type="Control" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin"]
+[node name="SafeSpace" type="Control" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin"]
 layout_mode = 2
 
-[node name="GeneralMargin" type="MarginContainer" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace"]
+[node name="GeneralMargin" type="MarginContainer" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -427,25 +449,25 @@ theme_override_constants/margin_top = 30
 theme_override_constants/margin_right = 30
 theme_override_constants/margin_bottom = 30
 
-[node name="VBoxContainer" type="VBoxContainer" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin"]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Title" type="Label" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer"]
+[node name="Title" type="Label" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer"]
 layout_mode = 2
 text = "Select a color"
 label_settings = SubResource("LabelSettings_o23k3")
 
-[node name="Spacer" type="Control" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer"]
+[node name="Spacer" type="Control" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer"]
 custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="MainColorBox" type="HBoxContainer" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer"]
+[node name="MainColorBox" type="HBoxContainer" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer"]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 
-[node name="MainSelectionArea" type="ColorRect" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/MainColorBox" node_paths=PackedStringArray("_cursor")]
+[node name="MainSelectionArea" type="ColorRect" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/MainColorBox" node_paths=PackedStringArray("_cursor")]
 material = ExtResource("20_vw3dy")
 clip_contents = true
 custom_minimum_size = Vector2(700, 700)
@@ -453,7 +475,7 @@ layout_mode = 2
 script = ExtResource("20_55up5")
 _cursor = NodePath("Cursor")
 
-[node name="Cursor" type="TextureRect" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/MainColorBox/MainSelectionArea"]
+[node name="Cursor" type="TextureRect" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/MainColorBox/MainSelectionArea"]
 layout_mode = 0
 offset_left = -8.0
 offset_top = -8.0
@@ -465,24 +487,24 @@ texture = ExtResource("20_fe0fb")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Spacer" type="Control" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/MainColorBox"]
+[node name="Spacer" type="Control" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/MainColorBox"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="SubSelectionArea" type="ColorRect" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/MainColorBox" node_paths=PackedStringArray("_cursor")]
+[node name="SubSelectionArea" type="ColorRect" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/MainColorBox" node_paths=PackedStringArray("_cursor")]
 material = ExtResource("23_bxr57")
 custom_minimum_size = Vector2(70, 0)
 layout_mode = 2
 script = ExtResource("24_bqq0f")
 _cursor = NodePath("ArrowPoint")
 
-[node name="ArrowPoint" type="Control" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/MainColorBox/SubSelectionArea"]
+[node name="ArrowPoint" type="Control" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/MainColorBox/SubSelectionArea"]
 anchors_preset = 0
 offset_left = -21.845
 offset_right = -21.845
 mouse_filter = 2
 
-[node name="Arrow" type="TextureRect" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/MainColorBox/SubSelectionArea/ArrowPoint"]
+[node name="Arrow" type="TextureRect" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/MainColorBox/SubSelectionArea/ArrowPoint"]
 modulate = Color(0.347656, 0.347656, 0.347656, 1)
 custom_minimum_size = Vector2(50, 40)
 layout_mode = 0
@@ -495,71 +517,71 @@ texture = ExtResource("20_1l1on")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Spacer1" type="Control" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer"]
+[node name="Spacer1" type="Control" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer"]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 
-[node name="BottomBox" type="HBoxContainer" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer"]
+[node name="BottomBox" type="HBoxContainer" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="NewColor" type="TextureRect" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/BottomBox"]
+[node name="NewColor" type="TextureRect" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/BottomBox"]
 custom_minimum_size = Vector2(259, 84)
 layout_mode = 2
 texture = ExtResource("21_8ygvs")
 expand_mode = 1
 
-[node name="Spacer1" type="Control" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/BottomBox"]
+[node name="Spacer1" type="Control" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/BottomBox"]
 custom_minimum_size = Vector2(32, 14)
 layout_mode = 2
 
-[node name="InıtialColor" type="TextureRect" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/BottomBox"]
+[node name="InıtialColor" type="TextureRect" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/BottomBox"]
 custom_minimum_size = Vector2(259, 84)
 layout_mode = 2
 texture = ExtResource("21_8ygvs")
 expand_mode = 1
 
-[node name="Spacer2" type="Control" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/BottomBox"]
+[node name="Spacer2" type="Control" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/BottomBox"]
 custom_minimum_size = Vector2(4.2, 14)
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="B1" type="Button" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/BottomBox"]
+[node name="B1" type="Button" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/BottomBox"]
 custom_minimum_size = Vector2(73.61, 84)
 layout_mode = 2
 
-[node name="Spacer3" type="Control" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/BottomBox"]
+[node name="Spacer3" type="Control" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/BottomBox"]
 custom_minimum_size = Vector2(16, 14)
 layout_mode = 2
 
-[node name="B2" type="Button" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/BottomBox"]
+[node name="B2" type="Button" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/BottomBox"]
 custom_minimum_size = Vector2(73.61, 84)
 layout_mode = 2
 
-[node name="Spacer2" type="Control" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer"]
+[node name="Spacer2" type="Control" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer"]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 
-[node name="Param1" type="HBoxContainer" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer"]
+[node name="Param1" type="HBoxContainer" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer"]
 custom_minimum_size = Vector2(0, 72)
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="ParamName" type="Label" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/Param1"]
+[node name="ParamName" type="Label" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/Param1"]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 text = "P1"
 label_settings = SubResource("LabelSettings_dqio7")
 
-[node name="Spacer" type="Control" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/Param1"]
+[node name="Spacer" type="Control" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/Param1"]
 custom_minimum_size = Vector2(24, 48)
 layout_mode = 2
 
-[node name="ParamColor" type="ColorRect" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/Param1"]
+[node name="ParamColor" type="ColorRect" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/Param1"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Arrow" type="TextureRect" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/Param1/ParamColor"]
+[node name="Arrow" type="TextureRect" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/Param1/ParamColor"]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -573,29 +595,29 @@ rotation = -1.57079
 texture = ExtResource("20_1l1on")
 expand_mode = 1
 
-[node name="Spacer3" type="Control" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer"]
+[node name="Spacer3" type="Control" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 
-[node name="Param2" type="HBoxContainer" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer"]
+[node name="Param2" type="HBoxContainer" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer"]
 custom_minimum_size = Vector2(0, 72)
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="ParamName" type="Label" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/Param2"]
+[node name="ParamName" type="Label" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/Param2"]
 layout_mode = 2
 text = "P1"
 label_settings = SubResource("LabelSettings_dqio7")
 
-[node name="Spacer" type="Control" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/Param2"]
+[node name="Spacer" type="Control" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/Param2"]
 custom_minimum_size = Vector2(24, 14)
 layout_mode = 2
 
-[node name="ParamColor" type="ColorRect" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/Param2"]
+[node name="ParamColor" type="ColorRect" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/Param2"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Arrow" type="TextureRect" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/Param2/ParamColor"]
+[node name="Arrow" type="TextureRect" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/Param2/ParamColor"]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -609,29 +631,29 @@ rotation = -1.57079
 texture = ExtResource("20_1l1on")
 expand_mode = 1
 
-[node name="Spacer4" type="Control" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer"]
+[node name="Spacer4" type="Control" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 
-[node name="Param3" type="HBoxContainer" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer"]
+[node name="Param3" type="HBoxContainer" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer"]
 custom_minimum_size = Vector2(0, 72)
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="ParamName" type="Label" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/Param3"]
+[node name="ParamName" type="Label" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/Param3"]
 layout_mode = 2
 text = "P1"
 label_settings = SubResource("LabelSettings_dqio7")
 
-[node name="Spacer" type="Control" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/Param3"]
+[node name="Spacer" type="Control" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/Param3"]
 custom_minimum_size = Vector2(24, 14)
 layout_mode = 2
 
-[node name="ParamColor" type="ColorRect" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/Param3"]
+[node name="ParamColor" type="ColorRect" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/Param3"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Arrow" type="TextureRect" parent="TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/Param3/ParamColor"]
+[node name="Arrow" type="TextureRect" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPicker/ColorModal/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/Param3/ParamColor"]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -644,3 +666,140 @@ grow_vertical = 0
 rotation = -1.57079
 texture = ExtResource("20_1l1on")
 expand_mode = 1
+
+[node name="BottomButtonsMargin" type="MarginContainer" parent="Container"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -172.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_left = 48
+theme_override_constants/margin_right = 48
+theme_override_constants/margin_bottom = 32
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Container/BottomButtonsMargin"]
+layout_mode = 2
+
+[node name="Spacer" type="Control" parent="Container/BottomButtonsMargin/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RightButtons" type="HBoxContainer" parent="Container/BottomButtonsMargin/HBoxContainer"]
+layout_mode = 2
+
+[node name="Button" type="TextureButton" parent="Container/BottomButtonsMargin/HBoxContainer/RightButtons"]
+custom_minimum_size = Vector2(140, 140)
+layout_mode = 2
+texture_normal = ExtResource("28_uugqm")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="LayerManager" type="Control" parent="Container/BottomButtonsMargin/HBoxContainer/RightButtons/Button" node_paths=PackedStringArray("_toggleButton", "_layerContainer", "_addLayerButton")]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+grow_horizontal = 2
+script = ExtResource("30_ych6e")
+_toggleButton = NodePath("..")
+_layerContainer = NodePath("LayerModal/SafeMargin/SafeArea/VBoxContainer/ScrollContainer/MarginContainer/LayerCardContainer")
+_layerCardScene = ExtResource("31_wuwyj")
+_addLayerButton = NodePath("LayerModal/SafeMargin/SafeArea/VBoxContainer/HBoxContainer/Button")
+
+[node name="LayerModal" type="Control" parent="Container/BottomButtonsMargin/HBoxContainer/RightButtons/Button/LayerManager"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -675.0
+offset_top = -1112.0
+offset_right = 70.0
+offset_bottom = -36.0
+grow_horizontal = 0
+script = ExtResource("28_sclux")
+Texture = ExtResource("29_38nit")
+MiddleRect = Rect2(48, 48, 100, 100)
+
+[node name="SafeMargin" type="MarginContainer" parent="Container/BottomButtonsMargin/HBoxContainer/RightButtons/Button/LayerManager/LayerModal"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+theme_override_constants/margin_left = 48
+theme_override_constants/margin_top = 48
+theme_override_constants/margin_right = 48
+theme_override_constants/margin_bottom = 48
+
+[node name="SafeArea" type="Control" parent="Container/BottomButtonsMargin/HBoxContainer/RightButtons/Button/LayerManager/LayerModal/SafeMargin"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Container/BottomButtonsMargin/HBoxContainer/RightButtons/Button/LayerManager/LayerModal/SafeMargin/SafeArea"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Container/BottomButtonsMargin/HBoxContainer/RightButtons/Button/LayerManager/LayerModal/SafeMargin/SafeArea/VBoxContainer"]
+layout_mode = 2
+text = "Layers"
+label_settings = ExtResource("30_bajhn")
+
+[node name="Spacer" type="Control" parent="Container/BottomButtonsMargin/HBoxContainer/RightButtons/Button/LayerManager/LayerModal/SafeMargin/SafeArea/VBoxContainer"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Container/BottomButtonsMargin/HBoxContainer/RightButtons/Button/LayerManager/LayerModal/SafeMargin/SafeArea/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="Container/BottomButtonsMargin/HBoxContainer/RightButtons/Button/LayerManager/LayerModal/SafeMargin/SafeArea/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_right = 24
+
+[node name="LayerCardContainer" type="Control" parent="Container/BottomButtonsMargin/HBoxContainer/RightButtons/Button/LayerManager/LayerModal/SafeMargin/SafeArea/VBoxContainer/ScrollContainer/MarginContainer"]
+clip_contents = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Container/BottomButtonsMargin/HBoxContainer/RightButtons/Button/LayerManager/LayerModal/SafeMargin/SafeArea/VBoxContainer"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="Container/BottomButtonsMargin/HBoxContainer/RightButtons/Button/LayerManager/LayerModal/SafeMargin/SafeArea/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(0, 96)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Add Layer"
+
+[node name="Button2" type="Button" parent="Container/BottomButtonsMargin/HBoxContainer/RightButtons/Button/LayerManager/LayerModal/SafeMargin/SafeArea/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(0, 96)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Remove Layer"
+
+[node name="Button3" type="Button" parent="Container/BottomButtonsMargin/HBoxContainer/RightButtons/Button/LayerManager/LayerModal/SafeMargin/SafeArea/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(0, 96)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "ClearLayer"
+
+[node name="TextureRect" type="TextureRect" parent="Container/BottomButtonsMargin/HBoxContainer/RightButtons/Button/LayerManager/LayerModal"]
+layout_mode = 0
+offset_left = 630.0
+offset_top = 1032.0
+offset_right = 711.0
+offset_bottom = 1113.0
+texture = ExtResource("3_d3ipc")
+expand_mode = 1
+stretch_mode = 5
+flip_v = true

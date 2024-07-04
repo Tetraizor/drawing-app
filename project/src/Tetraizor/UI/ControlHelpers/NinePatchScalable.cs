@@ -1,5 +1,7 @@
 using Godot;
 
+namespace Tetraizor.UI.ControlHelpers;
+
 [Tool]
 public partial class NinePatchScalable : Control
 {

@@ -1,38 +1,39 @@
 namespace Tetraizor.Drawing;
 
 using Godot;
-using System;
-using Tetraizor.Managers;
+using Tetraizor.Data;
 
-public partial class LayerRenderer : Node2D
+public partial class LayerRenderer : Control
 {
-    public Image RenderImage { get; private set; }
-    public Image BufferImage { get; private set; }
-    public Canvas ParentCanvas { get; private set; }
+    public Layer AssignedLayer => _assignedLayer;
+    private Layer _assignedLayer;
 
     public ImageTexture RenderImageTexture { get; private set; }
 
-    public Vector2I Size => ParentCanvas.Size;
+    public Vector2I CanvasSize => AssignedLayer.CanvasSize;
 
     private bool _isDirty = false;
 
-    public void Setup(Canvas parentCanvas, Image image)
+    public void Setup(Layer layer, Image image)
     {
-        ParentCanvas = parentCanvas;
-        RenderImage = image;
-
-        // Copy the image data to the buffer image.
-        BufferImage = new Image();
-        BufferImage.CopyFrom(image);
+        _assignedLayer = layer;
 
         RenderImageTexture = ImageTexture.CreateFromImage(image);
+        if (RenderImageTexture == null)
+        {
+            GD.PrintErr("LayerRenderer: RenderImageTexture is null.");
+        }
+
+        Size = new Vector2(CanvasSize.X, CanvasSize.Y);
+
+        SetDirty();
     }
 
     public override void _Process(double delta)
     {
         if (_isDirty)
         {
-            RenderImageTexture.Update(BufferImage);
+            RenderImageTexture.Update(AssignedLayer.BufferImage);
             QueueRedraw();
             _isDirty = false;
         }

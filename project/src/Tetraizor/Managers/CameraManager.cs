@@ -6,7 +6,7 @@ public partial class CameraManager : Camera2D
 {
     private bool _isMoving = false;
 
-    public override void _Input(InputEvent @event)
+    public override void _UnhandledInput(InputEvent @event)
     {
         if (@event is InputEventMouseButton mouseButton)
         {

@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using Godot;
+using Tetraizor.Data;
 using Tetraizor.Managers;
 using Tetraizor.Utils;
 
@@ -11,8 +12,7 @@ public partial class DrawManager : Node
     public enum DrawMode { Override, Keep }
     private CanvasManager _canvasManager;
 
-    private Canvas _currentCanvas;
-    private LayerRenderer _currentLayer;
+    private Layer _currentLayer;
 
     private ImageTexture _renderTexture;
 
@@ -21,35 +21,12 @@ public partial class DrawManager : Node
     private bool _isRectDirty = false;
     private Rect2I _dirtyRect;
 
-    public void SelectCanvas(int canvasIndex)
-    {
-        try
-        {
-            _currentCanvas = _canvasManager.GetCanvas(canvasIndex);
-            SelectLayer(1);
-        }
-        catch (IndexOutOfRangeException)
-        {
-            GD.PrintErr("DrawManager: Canvas index out of range.");
-        }
-    }
-
     public void SelectLayer(int layerIndex)
     {
-        try
-        {
-            _currentLayer = _canvasManager.GetLayer(_currentCanvas, layerIndex);
-            _renderTexture = _currentLayer.RenderImageTexture;
-            _bufferImage = _currentLayer.BufferImage;
-        }
-        catch (IndexOutOfRangeException)
-        {
-            GD.PrintErr("DrawManager: Layer index out of range.");
-        }
-        catch (ArgumentNullException)
-        {
-            GD.PrintErr("DrawManager: Layer is null.");
-        }
+        _currentLayer = _canvasManager.Layers[layerIndex];
+
+        _renderTexture = _currentLayer.Renderer.RenderImageTexture;
+        _bufferImage = _currentLayer.BufferImage;
     }
 
     #region Godot Methods
@@ -64,7 +41,24 @@ public partial class DrawManager : Node
             GD.PrintErr("DrawManager: CanvasManager is null.");
         }
 
-        SelectCanvas(0);
+        CanvasManager.Instance.LayerCreated += OnLayerCreated;
+        CanvasManager.Instance.LayerDeleted += OnLayerDeleted;
+        CanvasManager.Instance.LayerSelected += OnLayerSelected;
+
+        SelectLayer(0);
+    }
+
+    private void OnLayerSelected(int layerIndex)
+    {
+        SelectLayer(layerIndex);
+    }
+
+    private void OnLayerDeleted(int layerIndex)
+    {
+    }
+
+    private void OnLayerCreated(int layerIndex)
+    {
     }
 
     public override void _Process(double delta)
@@ -73,7 +67,7 @@ public partial class DrawManager : Node
         // TODO: Feature is not implemented yet, and is very performance heavy currently.
         if (_isRectDirty)
         {
-            _currentLayer.SetDirty();
+            _currentLayer.Renderer.SetDirty();
             _isRectDirty = false;
         }
     }
