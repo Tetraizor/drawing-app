@@ -29,7 +29,7 @@ public partial class LayerCard : Control
     // TODO: Implement LayerCard.Setup better.
     public void Setup(Layer layer)
     {
-        _layerName = layer.Name;
+        _layerName = layer.DisplayName;
         _layerNameLabel.Text = _layerName;
 
         _assignedLayer = layer;

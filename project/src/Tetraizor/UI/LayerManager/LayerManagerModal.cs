@@ -47,7 +47,7 @@ public partial class LayerManagerModal : Control
             _canvasManager.LayerCreated += OnLayerCreated;
             _canvasManager.LayerDeleted += OnLayerDeleted;
 
-            ForceUpdateLayerCards();
+            CallDeferred(MethodName.ForceUpdateLayerCards);
         }
     }
 
@@ -81,7 +81,7 @@ public partial class LayerManagerModal : Control
         layerCard.Setup(layer);
         _layerContainer.AddChild(layerCard);
 
-        layerCard.Position = new Vector2(0, -(OffHeight + _gap));
+        layerCard.Position = new Vector2(_layerContainer.Size.X * -1, -(OffHeight + _gap));
         layerCard.SetDeferred("size", new Vector2(_layerContainer.Size.X, layerCard.Size.Y));
 
         _layerCardList.Add(layerCard);

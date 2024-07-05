@@ -24,8 +24,8 @@ public partial class Layer : IDisposable
     public Image BufferImage => _bufferImage;
     private Image _bufferImage = new();
 
-    public string Name => _name;
-    private string _name;
+    public string DisplayName => _displayName;
+    private string _displayName;
 
     public LayerRenderer Renderer => _renderer;
     private LayerRenderer _renderer;
@@ -57,7 +57,7 @@ public partial class Layer : IDisposable
     private void Setup(CanvasManager canvasManager, Color clearColor)
     {
         _canvasManager = canvasManager;
-        _name = $"Layer {Index}";
+        _displayName = $"Layer {_canvasManager.Layers.Count + 1}";
 
         _canvasManager.Layers.Insert(0, this);
 

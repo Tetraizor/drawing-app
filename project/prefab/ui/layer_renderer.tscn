@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://d1ayqaxgo25mi"]
 
-[ext_resource type="Script" path="res://scene/root/LayerRenderer.cs" id="1_dmaix"]
+[ext_resource type="Script" path="res://src/Tetraizor/UI/LayerRenderer.cs" id="1_dmaix"]
 
 [node name="LayerRenderer" type="Control"]
 layout_mode = 3
