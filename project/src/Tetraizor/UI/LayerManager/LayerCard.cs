@@ -17,8 +17,8 @@ public partial class LayerCard : Control
 
     #region Properties
     private string _layerName;
-    public Layer AssignedLayer => _assignedLayer;
-    private Layer _assignedLayer;
+    public LayerData AssignedLayer => _assignedLayer;
+    private LayerData _assignedLayer;
 
     private bool _isOn;
     public bool IsOn => _isOn;
@@ -27,7 +27,7 @@ public partial class LayerCard : Control
     [Signal] public delegate void LayerCardPressedEventHandler();
 
     // TODO: Implement LayerCard.Setup better.
-    public void Setup(Layer layer)
+    public void Setup(LayerData layer)
     {
         _layerName = layer.DisplayName;
         _layerNameLabel.Text = _layerName;

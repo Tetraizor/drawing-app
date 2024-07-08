@@ -1,4 +1,5 @@
 using Godot;
+using Tetraizor.Utils;
 
 namespace Tetraizor.Autoloads;
 
@@ -10,8 +11,22 @@ public abstract partial class AutoloadBase<T> : Node where T : AutoloadBase<T>
         {
             if (_instance == null)
             {
-                GD.PrintErr($"{typeof(T).Name}: Instance is null.");
-                throw new System.NullReferenceException();
+                if (typeof(T) == typeof(NodeManager))
+                {
+                    return null;
+                }
+
+                var instance = NodeManager.FindNodeOfType<T>();
+
+                if (instance != null)
+                {
+                    _instance = instance;
+                }
+                else
+                {
+                    GD.PrintErr($"{typeof(T).Name}: Instance is null.");
+                    throw new System.NullReferenceException();
+                }
             }
 
             return _instance;

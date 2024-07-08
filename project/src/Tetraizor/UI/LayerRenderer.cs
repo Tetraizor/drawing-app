@@ -5,8 +5,8 @@ using Tetraizor.Data;
 
 public partial class LayerRenderer : Control
 {
-    public Layer AssignedLayer => _assignedLayer;
-    private Layer _assignedLayer;
+    public LayerData AssignedLayer => _assignedLayer;
+    private LayerData _assignedLayer;
 
     public ImageTexture RenderImageTexture { get; private set; }
 
@@ -14,7 +14,7 @@ public partial class LayerRenderer : Control
 
     private bool _isDirty = false;
 
-    public void Setup(Layer layer, Image image)
+    public void Setup(LayerData layer, Image image)
     {
         _assignedLayer = layer;
 

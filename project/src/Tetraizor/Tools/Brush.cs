@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Godot;
 using Tetraizor.Autoloads;
+using Tetraizor.CommonTypes;
 using Tetraizor.Drawing;
 using Tetraizor.Managers;
 using Tetraizor.UI.ColorPicker;
@@ -22,6 +23,8 @@ public class Brush : Tool
     private int _radius = 5;
 
     private List<Stroke> _tempStrokes = new List<Stroke>();
+
+    public override ToolType ToolType { get; protected set; } = ToolType.Brush;
 
     public Brush(int radius)
     {
@@ -55,7 +58,7 @@ public class Brush : Tool
         }
     }
 
-    public override void StartInput(Vector2 position, float pressure)
+    public override void BeginInput(Vector2 position, float pressure)
     {
         _isDrawing = true;
         _tempStrokes.Clear();
@@ -67,7 +70,7 @@ public class Brush : Tool
 
     }
 
-    public override void ContinueInput(Vector2 position, float pressure)
+    public override void DragInput(Vector2 position, float pressure)
     {
         if (!_isDrawing) return;
 

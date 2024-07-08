@@ -6,7 +6,7 @@ using Tetraizor.Drawing;
 using Tetraizor.Managers;
 using Tetraizor.Utils;
 
-public partial class Layer : IDisposable
+public partial class LayerData : IDisposable
 {
     /// <summary>
     /// The image that has the latest changes on it. Doesn't actually render to the screen.
@@ -38,17 +38,17 @@ public partial class Layer : IDisposable
     public int Index => _canvasManager.Layers.IndexOf(this);
     public Vector2I CanvasSize => _canvasManager.Size;
 
-    public Layer(CanvasManager canvasManager, Color clearColor)
+    public LayerData(CanvasManager canvasManager, Color clearColor)
     {
         Setup(canvasManager, clearColor);
     }
 
-    public Layer(CanvasManager canvasManager)
+    public LayerData(CanvasManager canvasManager)
     {
         Setup(canvasManager, Colors.White);
     }
 
-    public Layer(CanvasManager canvasManager, Image image)
+    public LayerData(CanvasManager canvasManager, Image image)
     {
         Setup(canvasManager, Colors.White);
         PasteAt(image);

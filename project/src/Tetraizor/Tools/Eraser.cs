@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Godot;
 using Tetraizor.Autoloads;
+using Tetraizor.CommonTypes;
 using Tetraizor.Drawing;
 using Tetraizor.Managers;
 using Tetraizor.Utils;
@@ -21,6 +22,8 @@ public class Eraser : Tool
     private int radius;
 
     private List<Stroke> _tempStrokes = new List<Stroke>();
+
+    public override ToolType ToolType { get; protected set; } = ToolType.Eraser;
 
     public Eraser(int radius)
     {
@@ -49,7 +52,7 @@ public class Eraser : Tool
         }
     }
 
-    public override void StartInput(Vector2 position, float pressure)
+    public override void BeginInput(Vector2 position, float pressure)
     {
         _isDrawing = true;
         _tempStrokes.Clear();
@@ -60,7 +63,7 @@ public class Eraser : Tool
         _drawManager.DrawTextureToBuffer(_eraserShape, stroke.Position - Vector2I.One * radius, DrawManager.DrawMode.Keep, ColorUtils.BlendMode.Erase);
     }
 
-    public override void ContinueInput(Vector2 position, float pressure)
+    public override void DragInput(Vector2 position, float pressure)
     {
         if (!_isDrawing) return;
 

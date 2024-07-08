@@ -12,7 +12,7 @@ public partial class DrawManager : Node
     public enum DrawMode { Override, Keep }
     private CanvasManager _canvasManager;
 
-    private Layer _currentLayer;
+    private LayerData _currentLayer;
 
     private ImageTexture _renderTexture;
 
@@ -32,8 +32,6 @@ public partial class DrawManager : Node
     #region Godot Methods
     public override void _Ready()
     {
-        GD.Print("DrawManager: Ready.");
-
         _canvasManager = CanvasManager.Instance;
 
         if (_canvasManager == null)

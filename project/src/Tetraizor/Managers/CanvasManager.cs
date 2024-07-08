@@ -14,11 +14,11 @@ public partial class CanvasManager : AutoloadBase<CanvasManager>
     public Vector2I Size => _size;
     private Vector2I _size;
 
-    public List<Layer> Layers => _layers;
-    private List<Layer> _layers = new();
+    public List<LayerData> Layers => _layers;
+    private List<LayerData> _layers = new();
 
-    public Layer CurrentLayer => _currentLayer;
-    private Layer _currentLayer;
+    public LayerData CurrentLayer => _currentLayer;
+    private LayerData _currentLayer;
     #endregion
 
     #region Signals
@@ -77,9 +77,9 @@ public partial class CanvasManager : AutoloadBase<CanvasManager>
         return layerCard;
     }
 
-    public Layer CreateLayer(Image image = null)
+    public LayerData CreateLayer(Image image = null)
     {
-        var newLayer = image == null ? new Layer(this, Colors.Transparent) : new Layer(this, image);
+        var newLayer = image == null ? new LayerData(this, Colors.Transparent) : new LayerData(this, image);
 
         _currentLayer = newLayer;
 
@@ -97,7 +97,7 @@ public partial class CanvasManager : AutoloadBase<CanvasManager>
         DeleteLayer(Layers[layerIndex]);
     }
 
-    public void DeleteLayer(Layer layer)
+    public void DeleteLayer(LayerData layer)
     {
         if (layer == null) throw new System.ArgumentNullException(nameof(layer));
         if (!_layers.Contains(layer)) throw new System.ArgumentException("Layer not found.");
@@ -108,7 +108,7 @@ public partial class CanvasManager : AutoloadBase<CanvasManager>
         EmitSignal(SignalName.LayerDeleted, Layers.IndexOf(layer));
     }
 
-    public void SelectLayer(Layer layer)
+    public void SelectLayer(LayerData layer)
     {
         if (layer == null) throw new System.ArgumentNullException(nameof(layer));
         if (!_layers.Contains(layer)) throw new System.ArgumentException("Layer not found.");

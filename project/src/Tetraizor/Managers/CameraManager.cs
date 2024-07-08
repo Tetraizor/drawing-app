@@ -1,4 +1,6 @@
+using System;
 using Godot;
+using Tetraizor.Autoloads;
 
 namespace Tetraizor.Managers;
 
@@ -6,38 +8,32 @@ public partial class CameraManager : Camera2D
 {
     private bool _isMoving = false;
 
-    public override void _UnhandledInput(InputEvent @event)
+    private Vector2I _screenSize;
+
+    public override void _Ready()
     {
-        if (@event is InputEventMouseButton mouseButton)
-        {
-            if (mouseButton.ButtonIndex == MouseButton.Middle && mouseButton.IsPressed())
-            {
-                _isMoving = true;
-            }
+        var inputManager = InputManager.Instance;
 
-            if (mouseButton.ButtonIndex == MouseButton.Middle && mouseButton.IsReleased())
-            {
-                _isMoving = false;
-            }
+        inputManager.Pan += OnPan;
+        inputManager.Zoom += OnZoom;
 
-            if (mouseButton.ButtonIndex == MouseButton.WheelUp)
-            {
-                Zoom *= 1.1f;
-            }
+        _screenSize = ApplicationManager.Instance.ScreenSize;
+        ApplicationManager.Instance.ScreenSizeChanged += OnScreenSizeChanged;
+    }
 
-            if (mouseButton.ButtonIndex == MouseButton.WheelDown)
-            {
-                Zoom /= 1.1f;
-            }
-        }
+    private void OnScreenSizeChanged(Vector2I newSize)
+    {
+        _screenSize = newSize;
+    }
 
-        if (@event is InputEventMouseMotion mouseMotion)
-        {
-            if (_isMoving)
-            {
-                Position -= mouseMotion.Relative / Zoom;
-            }
-        }
+    private void OnZoom(float delta)
+    {
+        Zoom = Vector2.One * Mathf.Clamp(Zoom.X + delta, .1f, 16f);
+    }
+
+    private void OnPan(Vector2 delta)
+    {
+        Position += delta;
     }
 
     public Vector2 ScreenToWorldPosition(Vector2 screenPosition)

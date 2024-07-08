@@ -4,11 +4,6 @@ namespace Tetraizor.Autoloads;
 
 public partial class NodeManager : AutoloadBase<NodeManager>
 {
-    public override void _Ready()
-    {
-        base._Ready();
-    }
-
     public static T FindNodeOfType<T>(Node nodeToSearch = null) where T : Node
     {
         if (nodeToSearch == null)

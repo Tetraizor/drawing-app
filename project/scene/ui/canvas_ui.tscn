@@ -234,6 +234,7 @@ custom_minimum_size = Vector2(32, 60)
 layout_mode = 2
 
 [node name="PencilButton" type="TextureButton" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons"]
+visible = false
 texture_filter = 1
 use_parent_material = true
 custom_minimum_size = Vector2(128, 128)

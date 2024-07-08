@@ -24,36 +24,37 @@ public partial class CanvasUIManager : Node
 
     private ToolManager _toolManager;
 
-    [Signal] public delegate void ToolChangedEventHandler(ToolType tool);
-
     public override void _Ready()
     {
-        GD.Print("CanvasUIManager: Ready.");
-
         // Get references.
         _toolManager = ToolManager.Instance;
 
         // Assign Control event callbacks.
         _buttonSettings.Pressed += () =>
         {
-            this.FindNodeOfType<DebugUIManager>().TogglePanelMain(true);
+            NodeManager.FindNodeOfType<DebugUIManager>().TogglePanelMain(true);
         };
 
-        RegisterButton(ToolType.Brush, () => ChangeTool(ToolType.Brush), _buttonBrush);
-        RegisterButton(ToolType.Pen, () => ChangeTool(ToolType.Pen), _buttonPen);
-        RegisterButton(ToolType.Eraser, () => ChangeTool(ToolType.Eraser), _buttonEraser);
+        ToolManager.Instance.ToolChanged += (ToolType toolType) =>
+        {
+            UpdateToolButtons();
+        };
 
-        ChangeTool(ToolType.Brush);
+        RegisterButton(ToolType.Brush, () => OnToolButtonPressed(ToolType.Brush), _buttonBrush);
+        RegisterButton(ToolType.Pen, () => OnToolButtonPressed(ToolType.Pen), _buttonPen);
+        RegisterButton(ToolType.Eraser, () => OnToolButtonPressed(ToolType.Eraser), _buttonEraser);
     }
 
-    private void ChangeTool(ToolType tool)
+    private void OnToolButtonPressed(ToolType tool)
     {
-        if (_toolManager.CurrentTool == tool) return;
         _toolManager.ChangeTool(tool);
+    }
 
+    private void UpdateToolButtons()
+    {
         foreach (var toolButton in _toolButtons.Values)
         {
-            if (_toolManager.CurrentTool == toolButton.Tool)
+            if (_toolManager.CurrentToolType == toolButton.Tool)
             {
                 toolButton.Button.TextureNormal = toolButton.ActiveTexture;
                 toolButton.ActiveIconTextureRect.Visible = true;
@@ -63,8 +64,6 @@ public partial class CanvasUIManager : Node
                 tween.SetTrans(Tween.TransitionType.Cubic);
                 tween.TweenProperty(toolButton.Button, (String)Control.PropertyName.Scale, Vector2.One * 1.1f, TransitionDuration);
                 tween.TweenProperty(toolButton.Button, (String)Control.PropertyName.Scale, Vector2.One, TransitionDuration);
-
-                EmitSignal(SignalName.ToolChanged, (int)toolButton.Tool);
             }
             else
             {

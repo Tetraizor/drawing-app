@@ -15,7 +15,7 @@ public partial class ColorPickerModal : TextureButton
         {
             if (_instance == null)
             {
-                _instance = NodeManager.Instance.FindNodeOfType<ColorPickerModal>();
+                _instance = NodeManager.FindNodeOfType<ColorPickerModal>();
             }
 
             return _instance;
@@ -68,7 +68,7 @@ public partial class ColorPickerModal : TextureButton
 
         Pressed += () => ToggleModal();
 
-        var emptySpaceClickDetector = NodeManager.Instance.FindNodeOfType<EmptySpaceClickDetector>(_root);
+        var emptySpaceClickDetector = NodeManager.FindNodeOfType<EmptySpaceClickDetector>(_root);
         emptySpaceClickDetector.PressedOnEmptySpace += () => ToggleModal(false);
 
         // Setup

@@ -18,6 +18,7 @@ config/icon="res://res/project/app_icon.png"
 [autoload]
 
 NodeManager="*res://src/Tetraizor/Autoloads/NodeManager.cs"
+ApplicationManager="*res://src/Tetraizor/Autoloads/ApplicationManager.cs"
 InputManager="*res://src/Tetraizor/Autoloads/InputManager.cs"
 ToolManager="*res://src/Tetraizor/Autoloads/ToolManager.cs"
 
