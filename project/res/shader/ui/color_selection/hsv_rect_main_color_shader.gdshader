@@ -36,7 +36,7 @@ vec3 HSVtoRGB(vec3 hsv) {
 void fragment() {
     float s = UV.x; // Saturation varies with x coordinate
     float v = 1.0 - UV.y; // Value varies with y coordinate (inverted)
-    
+
     float input_hue = mod(hue, 1.0);
 
     COLOR.a = 1.0;
