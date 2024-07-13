@@ -1,10 +1,10 @@
-using Godot;
-
 namespace Tetraizor.UI.ControlHelpers;
+
+using Godot;
 
 public partial class EmptySpaceClickDetector : Node
 {
-    [Signal] public delegate void PressedOnEmptySpaceEventHandler();
+    [Signal] public delegate void EmptySpacePressedEventHandler();
 
     public override void _UnhandledInput(InputEvent @event)
     {
@@ -12,7 +12,7 @@ public partial class EmptySpaceClickDetector : Node
         {
             if (mouseButton.Pressed && mouseButton.ButtonIndex == MouseButton.Left)
             {
-                EmitSignal(SignalName.PressedOnEmptySpace);
+                EmitSignal(SignalName.EmptySpacePressed);
             }
         }
     }

@@ -6,26 +6,26 @@ using Tetraizor.Managers;
 
 namespace Tetraizor.UI.LayerManager;
 
-public partial class LayerManagerModal : Control
+public partial class LayerManagerModal : SlidingModal
 {
-    public bool IsOn => _isOn;
-    private bool _isOn = false;
-
+    #region Properties
     [Export] private int _gap = 12;
 
+    [Export] private float OnHeight = 300;
+    [Export] private float OffHeight = 100;
+
+    [ExportGroup("Node References")]
     [Export] private TextureButton _toggleButton;
+    [Export] private Button _addLayerButton;
+
     [Export] private Control _layerContainer;
 
     [Export] private PackedScene _layerCardScene;
 
+    // References
     private List<LayerCard> _layerCardList = new();
-
     private CanvasManager _canvasManager;
-
-    private const float OnHeight = 300;
-    private const float OffHeight = 100;
-
-    [Export] private Button _addLayerButton;
+    #endregion
 
     #region Signals
 
@@ -34,10 +34,9 @@ public partial class LayerManagerModal : Control
     #endregion
 
     #region Godot Methods
-
     public override void _Ready()
     {
-        _toggleButton.Pressed += () => ToggleModal();
+        _toggleButton.Pressed += () => Toggle();
         _addLayerButton.Pressed += OnAddLayerButtonPressed;
 
         _canvasManager = CanvasManager.Instance;
@@ -50,9 +49,9 @@ public partial class LayerManagerModal : Control
             CallDeferred(MethodName.ForceUpdateLayerCards);
         }
     }
-
     #endregion
 
+    #region Layer Controls
     private void OnLayerSelected(int layerIndex)
     {
         EmitSignal(nameof(LayerSelectedEventHandler), layerIndex);
@@ -161,17 +160,5 @@ public partial class LayerManagerModal : Control
     {
         throw new NotImplementedException();
     }
-
-    public void ToggleModal()
-    {
-        ToggleModal(!_isOn);
-    }
-
-    public void ToggleModal(bool isOn)
-    {
-        _isOn = isOn;
-
-        // TODO: Change this to a tween.
-        Visible = _isOn;
-    }
+    #endregion
 }

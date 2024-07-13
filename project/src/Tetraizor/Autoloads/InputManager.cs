@@ -78,7 +78,6 @@ public partial class InputManager : AutoloadBase<InputManager>
 
     public override void _Input(InputEvent @event)
     {
-#if !(GODOT_ANDROID || GODOT_IOS)
         if (@event is InputEventMouseButton mouseEvent)
         {
             switch (mouseEvent.ButtonIndex)
@@ -144,7 +143,8 @@ public partial class InputManager : AutoloadBase<InputManager>
         {
             EmitSignal(SignalName.Zoom, magnifyGesture.Factor);
         }
-#endif
+
+#if GODOT_ANDROID || GODOT_IOS
 
         if (@event is InputEventScreenTouch screenTouch)
         {
@@ -190,6 +190,8 @@ public partial class InputManager : AutoloadBase<InputManager>
                 }
             }
         }
+
+#endif
     }
     #endregion Godot Methods
 
@@ -348,9 +350,7 @@ public partial class InputManager : AutoloadBase<InputManager>
         EmitSignal(SignalName.Pan, delta);
     }
 
-    private void OnGestureEnd(Vector2 first, Vector2 second)
-    {
-    }
+    private void OnGestureEnd(Vector2 first, Vector2 second) { }
 
     private void OnGestureBegin(Vector2 first, Vector2 second)
     {

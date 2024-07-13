@@ -21,6 +21,7 @@ NodeManager="*res://src/Tetraizor/Autoloads/NodeManager.cs"
 ApplicationManager="*res://src/Tetraizor/Autoloads/ApplicationManager.cs"
 InputManager="*res://src/Tetraizor/Autoloads/InputManager.cs"
 ToolManager="*res://src/Tetraizor/Autoloads/ToolManager.cs"
+ModalManager="*res://src/Tetraizor/Autoloads/ModalManager.cs"
 
 [display]
 
@@ -38,6 +39,7 @@ project/assembly_name="Drawing App"
 [file_customization]
 
 folder_colors={
+"res://config/": "gray",
 "res://prefab/": "purple",
 "res://res/": "teal",
 "res://scene/": "blue",
