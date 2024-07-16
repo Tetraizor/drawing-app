@@ -78,6 +78,58 @@ public partial class InputManager : AutoloadBase<InputManager>
 
     public override void _Input(InputEvent @event)
     {
+        // Ignore simulated mouse events.
+        if (@event.Device == -1) return;
+
+#if GODOT_ANDROID || GODOT_IOS
+
+        if (@event is InputEventScreenTouch screenTouch)
+        {
+            if (screenTouch.IsPressed())
+            {
+                AddTouch(screenTouch.Index, screenTouch.Position, .5f);
+            }
+            else if (screenTouch.IsReleased())
+            {
+                RemoveTouch(screenTouch.Index);
+            }
+        }
+
+        if (@event is InputEventScreenDrag screenDrag)
+        {
+            if (screenDrag.IsCanceled())
+            {
+                RemoveTouch(screenDrag.Index);
+                return;
+            }
+
+            if (_isUsingGesture)
+            {
+                _touches.Find(touch => touch.Index == screenDrag.Index).Position = screenDrag.Position;
+
+                if (_touches.Count >= 2)
+                {
+                    if (_touches[0].Index == screenDrag.Index)
+                    {
+                        EmitSignal(SignalName.GestureDrag, screenDrag.Position, _touches[1].Position);
+                    }
+                    else if (_touches[1].Index == screenDrag.Index)
+                    {
+                        EmitSignal(SignalName.GestureDrag, _touches[0].Position, screenDrag.Position);
+                    }
+                }
+            }
+            else
+            {
+                if (_touches[0].Index == screenDrag.Index)
+                {
+                    EmitSignal(SignalName.PrimaryPressDrag, screenDrag.Position, screenDrag.Pressure);
+                }
+            }
+        }
+
+#endif
+
         if (@event is InputEventMouseButton mouseEvent)
         {
             switch (mouseEvent.ButtonIndex)
@@ -134,6 +186,8 @@ public partial class InputManager : AutoloadBase<InputManager>
             }
         }
 
+#if GODOT_PC
+
         if (@event is InputEventPanGesture panGesture)
         {
             EmitSignal(SignalName.Pan, panGesture.Delta);
@@ -142,53 +196,6 @@ public partial class InputManager : AutoloadBase<InputManager>
         if (@event is InputEventMagnifyGesture magnifyGesture)
         {
             EmitSignal(SignalName.Zoom, magnifyGesture.Factor);
-        }
-
-#if GODOT_ANDROID || GODOT_IOS
-
-        if (@event is InputEventScreenTouch screenTouch)
-        {
-            if (screenTouch.IsPressed())
-            {
-                AddTouch(screenTouch.Index, screenTouch.Position, .5f);
-            }
-            else if (screenTouch.IsReleased())
-            {
-                RemoveTouch(screenTouch.Index);
-            }
-        }
-
-        if (@event is InputEventScreenDrag screenDrag)
-        {
-            if (screenDrag.IsCanceled())
-            {
-                RemoveTouch(screenDrag.Index);
-                return;
-            }
-
-            if (_isUsingGesture)
-            {
-                _touches.Find(touch => touch.Index == screenDrag.Index).Position = screenDrag.Position;
-
-                if (_touches.Count >= 2)
-                {
-                    if (_touches[0].Index == screenDrag.Index)
-                    {
-                        EmitSignal(SignalName.GestureDrag, screenDrag.Position, _touches[1].Position);
-                    }
-                    else if (_touches[1].Index == screenDrag.Index)
-                    {
-                        EmitSignal(SignalName.GestureDrag, _touches[0].Position, screenDrag.Position);
-                    }
-                }
-            }
-            else
-            {
-                if (_touches[0].Index == screenDrag.Index)
-                {
-                    EmitSignal(SignalName.PrimaryPressDrag, screenDrag.Position, screenDrag.Pressure);
-                }
-            }
         }
 
 #endif
@@ -347,7 +354,7 @@ public partial class InputManager : AutoloadBase<InputManager>
         _secondTouchPrev = secondTouchCurrent;
 
         EmitSignal(SignalName.Zoom, newValue - _cameraManager.Zoom.X);
-        EmitSignal(SignalName.Pan, delta);
+        EmitSignal(SignalName.Pan, -delta);
     }
 
     private void OnGestureEnd(Vector2 first, Vector2 second) { }

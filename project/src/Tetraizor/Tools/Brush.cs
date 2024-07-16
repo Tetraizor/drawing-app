@@ -99,4 +99,11 @@ public class Brush : Tool
         _drawManager.SaveBuffer();
         _drawManager.ClearBuffer();
     }
+
+    public override void CancelInput()
+    {
+        _isDrawing = false;
+
+        _drawManager.ClearBuffer();
+    }
 }

@@ -7,7 +7,7 @@ using Tetraizor.Managers;
 
 namespace Tetraizor.UI.LayerManager;
 
-public partial class LayerCard : Control
+public partial class LayerCard : PanelContainer
 {
     #region Control References
     [ExportGroup("Control References")]
@@ -17,11 +17,17 @@ public partial class LayerCard : Control
 
     #region Properties
     private string _layerName;
+
     public LayerData AssignedLayer => _assignedLayer;
     private LayerData _assignedLayer;
 
     private bool _isOn;
     public bool IsOn => _isOn;
+
+    [Export] private StyleBoxFlat _style;
+
+    [Export] private Color _onColor;
+    [Export] private Color _offColor;
     #endregion
 
     [Signal] public delegate void LayerCardPressedEventHandler();
@@ -39,7 +45,27 @@ public partial class LayerCard : Control
         _layerPreview.Texture = AssignedLayer.Renderer.RenderImageTexture;
 
         LayerCardPressed += OnLayerCardPressed;
+        CanvasManager.Instance.LayerSelected += OnLayerSelected;
     }
+
+    private void OnLayerSelected(int layerIndex)
+    {
+        if (layerIndex == _assignedLayer.Index)
+        {
+            _isOn = true;
+
+            var tween = GetTree().CreateTween();
+            tween.TweenProperty(_style, "bg_color", _onColor, .2f);
+        }
+        else
+        {
+            _isOn = false;
+
+            var tween = GetTree().CreateTween();
+            tween.TweenProperty(_style, "bg_color", _offColor, .2f);
+        }
+    }
+
 
     private void OnLayerCardPressed()
     {

@@ -1,61 +1,90 @@
 [gd_scene load_steps=5 format=3 uid="uid://dfkndqkbav7n7"]
 
-[ext_resource type="Texture2D" uid="uid://bvm6aliaeb4f" path="res://res/project/app_icon.png" id="1_h4551"]
 [ext_resource type="Script" path="res://src/Tetraizor/UI/LayerManager/LayerCard.cs" id="1_hxowc"]
 [ext_resource type="Texture2D" uid="uid://dn7pmf03y3r3f" path="res://res/ui/assets/arrow.png" id="3_tp0pq"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tb883"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sxxkv"]
+resource_local_to_scene = true
 bg_color = Color(0.851563, 0.851563, 0.851563, 1)
+border_width_left = 6
+border_width_top = 6
+border_width_right = 6
+border_width_bottom = 6
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="ImageTexture" id="ImageTexture_kgu0e"]
 
 [node name="LayerCard" type="PanelContainer" node_paths=PackedStringArray("_layerPreview", "_layerNameLabel")]
 offset_right = 591.0
 offset_bottom = 100.0
 size_flags_horizontal = 3
-theme_override_styles/panel = SubResource("StyleBoxFlat_tb883")
+theme_override_styles/panel = SubResource("StyleBoxFlat_sxxkv")
 script = ExtResource("1_hxowc")
-_layerPreview = NodePath("Control/HBox/TextureRect")
-_layerNameLabel = NodePath("Control/HBox/Label")
+_layerPreview = NodePath("Control/MarginContainer/HBox/ColorRect/TextureRect")
+_layerNameLabel = NodePath("Control/MarginContainer/HBox/Label")
+_style = SubResource("StyleBoxFlat_sxxkv")
+_onColor = Color(0.839844, 0.839844, 0.839844, 1)
+_offColor = Color(0.945313, 0.945313, 0.945313, 1)
 
 [node name="Control" type="Control" parent="."]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 size_flags_vertical = 0
 
-[node name="HBox" type="HBoxContainer" parent="Control"]
+[node name="MarginContainer" type="MarginContainer" parent="Control"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
 
-[node name="TextureRect" type="TextureRect" parent="Control/HBox"]
-custom_minimum_size = Vector2(120, 100)
+[node name="HBox" type="HBoxContainer" parent="Control/MarginContainer"]
 layout_mode = 2
-texture = ExtResource("1_h4551")
+
+[node name="ColorRect" type="ColorRect" parent="Control/MarginContainer/HBox"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Control/MarginContainer/HBox/ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("ImageTexture_kgu0e")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Spacer" type="Control" parent="Control/HBox"]
+[node name="Spacer" type="Control" parent="Control/MarginContainer/HBox"]
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Control/HBox"]
+[node name="Label" type="Label" parent="Control/MarginContainer/HBox"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Layer 1"
 
-[node name="Spacer2" type="Control" parent="Control/HBox"]
+[node name="Spacer2" type="Control" parent="Control/MarginContainer/HBox"]
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
 
-[node name="TextureRect2" type="Control" parent="Control/HBox"]
+[node name="TextureRect2" type="Control" parent="Control/MarginContainer/HBox"]
 modulate = Color(0.472656, 0.472656, 0.472656, 1)
 custom_minimum_size = Vector2(90, 0)
 layout_mode = 2
 size_flags_vertical = 4
 
-[node name="Arrow" type="TextureRect" parent="Control/HBox/TextureRect2"]
+[node name="Arrow" type="TextureRect" parent="Control/MarginContainer/HBox/TextureRect2"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -73,6 +102,3 @@ pivot_offset = Vector2(11, 15)
 texture = ExtResource("3_tp0pq")
 expand_mode = 1
 stretch_mode = 5
-
-[node name="ButtonContainer" type="Control" parent="."]
-layout_mode = 2

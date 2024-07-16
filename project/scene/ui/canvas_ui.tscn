@@ -788,6 +788,7 @@ layout_mode = 2
 [node name="Spacer" type="Control" parent="Container/BottomButtonsMargin/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 1
 
 [node name="RightButtons" type="HBoxContainer" parent="Container/BottomButtonsMargin/HBoxContainer"]
 layout_mode = 2
@@ -807,7 +808,9 @@ anchor_right = 0.5
 offset_top = 1400.0
 offset_bottom = 1400.0
 grow_horizontal = 2
+mouse_force_pass_scroll_events = false
 script = ExtResource("30_ych6e")
+_gap = 20
 _toggleButton = NodePath("..")
 _addLayerButton = NodePath("Background/SafeMargin/SafeArea/VBoxContainer/HBoxContainer/Button")
 _layerContainer = NodePath("Background/SafeMargin/SafeArea/VBoxContainer/ScrollContainer/MarginContainer/LayerCardContainer")

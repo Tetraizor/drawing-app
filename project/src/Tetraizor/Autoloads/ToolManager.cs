@@ -45,26 +45,23 @@ public partial class ToolManager : AutoloadBase<ToolManager>
 
     private void OnPrimaryPressCanceled()
     {
+        _currentTool?.CancelInput();
     }
-
 
     private void OnPrimaryPressDrag(Vector2 position, float pressure)
     {
-        _currentTool.DragInput(position, pressure);
+        _currentTool?.DragInput(position, pressure);
     }
-
 
     private void OnPrimaryPressEnd(Vector2 position, float pressure)
     {
-        _currentTool.EndInput(position, pressure);
+        _currentTool?.EndInput(position, pressure);
     }
-
 
     private void OnPrimaryPressBegin(Vector2 position, float pressure)
     {
-        _currentTool.BeginInput(position, pressure);
+        _currentTool?.BeginInput(position, pressure);
     }
-
 
     public void ChangeTool(ToolType toolType)
     {

@@ -11,7 +11,7 @@ public partial class LayerManagerModal : SlidingModal
     #region Properties
     [Export] private int _gap = 12;
 
-    [Export] private float OnHeight = 300;
+    [Export] private float OnHeight = 100;
     [Export] private float OffHeight = 100;
 
     [ExportGroup("Node References")]
@@ -51,20 +51,10 @@ public partial class LayerManagerModal : SlidingModal
     }
     #endregion
 
-    #region Layer Controls
+    #region Layer Management
     private void OnLayerSelected(int layerIndex)
     {
-        EmitSignal(nameof(LayerSelectedEventHandler), layerIndex);
-    }
-
-    private void OnAddLayerButtonPressed()
-    {
-        _canvasManager.CreateLayer();
-    }
-
-    private void OnCanvasDeleted(int canvasIndex)
-    {
-        throw new NotImplementedException();
+        EmitSignal(SignalName.LayerSelected, layerIndex);
     }
 
     private void OnLayerDeleted(int layerIndex)
@@ -86,6 +76,13 @@ public partial class LayerManagerModal : SlidingModal
         _layerCardList.Add(layerCard);
 
         SortLayers();
+    }
+    #endregion
+
+    #region Control Methods
+    private void OnAddLayerButtonPressed()
+    {
+        _canvasManager.CreateLayer();
     }
 
     private void SortLayers()
@@ -154,11 +151,6 @@ public partial class LayerManagerModal : SlidingModal
             new Vector2(_layerContainer.Size.X, (layerCard.IsOn ? OnHeight : OffHeight)),
             .2f
         );
-    }
-
-    private void OnCanvasCreated(int canvasIndex)
-    {
-        throw new NotImplementedException();
     }
     #endregion
 }
