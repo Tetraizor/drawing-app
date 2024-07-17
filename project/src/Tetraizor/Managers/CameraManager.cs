@@ -28,6 +28,7 @@ public partial class CameraManager : Camera2D
 
     private void OnZoom(float delta)
     {
+        GD.Print(delta);
         Zoom = Vector2.One * Mathf.Clamp(Zoom.X + delta, .1f, 16f);
     }
 

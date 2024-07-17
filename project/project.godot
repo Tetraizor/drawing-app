@@ -10,9 +10,14 @@ config_version=5
 
 [application]
 
-config/name="Drawing App"
+config/name="Tetra Draw"
 run/main_scene="res://scene/root/draw_scene.tscn"
+run/print_header=false
 config/features=PackedStringArray("4.3", "C#", "Mobile")
+boot_splash/bg_color=Color(0, 0, 0, 1)
+boot_splash/show_image=false
+boot_splash/fullsize=false
+boot_splash/use_filter=false
 config/icon="res://res/project/app_icon.png"
 
 [autoload]

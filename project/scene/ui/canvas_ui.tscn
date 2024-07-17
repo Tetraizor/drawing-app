@@ -138,6 +138,7 @@ use_parent_material = true
 custom_minimum_size = Vector2(140, 140)
 layout_mode = 2
 size_flags_vertical = 4
+disabled = true
 texture_normal = ExtResource("7_rtuob")
 texture_disabled = ExtResource("8_sj18l")
 ignore_texture_size = true
@@ -156,6 +157,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 size_flags_stretch_ratio = 0.0
+disabled = true
 texture_normal = ExtResource("9_15fsr")
 texture_disabled = ExtResource("10_6xoih")
 ignore_texture_size = true
@@ -230,6 +232,7 @@ texture = ExtResource("11_h00hq")
 expand_mode = 3
 
 [node name="Spacer1" type="Control" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons"]
+visible = false
 use_parent_material = true
 custom_minimum_size = Vector2(32, 60)
 layout_mode = 2
