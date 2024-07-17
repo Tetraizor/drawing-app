@@ -190,12 +190,12 @@ public partial class InputManager : AutoloadBase<InputManager>
 
         if (@event is InputEventPanGesture panGesture)
         {
-            EmitSignal(SignalName.Pan, panGesture.Delta);
+            EmitSignal(SignalName.Pan, panGesture.Delta * 100 * (1 / _cameraManager.Zoom.X));
         }
 
         if (@event is InputEventMagnifyGesture magnifyGesture)
         {
-            EmitSignal(SignalName.Zoom, magnifyGesture.Factor);
+            EmitSignal(SignalName.Zoom, magnifyGesture.Factor - 1);
         }
 
 #endif
@@ -255,7 +255,7 @@ public partial class InputManager : AutoloadBase<InputManager>
         }
         else
         {
-            if (index == _primaryPress)
+            if (index == _primaryPress || _touches.Count == 0)
             {
                 EmitSignal(SignalName.PrimaryPressEnd, selectedTouch.Position, selectedTouch.Pressure);
             }

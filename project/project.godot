@@ -56,6 +56,10 @@ folder_colors={
 
 theme/custom="res://res/ui/config/main_theme.tres"
 
+[input_devices]
+
+buffering/android/use_accumulated_input=false
+
 [rendering]
 
 renderer/rendering_method="mobile"
