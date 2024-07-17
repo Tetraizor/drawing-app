@@ -28,13 +28,14 @@ public partial class CameraManager : Camera2D
 
     private void OnZoom(float delta)
     {
-        GD.Print(delta);
+        // "delta" parameter is between ~.95 and ~1.05. Subtracting 1 to get the real delta.
+        delta -= 1;
         Zoom = Vector2.One * Mathf.Clamp(Zoom.X + delta, .1f, 16f);
     }
 
     private void OnPan(Vector2 delta)
     {
-        Position += delta;
+        Position += delta * (1 / Zoom.X) * 100;
     }
 
     public Vector2 ScreenToWorldPosition(Vector2 screenPosition)
