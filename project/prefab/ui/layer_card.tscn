@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://dfkndqkbav7n7"]
+[gd_scene load_steps=6 format=3 uid="uid://dfkndqkbav7n7"]
 
 [ext_resource type="Script" path="res://src/Tetraizor/UI/LayerManager/LayerCard.cs" id="1_hxowc"]
-[ext_resource type="Texture2D" uid="uid://dn7pmf03y3r3f" path="res://res/ui/assets/arrow.png" id="3_tp0pq"]
+[ext_resource type="LabelSettings" uid="uid://bqbkw7qtg27yh" path="res://res/ui/config/label_h3.tres" id="2_6ya34"]
+[ext_resource type="Texture2D" uid="uid://cnyt1fy0lfdrp" path="res://res/ui/assets/three_dots.png" id="3_uusfn"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sxxkv"]
 resource_local_to_scene = true
@@ -15,10 +16,13 @@ corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
+shadow_color = Color(0, 0, 0, 0.0784314)
+shadow_size = 2
+shadow_offset = Vector2(0, 3)
 
 [sub_resource type="ImageTexture" id="ImageTexture_kgu0e"]
 
-[node name="LayerCard" type="PanelContainer" node_paths=PackedStringArray("_layerPreview", "_layerNameLabel")]
+[node name="LayerCard" type="PanelContainer" node_paths=PackedStringArray("_layerPreview", "_layerNameLabel", "_optionsButton")]
 offset_right = 591.0
 offset_bottom = 100.0
 size_flags_horizontal = 3
@@ -26,6 +30,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_sxxkv")
 script = ExtResource("1_hxowc")
 _layerPreview = NodePath("Control/MarginContainer/HBox/ColorRect/TextureRect")
 _layerNameLabel = NodePath("Control/MarginContainer/HBox/Label")
+_optionsButton = NodePath("Control/MarginContainer/HBox/TextureButton")
 _style = SubResource("StyleBoxFlat_sxxkv")
 _onColor = Color(0.839844, 0.839844, 0.839844, 1)
 _offColor = Color(0.945313, 0.945313, 0.945313, 1)
@@ -34,6 +39,7 @@ _offColor = Color(0.945313, 0.945313, 0.945313, 1)
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 size_flags_vertical = 0
+mouse_filter = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="Control"]
 layout_mode = 1
@@ -73,32 +79,29 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Layer 1"
+label_settings = ExtResource("2_6ya34")
+text_overrun_behavior = 3
 
-[node name="Spacer2" type="Control" parent="Control/MarginContainer/HBox"]
-custom_minimum_size = Vector2(32, 0)
+[node name="TextureButton" type="Button" parent="Control/MarginContainer/HBox"]
+custom_minimum_size = Vector2(72, 0)
 layout_mode = 2
+theme_type_variation = &"TransparentButton"
 
-[node name="TextureRect2" type="Control" parent="Control/MarginContainer/HBox"]
-modulate = Color(0.472656, 0.472656, 0.472656, 1)
-custom_minimum_size = Vector2(90, 0)
-layout_mode = 2
-size_flags_vertical = 4
-
-[node name="Arrow" type="TextureRect" parent="Control/MarginContainer/HBox/TextureRect2"]
+[node name="TextureRect" type="TextureRect" parent="Control/MarginContainer/HBox/TextureButton"]
+modulate = Color(0.337255, 0.337255, 0.337255, 1)
+custom_minimum_size = Vector2(32, 32)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -11.5
-offset_top = -15.0
-offset_right = 11.5
-offset_bottom = 15.0
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 12.0
+offset_bottom = 12.0
 grow_horizontal = 2
 grow_vertical = 2
-rotation = -1.5708
-pivot_offset = Vector2(11, 15)
-texture = ExtResource("3_tp0pq")
+texture = ExtResource("3_uusfn")
 expand_mode = 1
 stretch_mode = 5

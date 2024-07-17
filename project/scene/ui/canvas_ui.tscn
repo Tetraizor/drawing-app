@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://dsmbwe0n6rnum"]
+[gd_scene load_steps=40 format=3 uid="uid://dsmbwe0n6rnum"]
 
 [ext_resource type="Script" path="res://src/Tetraizor/UI/CanvasUIManager.cs" id="1_w03sc"]
 [ext_resource type="Script" path="res://src/Tetraizor/UI/ControlHelpers/EmptySpaceClickDetector.cs" id="2_2xg1t"]
@@ -33,6 +33,8 @@
 [ext_resource type="LabelSettings" uid="uid://c8f6kxylow01o" path="res://res/ui/config/label_h2.tres" id="30_bajhn"]
 [ext_resource type="Script" path="res://src/Tetraizor/UI/LayerManager/LayerManagerModal.cs" id="30_ych6e"]
 [ext_resource type="PackedScene" uid="uid://dfkndqkbav7n7" path="res://prefab/ui/layer_card.tscn" id="31_wuwyj"]
+[ext_resource type="Texture2D" uid="uid://bfbpq7x4x8a5p" path="res://res/ui/assets/modal_with_header.png" id="33_jixhm"]
+[ext_resource type="PackedScene" uid="uid://1dti6jy6cgbs" path="res://prefab/ui/layer_card_ghost.tscn" id="34_cxwwx"]
 
 [sub_resource type="Curve" id="Curve_dl03u"]
 max_value = 1.1
@@ -46,6 +48,9 @@ font_color = Color(0.252028, 0.252028, 0.252028, 1)
 [sub_resource type="LabelSettings" id="LabelSettings_dqio7"]
 font_size = 32
 font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i800g"]
+bg_color = Color(0.886275, 0.47451, 0.552941, 1)
 
 [node name="UI" type="Control" node_paths=PackedStringArray("_buttonSettings", "_buttonBrush", "_buttonPen", "_buttonEraser")]
 layout_mode = 3
@@ -803,7 +808,7 @@ texture_normal = ExtResource("28_uugqm")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="LayerManagerModal" type="Control" parent="Container/BottomButtonsMargin/HBoxContainer/RightButtons/Button" node_paths=PackedStringArray("_toggleButton", "_addLayerButton", "_layerContainer")]
+[node name="LayerManagerModal" type="Control" parent="Container/BottomButtonsMargin/HBoxContainer/RightButtons/Button" node_paths=PackedStringArray("_background", "_toggleButton", "_closeButton", "_addLayerButton", "_layerCardContainer", "_layerCardGhost", "_dividerGhost")]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -813,11 +818,15 @@ offset_bottom = 1400.0
 grow_horizontal = 2
 mouse_force_pass_scroll_events = false
 script = ExtResource("30_ych6e")
-_gap = 20
+_gap = 32
+_background = NodePath("Background")
 _toggleButton = NodePath("..")
+_closeButton = NodePath("Background/SafeMargin/SafeArea/VBoxContainer/HBoxContainer2/CloseButton")
 _addLayerButton = NodePath("Background/SafeMargin/SafeArea/VBoxContainer/HBoxContainer/Button")
-_layerContainer = NodePath("Background/SafeMargin/SafeArea/VBoxContainer/ScrollContainer/MarginContainer/LayerCardContainer")
+_layerCardContainer = NodePath("Background/SafeMargin/SafeArea/VBoxContainer/ScrollContainer/MarginContainer/LayerCardContainer")
 _layerCardScene = ExtResource("31_wuwyj")
+_layerCardGhost = NodePath("Background/LayerCardGhost")
+_dividerGhost = NodePath("Background/DividerGhost")
 _transitionCurve = SubResource("Curve_dl03u")
 _closedPosition = Vector2(70, 1400)
 _openedPosition = Vector2(70, 0)
@@ -834,8 +843,20 @@ offset_right = 70.0
 offset_bottom = -75.0
 grow_horizontal = 0
 script = ExtResource("28_sclux")
-Texture = ExtResource("29_38nit")
-MiddleRect = Rect2(48, 48, 100, 100)
+Texture = ExtResource("33_jixhm")
+MiddleRect = Rect2(48, 140, 100, 100)
+DrawScale = 1.4
+
+[node name="Tail" type="TextureRect" parent="Container/BottomButtonsMargin/HBoxContainer/RightButtons/Button/LayerManagerModal/Background"]
+layout_mode = 0
+offset_left = 617.54
+offset_top = 1023.63
+offset_right = 698.54
+offset_bottom = 1104.63
+texture = ExtResource("3_d3ipc")
+expand_mode = 1
+stretch_mode = 5
+flip_v = true
 
 [node name="SafeMargin" type="MarginContainer" parent="Container/BottomButtonsMargin/HBoxContainer/RightButtons/Button/LayerManagerModal/Background"]
 layout_mode = 1
@@ -845,9 +866,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 0
-theme_override_constants/margin_left = 48
-theme_override_constants/margin_top = 48
-theme_override_constants/margin_right = 48
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 22
+theme_override_constants/margin_right = 42
 theme_override_constants/margin_bottom = 48
 
 [node name="SafeArea" type="Control" parent="Container/BottomButtonsMargin/HBoxContainer/RightButtons/Button/LayerManagerModal/Background/SafeMargin"]
@@ -861,10 +882,23 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="Container/BottomButtonsMargin/HBoxContainer/RightButtons/Button/LayerManagerModal/Background/SafeMargin/SafeArea/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="Container/BottomButtonsMargin/HBoxContainer/RightButtons/Button/LayerManagerModal/Background/SafeMargin/SafeArea/VBoxContainer"]
+layout_mode = 2
+
+[node name="Header" type="Label" parent="Container/BottomButtonsMargin/HBoxContainer/RightButtons/Button/LayerManagerModal/Background/SafeMargin/SafeArea/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
 text = "Layers"
 label_settings = ExtResource("30_bajhn")
+
+[node name="Spacer" type="Control" parent="Container/BottomButtonsMargin/HBoxContainer/RightButtons/Button/LayerManagerModal/Background/SafeMargin/SafeArea/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CloseButton" type="Button" parent="Container/BottomButtonsMargin/HBoxContainer/RightButtons/Button/LayerManagerModal/Background/SafeMargin/SafeArea/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+theme_type_variation = &"TransparentButton"
+text = "X"
 
 [node name="Spacer" type="Control" parent="Container/BottomButtonsMargin/HBoxContainer/RightButtons/Button/LayerManagerModal/Background/SafeMargin/SafeArea/VBoxContainer"]
 custom_minimum_size = Vector2(0, 32)
@@ -888,6 +922,7 @@ size_flags_vertical = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Container/BottomButtonsMargin/HBoxContainer/RightButtons/Button/LayerManagerModal/Background/SafeMargin/SafeArea/VBoxContainer"]
 layout_mode = 2
+theme_override_constants/separation = 20
 
 [node name="Button" type="Button" parent="Container/BottomButtonsMargin/HBoxContainer/RightButtons/Button/LayerManagerModal/Background/SafeMargin/SafeArea/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(0, 96)
@@ -907,13 +942,13 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "ClearLayer"
 
-[node name="TextureRect" type="TextureRect" parent="Container/BottomButtonsMargin/HBoxContainer/RightButtons/Button/LayerManagerModal/Background"]
+[node name="LayerCardGhost" parent="Container/BottomButtonsMargin/HBoxContainer/RightButtons/Button/LayerManagerModal/Background" instance=ExtResource("34_cxwwx")]
+visible = false
 layout_mode = 0
-offset_left = 630.0
-offset_top = 1032.0
-offset_right = 711.0
-offset_bottom = 1113.0
-texture = ExtResource("3_d3ipc")
-expand_mode = 1
-stretch_mode = 5
-flip_v = true
+
+[node name="DividerGhost" type="Panel" parent="Container/BottomButtonsMargin/HBoxContainer/RightButtons/Button/LayerManagerModal/Background"]
+visible = false
+layout_mode = 0
+offset_right = 724.0
+offset_bottom = 4.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_i800g")

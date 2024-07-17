@@ -9,7 +9,7 @@ namespace Tetraizor.Managers;
 public partial class CanvasManager : AutoloadBase<CanvasManager>
 {
     #region Canvas Properties
-    [Export] private PackedScene _layerCardScene = GD.Load<PackedScene>("res://prefab/ui/layer_renderer.tscn");
+    [Export] private PackedScene _layerRendererScene = GD.Load<PackedScene>("res://prefab/ui/layer_renderer.tscn");
 
     public Vector2I Size => _size;
     private Vector2I _size;
@@ -73,8 +73,8 @@ public partial class CanvasManager : AutoloadBase<CanvasManager>
 
     public LayerRenderer CreateLayerRenderer()
     {
-        var layerCard = _layerCardScene.Instantiate<LayerRenderer>();
-        return layerCard;
+        var layerRenderer = _layerRendererScene.Instantiate<LayerRenderer>();
+        return layerRenderer;
     }
 
     public LayerData CreateLayer(Image image = null)
@@ -124,5 +124,17 @@ public partial class CanvasManager : AutoloadBase<CanvasManager>
         EmitSignal(SignalName.LayerSelected, index);
     }
 
+    public void MoveLayer(int layerIndex, int newIndex)
+    {
+        if (layerIndex == newIndex) return;
+        if (layerIndex < 0 || layerIndex >= Layers.Count) throw new System.IndexOutOfRangeException();
+        if (newIndex < 0 || newIndex >= Layers.Count) throw new System.IndexOutOfRangeException();
+
+        LayerContainer.MoveChild(Layers[layerIndex].Renderer, newIndex + 1);
+
+        var layer = Layers[layerIndex];
+        Layers.RemoveAt(layerIndex);
+        Layers.Insert(newIndex, layer);
+    }
     #endregion
 }

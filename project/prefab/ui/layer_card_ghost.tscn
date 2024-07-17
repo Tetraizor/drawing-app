@@ -1,0 +1,19 @@
+[gd_scene load_steps=2 format=3 uid="uid://1dti6jy6cgbs"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_paoqy"]
+bg_color = Color(1, 1, 1, 0.117647)
+border_width_left = 6
+border_width_top = 6
+border_width_right = 6
+border_width_bottom = 6
+border_color = Color(0.376471, 0.376471, 0.376471, 0.192157)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="LayerCardGhost" type="PanelContainer"]
+offset_right = 591.0
+offset_bottom = 100.0
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_paoqy")

@@ -1,9 +1,9 @@
-[gd_resource type="LabelSettings" load_steps=3 format=3 uid="uid://c8f6kxylow01o"]
+[gd_resource type="LabelSettings" load_steps=3 format=3 uid="uid://crca3w3jr2m5s"]
 
-[ext_resource type="FontFile" uid="uid://btds7l385pxod" path="res://Chalkzoom.ttf" id="1_idiml"]
+[ext_resource type="FontFile" uid="uid://btds7l385pxod" path="res://Chalkzoom.ttf" id="1_xtd16"]
 
 [sub_resource type="FontVariation" id="FontVariation_b3781"]
-base_font = ExtResource("1_idiml")
+base_font = ExtResource("1_xtd16")
 variation_embolden = -0.2
 spacing_glyph = 2
 

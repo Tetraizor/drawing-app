@@ -59,12 +59,14 @@ public partial class LayerData : IDisposable
         _canvasManager = canvasManager;
         _displayName = $"Layer {_canvasManager.Layers.Count + 1}";
 
-        _canvasManager.Layers.Insert(0, this);
+        _canvasManager.Layers.Add(this);
 
         _renderImage.Create(CanvasSize, clearColor);
         _bufferImage.CopyFrom(_renderImage);
 
         _renderer = CanvasManager.Instance.CreateLayerRenderer();
+        _renderer.Name = _displayName;
+
         _canvasManager.LayerContainer.AddChild(_renderer);
 
         _renderer.Setup(this, _renderImage);
@@ -93,5 +95,11 @@ public partial class LayerData : IDisposable
     {
         _renderImage.Dispose();
         _renderer.QueueFree();
+    }
+
+    public void ChangeName(string name)
+    {
+        _displayName = name;
+        _renderer.Name = name;
     }
 }

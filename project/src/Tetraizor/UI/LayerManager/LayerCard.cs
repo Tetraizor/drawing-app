@@ -13,6 +13,9 @@ public partial class LayerCard : PanelContainer
     [ExportGroup("Control References")]
     [Export] private TextureRect _layerPreview;
     [Export] private Label _layerNameLabel;
+    [Export] private Button _optionsButton;
+
+    private float _pressTime = 0.5f;
     #endregion
 
     #region Properties
@@ -24,17 +27,24 @@ public partial class LayerCard : PanelContainer
     private bool _isOn;
     public bool IsOn => _isOn;
 
+    private bool _isPressing;
+
     [Export] private StyleBoxFlat _style;
 
     [Export] private Color _onColor;
     [Export] private Color _offColor;
     #endregion
 
-    [Signal] public delegate void LayerCardPressedEventHandler();
+    [Signal] public delegate void PressedEventHandler();
+    [Signal] public delegate void HeldDownEventHandler();
 
     // TODO: Implement LayerCard.Setup better.
     public void Setup(LayerData layer)
     {
+        CanvasManager.Instance.LayerSelected += OnSelected;
+        _optionsButton.Pressed += OnOptionsPressed;
+        Pressed += OnPressed;
+
         _layerName = layer.DisplayName;
         _layerNameLabel.Text = _layerName;
 
@@ -43,12 +53,14 @@ public partial class LayerCard : PanelContainer
         Name = _layerName;
 
         _layerPreview.Texture = AssignedLayer.Renderer.RenderImageTexture;
-
-        LayerCardPressed += OnLayerCardPressed;
-        CanvasManager.Instance.LayerSelected += OnLayerSelected;
     }
 
-    private void OnLayerSelected(int layerIndex)
+    private void OnOptionsPressed()
+    {
+        GD.Print("Options pressed");
+    }
+
+    private void OnSelected(int layerIndex)
     {
         if (layerIndex == _assignedLayer.Index)
         {
@@ -66,13 +78,10 @@ public partial class LayerCard : PanelContainer
         }
     }
 
-
-    private void OnLayerCardPressed()
+    private void OnPressed()
     {
         CanvasManager.Instance.SelectLayer(_assignedLayer.Index);
     }
-
-    private bool _isStartedPressing;
 
     public override void _Input(InputEvent @event)
     {
@@ -80,18 +89,54 @@ public partial class LayerCard : PanelContainer
         {
             if (mouseButton.ButtonIndex == MouseButton.Left && mouseButton.Pressed)
             {
-                _isStartedPressing = (
+                _isPressing = (
                     (mouseButton.Position.X >= GlobalPosition.X && mouseButton.Position.X <= GlobalPosition.X + Size.X) &&
                     (mouseButton.Position.Y >= GlobalPosition.Y && mouseButton.Position.Y <= GlobalPosition.Y + Size.Y)
                 );
+
+                if (_isPressing)
+                {
+                    var timer = new Timer
+                    {
+                        WaitTime = _pressTime,
+                        Autostart = true,
+                        OneShot = true,
+                    };
+
+                    timer.Timeout += () =>
+                    {
+                        if (_isPressing)
+                        {
+                            EmitSignal(SignalName.HeldDown);
+                        }
+
+                        timer.QueueFree();
+                    };
+
+                    AddChild(timer);
+                }
             }
 
-            if (mouseButton.ButtonIndex == MouseButton.Left && !mouseButton.Pressed && _isStartedPressing)
+            if (mouseButton.ButtonIndex == MouseButton.Left && !mouseButton.Pressed && _isPressing)
             {
                 if ((mouseButton.Position.X >= GlobalPosition.X && mouseButton.Position.X <= GlobalPosition.X + Size.X) &&
                     (mouseButton.Position.Y >= GlobalPosition.Y && mouseButton.Position.Y <= GlobalPosition.Y + Size.Y))
                 {
-                    EmitSignal(SignalName.LayerCardPressed);
+                    EmitSignal(SignalName.Pressed);
+                }
+
+                _isPressing = false;
+            }
+        }
+
+        if (@event is InputEventMouseMotion mouseMotion)
+        {
+            if (_isPressing)
+            {
+                if ((mouseMotion.Position.X < GlobalPosition.X || mouseMotion.Position.X > GlobalPosition.X + Size.X) ||
+                    (mouseMotion.Position.Y < GlobalPosition.Y || mouseMotion.Position.Y > GlobalPosition.Y + Size.Y))
+                {
+                    _isPressing = false;
                 }
             }
         }

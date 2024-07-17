@@ -6,12 +6,28 @@ namespace Tetraizor.Managers;
 
 public partial class CameraManager : Camera2D
 {
+    private static CameraManager _instance;
+    public static CameraManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = NodeManager.FindNodeOfType<CameraManager>();
+            }
+
+            return _instance;
+        }
+    }
+
     private bool _isMoving = false;
 
     private Vector2I _screenSize;
 
     public override void _Ready()
     {
+        _instance = this;
+
         var inputManager = InputManager.Instance;
 
         inputManager.Pan += OnPan;
