@@ -1,10 +1,11 @@
-using Godot;
-using Tetraizor.UI.Modals;
+namespace Tetraizor.UI.Modals.Base;
 
-public partial class SlidingModal : ModalBase
+using Godot;
+
+public partial class SlidingModalBase : ModalBase
 {
     [ExportGroup("Slide Settings")]
-    [Export] protected Curve _transitionCurve;
+    [Export] protected Curve _transitionCurve = ResourceLoader.Load<Curve>("res://res/default/curve/smooth_step.tres");
 
     [Export] private Vector2 _closedPosition;
     [Export] private Vector2 _openedPosition;

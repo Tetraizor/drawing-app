@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://dn2sa2ip7qdrq"]
+
+[ext_resource type="Shader" path="res://res/shader/ui/background_blur_shader.gdshader" id="1_sv51f"]
+
+[resource]
+shader = ExtResource("1_sv51f")
+shader_parameter/tint_color = Color(0, 0, 0, 0.584314)
+shader_parameter/blur_amount = 2.0

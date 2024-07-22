@@ -1,11 +1,10 @@
 namespace Tetraizor.Autoloads;
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
 using Tetraizor.UI.ControlHelpers;
-using Tetraizor.UI.Modals;
+using Tetraizor.UI.Modals.Base;
 
 public partial class ModalManager : AutoloadBase<ModalManager>
 {
@@ -26,6 +25,16 @@ public partial class ModalManager : AutoloadBase<ModalManager>
 
     public delegate void FocusChangedEventHandler(ModalBase modal);
     public event FocusChangedEventHandler FocusChanged;
+
+    public static T GetModal<T>() where T : ModalBase
+    {
+        foreach (var modal in Instance._modals)
+        {
+            if (modal is T) return modal as T;
+        }
+
+        return null;
+    }
 
     public override void _Ready()
     {

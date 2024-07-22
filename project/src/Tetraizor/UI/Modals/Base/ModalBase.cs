@@ -1,4 +1,4 @@
-namespace Tetraizor.UI.Modals;
+namespace Tetraizor.UI.Modals.Base;
 
 using System.Collections.Generic;
 using Godot;
@@ -6,7 +6,11 @@ using Tetraizor.Autoloads;
 
 public abstract partial class ModalBase : Control
 {
-    #region Modal Controls
+    #region Modal Access
+    private static ModalBase _instance;
+    public static ModalBase Instance => _instance;
+    #endregion
+
     public bool IsOn => _isOn;
     protected bool _isOn = false;
 
@@ -21,8 +25,11 @@ public abstract partial class ModalBase : Control
 
     private ModalManager _modalManager;
 
-    public void Register()
+    #region Modal Controls
+    public virtual void Register()
     {
+        _instance = this;
+
         _modalManager = ModalManager.Instance;
 
         _parent?._children.Add(this);
@@ -37,14 +44,8 @@ public abstract partial class ModalBase : Control
     {
         _isOn = state;
 
-        if (_isOn)
-        {
-            Open();
-        }
-        else
-        {
-            Close();
-        }
+        if (_isOn) Open();
+        else Close();
     }
 
     protected virtual void Open()
@@ -56,12 +57,6 @@ public abstract partial class ModalBase : Control
 
     protected virtual void Close()
     {
-        if (_modalManager.FocusedModal != this)
-        {
-            _modalManager.FocusedModal.Close();
-            return;
-        }
-
         EmitSignal(SignalName.Closed);
     }
     #endregion

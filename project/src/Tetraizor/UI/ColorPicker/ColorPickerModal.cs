@@ -2,9 +2,10 @@ namespace Tetraizor.UI.ColorPicker;
 
 using Godot;
 using Tetraizor.Autoloads;
+using Tetraizor.UI.Modals.Base;
 using Tetraizor.Utils;
 
-public partial class ColorPickerModal : SlidingModal
+public partial class ColorPickerModal : SlidingModalBase
 {
     #region Accessor
     // TODO: Change this access method to a more centralized one.

@@ -1,12 +1,11 @@
-using Godot;
-using System;
-using System.Collections.Generic;
-using Tetraizor.Data;
-using Tetraizor.Managers;
-
 namespace Tetraizor.UI.LayerManager;
 
-public partial class LayerManagerModal : SlidingModal
+using Godot;
+using System.Collections.Generic;
+using Tetraizor.Managers;
+using Tetraizor.UI.Modals.Base;
+
+public partial class LayerManagerModal : SlidingModalBase
 {
     #region Properties
     [Export] private int _gap = 12;

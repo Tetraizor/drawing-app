@@ -68,15 +68,14 @@ public partial class InputManager : AutoloadBase<InputManager>
         GestureDrag += OnGestureDrag;
         GestureEnd += OnGestureEnd;
 
-        CallDeferred(MethodName.DelayedReady);
+        Callable.From(() =>
+        {
+            _cameraManager = NodeManager.FindNodeOfType<CameraManager>();
+        }
+        ).CallDeferred();
     }
 
-    private void DelayedReady()
-    {
-        _cameraManager = NodeManager.FindNodeOfType<CameraManager>();
-    }
-
-    public override void _Input(InputEvent @event)
+    public override void _UnhandledInput(InputEvent @event)
     {
         // Ignore simulated mouse events.
         if (@event.Device == -1) return;

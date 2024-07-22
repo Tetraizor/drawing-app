@@ -38,6 +38,9 @@ public partial class LayerData : IDisposable
     public int Index => _canvasManager.Layers.IndexOf(this);
     public Vector2I CanvasSize => _canvasManager.Size;
 
+    public delegate void LayerPropertyChangedEventHandler(LayerData layerData);
+    public event LayerPropertyChangedEventHandler LayerPropertyChanged = delegate { };
+
     public LayerData(CanvasManager canvasManager, Color clearColor)
     {
         Setup(canvasManager, clearColor);
@@ -101,5 +104,7 @@ public partial class LayerData : IDisposable
     {
         _displayName = name;
         _renderer.Name = name;
+
+        LayerPropertyChanged?.Invoke(this);
     }
 }

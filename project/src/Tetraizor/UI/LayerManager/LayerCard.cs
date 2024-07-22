@@ -1,9 +1,12 @@
 using Godot;
 
 using System;
+using Tetraizor.Autoloads;
 
 using Tetraizor.Data;
 using Tetraizor.Managers;
+using Tetraizor.UI.Modals;
+using Tetraizor.UI.Modals.Base;
 
 namespace Tetraizor.UI.LayerManager;
 
@@ -41,23 +44,28 @@ public partial class LayerCard : PanelContainer
     // TODO: Implement LayerCard.Setup better.
     public void Setup(LayerData layer)
     {
+        _assignedLayer = layer;
+
+        _assignedLayer.LayerPropertyChanged += OnLayerPropertyChanged;
         CanvasManager.Instance.LayerSelected += OnSelected;
         _optionsButton.Pressed += OnOptionsPressed;
         Pressed += OnPressed;
 
-        _layerName = layer.DisplayName;
-        _layerNameLabel.Text = _layerName;
+        OnLayerPropertyChanged(_assignedLayer);
+    }
 
-        _assignedLayer = layer;
-
-        Name = _layerName;
+    private void OnLayerPropertyChanged(LayerData layerData)
+    {
+        _layerNameLabel.Text = layerData.DisplayName;
+        _layerName = layerData.DisplayName;
+        Name = layerData.DisplayName;
 
         _layerPreview.Texture = AssignedLayer.Renderer.RenderImageTexture;
     }
 
     private void OnOptionsPressed()
     {
-        GD.Print("Options pressed");
+        ModalManager.GetModal<LayerPropertiesModal>().StartEditing(_assignedLayer);
     }
 
     private void OnSelected(int layerIndex)

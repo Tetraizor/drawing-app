@@ -1,8 +1,9 @@
 using Godot;
+using Tetraizor.UI.Modals.Base;
 
 namespace Tetraizor.UI.PatternPicker;
 
-public partial class PatternPickerModal : SlidingModal
+public partial class PatternPickerModal : SlidingModalBase
 {
     [ExportGroup("Control References")]
     [Export] private TextureButton _toggleButton;

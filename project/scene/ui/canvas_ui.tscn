@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://dsmbwe0n6rnum"]
+[gd_scene load_steps=44 format=3 uid="uid://dsmbwe0n6rnum"]
 
 [ext_resource type="Script" path="res://src/Tetraizor/UI/CanvasUIManager.cs" id="1_w03sc"]
 [ext_resource type="Script" path="res://src/Tetraizor/UI/ControlHelpers/EmptySpaceClickDetector.cs" id="2_2xg1t"]
@@ -19,6 +19,7 @@
 [ext_resource type="Texture2D" uid="uid://c164ahq6phqq4" path="res://res/ui/assets/color_box.png" id="14_lu5gf"]
 [ext_resource type="Script" path="res://src/Tetraizor/UI/ColorPicker/ColorPickerModal.cs" id="17_142ol"]
 [ext_resource type="Script" path="res://src/Tetraizor/UI/PatternPicker/PatternPickerModal.cs" id="18_h0ppm"]
+[ext_resource type="Curve" uid="uid://bqfuhanlw86us" path="res://res/default/curve/bounce.tres" id="19_2ql03"]
 [ext_resource type="Texture2D" uid="uid://de8y6m45kikg1" path="res://res/ui/assets/color_box_content.png" id="19_ocair"]
 [ext_resource type="Texture2D" uid="uid://dn7pmf03y3r3f" path="res://res/ui/assets/arrow.png" id="20_1l1on"]
 [ext_resource type="Script" path="res://src/Tetraizor/UI/ColorPicker/MainSelectionArea.cs" id="20_55up5"]
@@ -35,11 +36,10 @@
 [ext_resource type="PackedScene" uid="uid://dfkndqkbav7n7" path="res://prefab/ui/layer_card.tscn" id="31_wuwyj"]
 [ext_resource type="Texture2D" uid="uid://bfbpq7x4x8a5p" path="res://res/ui/assets/modal_with_header.png" id="33_jixhm"]
 [ext_resource type="PackedScene" uid="uid://1dti6jy6cgbs" path="res://prefab/ui/layer_card_ghost.tscn" id="34_cxwwx"]
-
-[sub_resource type="Curve" id="Curve_dl03u"]
-max_value = 1.1
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.334283, 0.641815), 0.0, 0.0, 0, 0, Vector2(0.719848, 1.07912), 0.0, 0.0, 0, 0, Vector2(1, 1.00256), -0.478998, 0.0, 0, 0]
-point_count = 4
+[ext_resource type="Script" path="res://src/Tetraizor/UI/Modals/LayerPropertiesModal.cs" id="36_klol5"]
+[ext_resource type="Material" uid="uid://dn2sa2ip7qdrq" path="res://res/shader/ui/background_blur.tres" id="36_qsnr8"]
+[ext_resource type="LabelSettings" uid="uid://51c57d6w8wsg" path="res://res/ui/config/modal_header.tres" id="37_0odvs"]
+[ext_resource type="Texture2D" uid="uid://b4ye6vtamkdhi" path="res://res/ui/assets/close_icon.png" id="38_ermvp"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_o23k3"]
 font_size = 32
@@ -307,9 +307,8 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -3.26001
 offset_top = 10.085
-offset_right = 1.74
+offset_right = -4.99999
 offset_bottom = -6.91499
 grow_horizontal = 2
 grow_vertical = 2
@@ -322,9 +321,8 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -3.26
 offset_top = 10.085
-offset_right = 1.74001
+offset_right = -4.99999
 offset_bottom = -6.91499
 grow_horizontal = 2
 grow_vertical = 2
@@ -375,7 +373,7 @@ grow_horizontal = 2
 grow_vertical = 0
 script = ExtResource("18_h0ppm")
 _toggleButton = NodePath("..")
-_transitionCurve = SubResource("Curve_dl03u")
+_transitionCurve = ExtResource("19_2ql03")
 _closedPosition = Vector2(70, -1500)
 _openedPosition = Vector2(70, 140)
 
@@ -494,7 +492,7 @@ _mainSelectionArea = NodePath("Background/SafeMargin/SafeSpace/GeneralMargin/VBo
 _subSelectionArea = NodePath("Background/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/MainColorBox/SubSelectionArea")
 _initialColorPreview = NodePath("Background/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/BottomBox/InıtialColor")
 _selectedColorPreview = NodePath("Background/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/BottomBox/NewColor")
-_transitionCurve = SubResource("Curve_dl03u")
+_transitionCurve = ExtResource("19_2ql03")
 _closedPosition = Vector2(70, -1500)
 _openedPosition = Vector2(70, 140)
 
@@ -827,7 +825,7 @@ _layerCardContainer = NodePath("Background/SafeMargin/SafeArea/VBoxContainer/Scr
 _layerCardScene = ExtResource("31_wuwyj")
 _layerCardGhost = NodePath("Background/LayerCardGhost")
 _dividerGhost = NodePath("Background/DividerGhost")
-_transitionCurve = SubResource("Curve_dl03u")
+_transitionCurve = ExtResource("19_2ql03")
 _closedPosition = Vector2(70, 1400)
 _openedPosition = Vector2(70, 0)
 metadata/_edit_group_ = true
@@ -895,10 +893,12 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="CloseButton" type="Button" parent="Container/BottomButtonsMargin/HBoxContainer/RightButtons/Button/LayerManagerModal/Background/SafeMargin/SafeArea/VBoxContainer/HBoxContainer2"]
+modulate = Color(0.337255, 0.337255, 0.337255, 1)
 custom_minimum_size = Vector2(60, 0)
 layout_mode = 2
 theme_type_variation = &"TransparentButton"
-text = "X"
+icon = ExtResource("38_ermvp")
+icon_alignment = 1
 
 [node name="Spacer" type="Control" parent="Container/BottomButtonsMargin/HBoxContainer/RightButtons/Button/LayerManagerModal/Background/SafeMargin/SafeArea/VBoxContainer"]
 custom_minimum_size = Vector2(0, 32)
@@ -930,17 +930,15 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Add Layer"
 
+[node name="Control" type="Control" parent="Container/BottomButtonsMargin/HBoxContainer/RightButtons/Button/LayerManagerModal/Background/SafeMargin/SafeArea/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
 [node name="Button2" type="Button" parent="Container/BottomButtonsMargin/HBoxContainer/RightButtons/Button/LayerManagerModal/Background/SafeMargin/SafeArea/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(0, 96)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Remove Layer"
-
-[node name="Button3" type="Button" parent="Container/BottomButtonsMargin/HBoxContainer/RightButtons/Button/LayerManagerModal/Background/SafeMargin/SafeArea/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(0, 96)
-layout_mode = 2
-size_flags_horizontal = 3
-text = "ClearLayer"
 
 [node name="LayerCardGhost" parent="Container/BottomButtonsMargin/HBoxContainer/RightButtons/Button/LayerManagerModal/Background" instance=ExtResource("34_cxwwx")]
 visible = false
@@ -952,3 +950,138 @@ layout_mode = 0
 offset_right = 724.0
 offset_bottom = 4.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_i800g")
+
+[node name="FullScreenModalContainer" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="LayerProperties" type="Control" parent="FullScreenModalContainer" node_paths=PackedStringArray("_layerNameLineEdit", "_acceptButton", "_cancelButton", "_closeButton", "_panel")]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("36_klol5")
+_layerNameLineEdit = NodePath("Background/Panel/SafeArea/VBoxContainer/TextEdit")
+_acceptButton = NodePath("Background/Panel/SafeArea/VBoxContainer/HBoxContainer/AcceptButton")
+_cancelButton = NodePath("Background/Panel/SafeArea/VBoxContainer/HBoxContainer/CancelButton")
+_closeButton = NodePath("Background/Panel/HeaderArea/CloseButton")
+_panel = NodePath("Background/Panel")
+
+[node name="Background" type="Panel" parent="FullScreenModalContainer/LayerProperties"]
+material = ExtResource("36_qsnr8")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"TransparentBackground"
+
+[node name="Panel" type="Control" parent="FullScreenModalContainer/LayerProperties/Background"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -543.0
+offset_top = -310.0
+offset_right = 543.0
+offset_bottom = 312.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(543, 311)
+script = ExtResource("28_sclux")
+Texture = ExtResource("33_jixhm")
+MiddleRect = Rect2(60, 100, 60, 60)
+DrawScale = 1.5
+metadata/_edit_group_ = true
+
+[node name="HeaderArea" type="HBoxContainer" parent="FullScreenModalContainer/LayerProperties/Background/Panel"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 44.0
+offset_right = -50.0
+offset_bottom = 89.0
+grow_horizontal = 2
+
+[node name="Label" type="Label" parent="FullScreenModalContainer/LayerProperties/Background/Panel/HeaderArea"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Layer Properties"
+label_settings = ExtResource("37_0odvs")
+vertical_alignment = 1
+text_overrun_behavior = 3
+
+[node name="CloseButton" type="Button" parent="FullScreenModalContainer/LayerProperties/Background/Panel/HeaderArea"]
+modulate = Color(0.290196, 0.290196, 0.290196, 1)
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+theme_type_variation = &"TransparentButton"
+icon = ExtResource("38_ermvp")
+icon_alignment = 1
+
+[node name="SafeArea" type="MarginContainer" parent="FullScreenModalContainer/LayerProperties/Background/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 78.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 40
+
+[node name="VBoxContainer" type="VBoxContainer" parent="FullScreenModalContainer/LayerProperties/Background/Panel/SafeArea"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="FullScreenModalContainer/LayerProperties/Background/Panel/SafeArea/VBoxContainer"]
+layout_mode = 2
+text = "Name"
+label_settings = ExtResource("30_bajhn")
+
+[node name="TextEdit" type="LineEdit" parent="FullScreenModalContainer/LayerProperties/Background/Panel/SafeArea/VBoxContainer"]
+custom_minimum_size = Vector2(0, 61.065)
+layout_mode = 2
+
+[node name="Control" type="Control" parent="FullScreenModalContainer/LayerProperties/Background/Panel/SafeArea/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="FullScreenModalContainer/LayerProperties/Background/Panel/SafeArea/VBoxContainer"]
+layout_mode = 2
+
+[node name="Control3" type="Control" parent="FullScreenModalContainer/LayerProperties/Background/Panel/SafeArea/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="CancelButton" type="Button" parent="FullScreenModalContainer/LayerProperties/Background/Panel/SafeArea/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(240, 0)
+layout_mode = 2
+text = "Cancel"
+
+[node name="Control2" type="Control" parent="FullScreenModalContainer/LayerProperties/Background/Panel/SafeArea/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(40, 20)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="AcceptButton" type="Button" parent="FullScreenModalContainer/LayerProperties/Background/Panel/SafeArea/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(240, 0)
+layout_mode = 2
+text = "Accept"
