@@ -6,6 +6,7 @@ using Tetraizor.Autoloads;
 
 using Tetraizor.CommonTypes;
 using Tetraizor.Managers;
+using Tetraizor.UI.Modals;
 using Tetraizor.Utils;
 
 namespace Tetraizor.UI;
@@ -30,19 +31,12 @@ public partial class CanvasUIManager : Node
         _toolManager = ToolManager.Instance;
 
         // Assign Control event callbacks.
-        _buttonSettings.Pressed += () =>
-        {
-            NodeManager.FindNodeOfType<DebugUIManager>().TogglePanelMain(true);
-        };
+        _buttonSettings.Pressed += () => ModalManager.GetModal<MainMenuModal>().Toggle(true);
+        ToolManager.Instance.ToolChanged += (ToolType toolType) => UpdateToolButtons();
 
-        ToolManager.Instance.ToolChanged += (ToolType toolType) =>
-        {
-            UpdateToolButtons();
-        };
-
+        RegisterButton(ToolType.Eraser, () => OnToolButtonPressed(ToolType.Eraser), _buttonEraser);
         RegisterButton(ToolType.Brush, () => OnToolButtonPressed(ToolType.Brush), _buttonBrush);
         RegisterButton(ToolType.Pen, () => OnToolButtonPressed(ToolType.Pen), _buttonPen);
-        RegisterButton(ToolType.Eraser, () => OnToolButtonPressed(ToolType.Eraser), _buttonEraser);
     }
 
     private void OnToolButtonPressed(ToolType tool)

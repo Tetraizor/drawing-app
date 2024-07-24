@@ -285,4 +285,13 @@ public class ColorUtils
             (top.B * alpha) + (bottom.B * (1 - alpha)),
             alpha + (bottom.A * (1 - alpha)));
     }
+
+    public static Color Lerp(Color a, Color b, float t)
+    {
+        return new Color(
+            Mathf.Lerp(a.R, b.R, t),
+            Mathf.Lerp(a.G, b.G, t),
+            Mathf.Lerp(a.B, b.B, t),
+            Mathf.Lerp(a.A, b.A, t));
+    }
 }

@@ -1,6 +1,8 @@
 namespace Tetraizor.UI.Modals.Base;
 
 using Godot;
+using Tetraizor.Utils;
+
 
 public partial class FullScreenModalBase : ModalBase
 {
@@ -11,6 +13,9 @@ public partial class FullScreenModalBase : ModalBase
 
     [Export] private float _transitionDuration = .3f;
     [Export] private float _maxBlurAmount = 2f;
+
+    private Curve _linearCurve = CurveUtils.Linear;
+    [Export] private Curve _transitionCurve = CurveUtils.Bounce;
 
     private bool _isTransitioning = false;
 
@@ -41,19 +46,22 @@ public partial class FullScreenModalBase : ModalBase
         _isTransitioning = true;
 
         var tween = GetTree().CreateTween();
-        tween.SetParallel(true);
-
-        tween.TweenProperty(_panel, "anchor_bottom", 0.5f, _transitionDuration);
-        tween.TweenProperty(_panel, "anchor_top", 0.5f, _transitionDuration);
-
-        tween.TweenProperty(_background.Material, "shader_parameter/tint_color", _backgroundColor, _transitionDuration);
-        tween.TweenProperty(_background.Material, "shader_parameter/blur_amount", _maxBlurAmount, _transitionDuration);
 
         tween.Finished += () =>
         {
             MouseFilter = MouseFilterEnum.Pass;
             _isTransitioning = false;
         };
+
+        tween.TweenMethod(Callable.From((float progress) =>
+        {
+            _panel.AnchorBottom = Mathf.Lerp(-0.5f, 0.5f, _transitionCurve.Sample(progress));
+            _panel.AnchorTop = Mathf.Lerp(-0.5f, 0.5f, _transitionCurve.Sample(progress));
+
+            _background.Material.Set("shader_parameter/blur_amount", Mathf.Lerp(0, _maxBlurAmount, _transitionCurve.Sample(progress)));
+
+            _background.Material.Set("shader_parameter/tint_color", ColorUtils.Lerp(Colors.Transparent, _backgroundColor, _linearCurve.Sample(progress)));
+        }), 0.0f, 1.0f, _transitionDuration);
 
         tween.Play();
     }
@@ -67,12 +75,6 @@ public partial class FullScreenModalBase : ModalBase
         var tween = GetTree().CreateTween();
         tween.SetParallel(true);
 
-        tween.TweenProperty(_panel, "anchor_bottom", -0.5f, _transitionDuration);
-        tween.TweenProperty(_panel, "anchor_top", -0.5f, _transitionDuration);
-
-        tween.TweenProperty(_background.Material, "shader_parameter/tint_color", Colors.Transparent, _transitionDuration);
-        tween.TweenProperty(_background.Material, "shader_parameter/blur_amount", 0, _transitionDuration);
-
         tween.Finished += () =>
         {
             MouseFilter = MouseFilterEnum.Ignore;
@@ -81,6 +83,16 @@ public partial class FullScreenModalBase : ModalBase
             _panel.Hide();
             _background.Hide();
         };
+
+        tween.TweenMethod(Callable.From((float progress) =>
+        {
+            _panel.AnchorBottom = Mathf.Lerp(0.5f, -0.5f, _transitionCurve.Sample(progress));
+            _panel.AnchorTop = Mathf.Lerp(0.5f, -0.5f, _transitionCurve.Sample(progress));
+
+            _background.Material.Set("shader_parameter/blur_amount", Mathf.Lerp(_maxBlurAmount, 0, _transitionCurve.Sample(progress)));
+
+            _background.Material.Set("shader_parameter/tint_color", ColorUtils.Lerp(_backgroundColor, Colors.Transparent, _linearCurve.Sample(progress)));
+        }), 0.0f, 1.0f, _transitionDuration);
 
         tween.Play();
     }

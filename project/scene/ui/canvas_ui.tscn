@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://dsmbwe0n6rnum"]
+[gd_scene load_steps=45 format=3 uid="uid://dsmbwe0n6rnum"]
 
 [ext_resource type="Script" path="res://src/Tetraizor/UI/CanvasUIManager.cs" id="1_w03sc"]
 [ext_resource type="Script" path="res://src/Tetraizor/UI/ControlHelpers/EmptySpaceClickDetector.cs" id="2_2xg1t"]
@@ -40,6 +40,7 @@
 [ext_resource type="Material" uid="uid://dn2sa2ip7qdrq" path="res://res/shader/ui/background_blur.tres" id="36_qsnr8"]
 [ext_resource type="LabelSettings" uid="uid://51c57d6w8wsg" path="res://res/ui/config/modal_header.tres" id="37_0odvs"]
 [ext_resource type="Texture2D" uid="uid://b4ye6vtamkdhi" path="res://res/ui/assets/close_icon.png" id="38_ermvp"]
+[ext_resource type="Script" path="res://src/Tetraizor/UI/Modals/MainMenuModal.cs" id="38_v23qp"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_o23k3"]
 font_size = 32
@@ -959,6 +960,116 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+
+[node name="MainMenu" type="Control" parent="FullScreenModalContainer" node_paths=PackedStringArray("_buttonClose", "_sliderUIScale", "_labelUIScaleFeedback", "_background", "_panel")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("38_v23qp")
+_buttonClose = NodePath("Background/Panel/HeaderArea/CloseButton")
+_sliderUIScale = NodePath("Background/Panel/SafeArea/VBoxContainer/UIScaleSlider")
+_labelUIScaleFeedback = NodePath("Background/Panel/SafeArea/VBoxContainer/UIScaleLabelContainer/UIScaleFeedbackLabel")
+_background = NodePath("Background")
+_panel = NodePath("Background/Panel")
+
+[node name="Background" type="Panel" parent="FullScreenModalContainer/MainMenu"]
+material = ExtResource("36_qsnr8")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"TransparentBackground"
+
+[node name="Panel" type="Control" parent="FullScreenModalContainer/MainMenu/Background"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -836.0
+offset_top = -826.0
+offset_right = 881.0
+offset_bottom = 852.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(543, 311)
+script = ExtResource("28_sclux")
+Texture = ExtResource("33_jixhm")
+MiddleRect = Rect2(60, 100, 60, 60)
+DrawScale = 1.5
+metadata/_edit_group_ = true
+
+[node name="HeaderArea" type="HBoxContainer" parent="FullScreenModalContainer/MainMenu/Background/Panel"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 44.0
+offset_right = -50.0
+offset_bottom = 89.0
+grow_horizontal = 2
+
+[node name="Label" type="Label" parent="FullScreenModalContainer/MainMenu/Background/Panel/HeaderArea"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Main Menu"
+label_settings = ExtResource("37_0odvs")
+vertical_alignment = 1
+text_overrun_behavior = 3
+
+[node name="CloseButton" type="Button" parent="FullScreenModalContainer/MainMenu/Background/Panel/HeaderArea"]
+modulate = Color(0.290196, 0.290196, 0.290196, 1)
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+theme_type_variation = &"TransparentButton"
+icon = ExtResource("38_ermvp")
+icon_alignment = 1
+
+[node name="SafeArea" type="MarginContainer" parent="FullScreenModalContainer/MainMenu/Background/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 78.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 40
+
+[node name="VBoxContainer" type="VBoxContainer" parent="FullScreenModalContainer/MainMenu/Background/Panel/SafeArea"]
+layout_mode = 2
+
+[node name="UIScaleLabelContainer" type="HBoxContainer" parent="FullScreenModalContainer/MainMenu/Background/Panel/SafeArea/VBoxContainer"]
+layout_mode = 2
+
+[node name="UIScaleLabel" type="Label" parent="FullScreenModalContainer/MainMenu/Background/Panel/SafeArea/VBoxContainer/UIScaleLabelContainer"]
+layout_mode = 2
+text = "UI Scale"
+label_settings = ExtResource("30_bajhn")
+
+[node name="Spacer" type="Control" parent="FullScreenModalContainer/MainMenu/Background/Panel/SafeArea/VBoxContainer/UIScaleLabelContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="UIScaleFeedbackLabel" type="Label" parent="FullScreenModalContainer/MainMenu/Background/Panel/SafeArea/VBoxContainer/UIScaleLabelContainer"]
+layout_mode = 2
+text = "{{scale * 100}}%"
+label_settings = ExtResource("30_bajhn")
+
+[node name="UIScaleSlider" type="HSlider" parent="FullScreenModalContainer/MainMenu/Background/Panel/SafeArea/VBoxContainer"]
+layout_mode = 2
+max_value = 1.5
+step = 0.05
+value = 1.0
 
 [node name="LayerProperties" type="Control" parent="FullScreenModalContainer" node_paths=PackedStringArray("_layerNameLineEdit", "_acceptButton", "_cancelButton", "_closeButton", "_panel")]
 visible = false
