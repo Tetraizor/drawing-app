@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using Godot;
+using Tetraizor.Autoloads.ActionMemoryManagement;
 using Tetraizor.Data;
 using Tetraizor.Managers;
 using Tetraizor.Utils;
@@ -77,8 +78,17 @@ public partial class DrawManager : Node
     public void SaveBuffer()
     {
         var bufferImage = _currentLayer.BufferImage;
-
         _currentLayer.RenderImage.CopyFrom(bufferImage);
+    }
+
+    public void FinishStroke()
+    {
+        var previousImage = _currentLayer.RenderImage.Duplicate() as Image;
+        var currentImage = _currentLayer.BufferImage.Duplicate() as Image;
+
+        SaveBuffer();
+        ClearBuffer();
+        ActionMemoryManager.AddAction(new DrawAction(_renderTexture, previousImage, currentImage));
     }
 
     /// <summary>

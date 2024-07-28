@@ -25,6 +25,7 @@ public partial class ToolSettingsModal : FullScreenModalBase
         _buttonClose.Pressed += () => CancelEditing();
         _buttonCancel.Pressed += () => CancelEditing();
         _buttonRemove.Pressed += () => Remove();
+
         _sliderBrushSize.DragEnded += (size) => SyncTipData();
         _sliderBrushSize.ValueChanged += (size) => SyncTipData();
 

@@ -92,8 +92,7 @@ public class Eraser : TippedToolBase
     {
         _isDrawing = false;
 
-        _drawManager.SaveBuffer();
-        _drawManager.ClearBuffer();
+        _drawManager.FinishStroke();
     }
 
     protected override void OnTipDataChanged()

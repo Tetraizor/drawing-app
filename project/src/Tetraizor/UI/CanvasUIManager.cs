@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using Godot;
 using Tetraizor.Autoloads;
+using Tetraizor.Autoloads.ActionMemoryManagement;
 
 using Tetraizor.CommonTypes;
 using Tetraizor.UI.Modals;
@@ -12,9 +13,13 @@ namespace Tetraizor.UI;
 public partial class CanvasUIManager : Node
 {
     [Export] private TextureButton _buttonSettings;
+
     [Export] private TextureButton _buttonBrush;
     [Export] private TextureButton _buttonPen;
     [Export] private TextureButton _buttonEraser;
+
+    [Export] private TextureButton _buttonUndo;
+    [Export] private TextureButton _buttonRedo;
 
     private const float TransitionDuration = .05f;
 
@@ -32,9 +37,31 @@ public partial class CanvasUIManager : Node
         _buttonSettings.Pressed += () => ModalManager.GetModal<MainMenuModal>().Toggle(true);
         ToolManager.Instance.ToolChanged += (ToolType toolType) => UpdateToolButtons();
 
+        _buttonRedo.Pressed += OnRedoButtonPressed;
+        _buttonUndo.Pressed += OnUndoButtonPressed;
+
+        _buttonRedo.Disabled = true;
+        _buttonUndo.Disabled = true;
+
+        ActionMemoryManager.ActionMemoryChanged += (undoStack, redoStack) =>
+        {
+            _buttonUndo.Disabled = undoStack.Count == 0;
+            _buttonRedo.Disabled = redoStack.Count == 0;
+        };
+
         RegisterButton(ToolType.Eraser, () => OnToolButtonPressed(ToolType.Eraser), _buttonEraser);
         RegisterButton(ToolType.Brush, () => OnToolButtonPressed(ToolType.Brush), _buttonBrush);
         RegisterButton(ToolType.Pen, () => OnToolButtonPressed(ToolType.Pen), _buttonPen);
+    }
+
+    private void OnRedoButtonPressed()
+    {
+        ActionMemoryManager.Redo();
+    }
+
+    private void OnUndoButtonPressed()
+    {
+        ActionMemoryManager.Undo();
     }
 
     private void OnToolButtonPressed(ToolType tool)

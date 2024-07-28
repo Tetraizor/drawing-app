@@ -125,8 +125,7 @@ public class Brush : TippedToolBase
     {
         _isDrawing = false;
 
-        _drawManager.SaveBuffer();
-        _drawManager.ClearBuffer();
+        _drawManager.FinishStroke();
     }
 
     public override void CancelInput()

@@ -57,7 +57,7 @@ font_color = Color(0, 0, 0, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i800g"]
 bg_color = Color(0.886275, 0.47451, 0.552941, 1)
 
-[node name="UI" type="Control" node_paths=PackedStringArray("_buttonSettings", "_buttonBrush", "_buttonPen", "_buttonEraser")]
+[node name="UI" type="Control" node_paths=PackedStringArray("_buttonSettings", "_buttonBrush", "_buttonPen", "_buttonEraser", "_buttonUndo", "_buttonRedo")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -72,6 +72,8 @@ _buttonSettings = NodePath("Container/TopButtonsMargin/TopButtons/LeftButtons/Se
 _buttonBrush = NodePath("Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons/BrushButton")
 _buttonPen = NodePath("Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons/PencilButton")
 _buttonEraser = NodePath("Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons/EraserButton")
+_buttonUndo = NodePath("Container/TopButtonsMargin/TopButtons/LeftButtons/UndoButton")
+_buttonRedo = NodePath("Container/TopButtonsMargin/TopButtons/LeftButtons/RedoButton")
 
 [node name="EmptySpaceClickDetector" type="Control" parent="."]
 layout_mode = 1
@@ -142,13 +144,12 @@ use_parent_material = true
 custom_minimum_size = Vector2(50, 60)
 layout_mode = 2
 
-[node name="ClearButton2" type="TextureButton" parent="Container/TopButtonsMargin/TopButtons/LeftButtons"]
+[node name="UndoButton" type="TextureButton" parent="Container/TopButtonsMargin/TopButtons/LeftButtons"]
 texture_filter = 1
 use_parent_material = true
 custom_minimum_size = Vector2(140, 140)
 layout_mode = 2
 size_flags_vertical = 4
-disabled = true
 texture_normal = ExtResource("7_rtuob")
 texture_disabled = ExtResource("8_sj18l")
 ignore_texture_size = true
@@ -159,7 +160,7 @@ use_parent_material = true
 custom_minimum_size = Vector2(16, 60)
 layout_mode = 2
 
-[node name="ClearButton3" type="TextureButton" parent="Container/TopButtonsMargin/TopButtons/LeftButtons"]
+[node name="RedoButton" type="TextureButton" parent="Container/TopButtonsMargin/TopButtons/LeftButtons"]
 texture_filter = 1
 use_parent_material = true
 custom_minimum_size = Vector2(140, 140)
@@ -167,7 +168,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 size_flags_stretch_ratio = 0.0
-disabled = true
 texture_normal = ExtResource("9_15fsr")
 texture_disabled = ExtResource("10_6xoih")
 ignore_texture_size = true
