@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Godot;
 using Tetraizor.Autoloads;
@@ -11,53 +12,82 @@ using Tetraizor.Utils;
 
 namespace Tetraizor.Tools;
 
-public class Brush : Tool
+public class Brush : TippedToolBase
 {
+    #region References
     private DrawManager _drawManager;
     private CameraManager _cameraManager;
+    #endregion
 
-    private Image _brushImage;
+    #region Brush Properties
+    private Image _shape;
+    private Color _color;
+    #endregion
 
+    #region Tool State
     bool _isDrawing = false;
-
-    private int _radius = 5;
+    #endregion
 
     private List<Stroke> _tempStrokes = new List<Stroke>();
-
     public override ToolType ToolType { get; protected set; } = ToolType.Brush;
 
-    public Brush(int radius)
+    #region Base Methods
+    public override void Initialize()
     {
-        this._radius = radius;
+        base.Initialize();
 
-        ColorPickerModal.Instance.PrimaryColorChanged += (color) => CreateShape();
-
-        CreateShape();
-
-        _drawManager = NodeManager.FindNodeOfType<DrawManager>();
         _cameraManager = NodeManager.FindNodeOfType<CameraManager>();
+        _drawManager = NodeManager.FindNodeOfType<DrawManager>();
+
+        ColorPickerModal.Instance.PrimaryColorChanged += OnPrimaryColorChanged;
+    }
+    #endregion
+
+    private void OnPrimaryColorChanged(Color color)
+    {
+        _color = color;
+        CreateShape();
+    }
+
+    public override void ChangeTip(TipData tipData)
+    {
+        base.ChangeTip(tipData);
+        _color = ColorPickerModal.Instance.PrimaryColor;
+    }
+
+    protected override void OnTipDataChanged()
+    {
+        CreateShape();
     }
 
     public void CreateShape()
     {
-        _brushImage = new Image();
-        Color brushColor = ColorPickerModal.Instance.PrimaryColor;
+        // TODO: Change brush generation. It currently only works with filled circles.
+        _shape = new Image();
 
-        var points = GraphicsUtils.GetFilledCirclePoints(_radius).ToList();
+        var points = GraphicsUtils.GetFilledCirclePoints(_currentTip.Size).ToList();
+        int radius = _currentTip.Size;
 
-        int extendedRadius = (_radius * 2) + 1;
+        // Calculate the diameter of the circle
+        int diameter = radius * 2 + 1;
 
-        _brushImage.SetData(extendedRadius, extendedRadius, false, Image.Format.Rgba8, new byte[extendedRadius * extendedRadius * 4]);
-        for (int x = 0; x < extendedRadius; x++)
+        // Create a new brush image with the correct dimensions and format
+        _shape.SetData(diameter, diameter, false, Image.Format.Rgba8, new byte[diameter * diameter * 4]);
+
+        for (int y = 0; y < diameter; y++)
         {
-            for (int y = 0; y < extendedRadius; y++)
+            for (int x = 0; x < diameter; x++)
             {
-                if (points.Contains(new Vector2I(x, y)))
-                    _brushImage.SetPixel(x, y, brushColor);
+                // Correctly calculate the index in the points array
+                int index = y * diameter + x;
+
+                if (points[index])
+                    _shape.SetPixel(x, y, _color);
             }
         }
     }
 
+    #region Input Callbacks
     public override void BeginInput(Vector2 position, float pressure)
     {
         _isDrawing = true;
@@ -66,8 +96,7 @@ public class Brush : Tool
         Stroke stroke = new Stroke((Vector2I)_cameraManager.ScreenToWorldPosition(position), pressure);
         _tempStrokes.Add(stroke);
 
-        _drawManager.DrawTextureToBuffer(_brushImage, stroke.Position - new Vector2I(_radius, _radius), DrawManager.DrawMode.Keep, ColorUtils.BlendMode.Alpha);
-
+        _drawManager.DrawTextureToBuffer(_shape, stroke.Position - new Vector2I(_currentTip.Size, _currentTip.Size), DrawManager.DrawMode.Keep, ColorUtils.BlendMode.Alpha);
     }
 
     public override void DragInput(Vector2 position, float pressure)
@@ -87,7 +116,7 @@ public class Brush : Tool
 
             foreach (var point in points)
             {
-                _drawManager.DrawTextureToBuffer(_brushImage, point - new Vector2I(_radius, _radius), DrawManager.DrawMode.Keep, ColorUtils.BlendMode.Alpha);
+                _drawManager.DrawTextureToBuffer(_shape, point - new Vector2I(_currentTip.Size, _currentTip.Size), DrawManager.DrawMode.Keep, ColorUtils.BlendMode.Alpha);
             }
         }
     }
@@ -106,4 +135,5 @@ public class Brush : Tool
 
         _drawManager.ClearBuffer();
     }
+    #endregion
 }

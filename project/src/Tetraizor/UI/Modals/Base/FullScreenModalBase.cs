@@ -6,8 +6,8 @@ using Tetraizor.Utils;
 
 public partial class FullScreenModalBase : ModalBase
 {
-    [Export] private Panel _background;
-    [Export] private Control _panel;
+    private Panel _background;
+    private Control _panel;
 
     private Color _backgroundColor;
 
@@ -24,6 +24,7 @@ public partial class FullScreenModalBase : ModalBase
         base.Register();
 
         _background = GetNode<Panel>("./Background");
+        _panel = GetNode<Control>("./Background/Panel");
 
         _backgroundColor = (Color)(_background.Material as ShaderMaterial).GetShaderParameter("tint_color");
 

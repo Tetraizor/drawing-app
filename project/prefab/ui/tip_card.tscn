@@ -1,0 +1,85 @@
+[gd_scene load_steps=6 format=3 uid="uid://b371xrxs7lmc0"]
+
+[ext_resource type="Script" path="res://src/Tetraizor/UI/ToolManagement/TipCard.cs" id="1_ch46h"]
+[ext_resource type="LabelSettings" uid="uid://bqbkw7qtg27yh" path="res://res/ui/config/label_h3.tres" id="2_ra8mu"]
+[ext_resource type="Texture2D" uid="uid://cnyt1fy0lfdrp" path="res://res/ui/assets/three_dots.png" id="3_ou1if"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b3bev"]
+resource_local_to_scene = true
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 24
+
+[sub_resource type="ImageTexture" id="ImageTexture_sv7i3"]
+
+[node name="TipCard" type="Panel" node_paths=PackedStringArray("_nameLabel", "_sizeLabel", "_settingsButton", "_previewTextureRect")]
+custom_minimum_size = Vector2(0, 250)
+offset_right = 500.0
+offset_bottom = 250.0
+theme_type_variation = &"PanelCard"
+theme_override_styles/panel = SubResource("StyleBoxFlat_b3bev")
+script = ExtResource("1_ch46h")
+_nameLabel = NodePath("MarginContainer/VBoxContainer/HBoxContainer/NameLabel")
+_sizeLabel = NodePath("MarginContainer/VBoxContainer/HBoxContainer2/SizeLabel")
+_settingsButton = NodePath("MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/SettingsButton")
+_previewTextureRect = NodePath("MarginContainer/VBoxContainer/TextureRect")
+_styleBoxFlat = SubResource("StyleBoxFlat_b3bev")
+_normalColor = Color(1, 1, 1, 1)
+_selected = Color(0.96875, 0.96875, 0.96875, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="NameLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Default Brush"
+label_settings = ExtResource("2_ra8mu")
+
+[node name="Control" type="Control" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="SettingsButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer"]
+modulate = Color(0.337255, 0.337255, 0.337255, 1)
+custom_minimum_size = Vector2(36, 0)
+layout_mode = 2
+theme_type_variation = &"TransparentButton"
+icon = ExtResource("3_ou1if")
+icon_alignment = 1
+expand_icon = true
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+texture = SubResource("ImageTexture_sv7i3")
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="SizeLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "32"
+label_settings = ExtResource("2_ra8mu")

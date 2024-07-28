@@ -62,9 +62,10 @@ public class GraphicsUtils
         return points;
     }
 
-    public static Vector2I[] GetFilledCirclePoints(int radius)
+    public static bool[] GetFilledCirclePoints(int radius)
     {
-        List<Vector2I> points = new List<Vector2I>();
+        int diameter = 2 * radius + 1;
+        bool[] points = new bool[diameter * diameter];
 
         int x = radius;
         int y = 0;
@@ -85,22 +86,23 @@ public class GraphicsUtils
             }
         }
 
-        return points.ToArray();
+        return points;
     }
 
-    private static void DrawScanLine(List<Vector2I> points, int radius, int x, int y)
+    private static void DrawScanLine(bool[] points, int radius, int x, int y)
     {
-        PutPixelLine(points, radius - x, radius + x, radius + y); // Horizontal line at y
-        PutPixelLine(points, radius - y, radius + y, radius + x); // Horizontal line at x
-        PutPixelLine(points, radius - x, radius + x, radius - y); // Horizontal line at -y
-        PutPixelLine(points, radius - y, radius + y, radius - x); // Horizontal line at -x
+        PutPixelLine(points, radius - x, radius + x, radius + y, radius); // Horizontal line at y
+        PutPixelLine(points, radius - y, radius + y, radius + x, radius); // Horizontal line at x
+        PutPixelLine(points, radius - x, radius + x, radius - y, radius); // Horizontal line at -y
+        PutPixelLine(points, radius - y, radius + y, radius - x, radius); // Horizontal line at -x
     }
 
-    static void PutPixelLine(List<Vector2I> points, int xStart, int xEnd, int y)
+    static void PutPixelLine(bool[] points, int xStart, int xEnd, int y, int radius)
     {
+        int diameter = 2 * radius + 1;
         for (int x = xStart; x <= xEnd; x++)
         {
-            points.Add(new Vector2I(x, y));
+            points[y * diameter + x] = true;
         }
     }
 

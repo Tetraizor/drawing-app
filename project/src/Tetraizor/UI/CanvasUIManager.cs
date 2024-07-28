@@ -5,9 +5,7 @@ using Godot;
 using Tetraizor.Autoloads;
 
 using Tetraizor.CommonTypes;
-using Tetraizor.Managers;
 using Tetraizor.UI.Modals;
-using Tetraizor.Utils;
 
 namespace Tetraizor.UI;
 
@@ -41,7 +39,15 @@ public partial class CanvasUIManager : Node
 
     private void OnToolButtonPressed(ToolType tool)
     {
-        _toolManager.ChangeTool(tool);
+        if (_toolManager.CurrentToolType == tool)
+        {
+            ModalManager.GetModal<ToolPickerModal>().Toggle();
+        }
+        else
+        {
+            ModalManager.GetModal<ToolPickerModal>().Toggle(false);
+            _toolManager.ChangeTool(tool);
+        }
     }
 
     private void UpdateToolButtons()

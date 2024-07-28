@@ -1,6 +1,5 @@
 namespace Tetraizor.UI.Modals;
 
-using System;
 using Godot;
 using Tetraizor.Data;
 using Tetraizor.UI.Modals.Base;

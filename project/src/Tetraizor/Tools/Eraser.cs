@@ -10,44 +10,47 @@ using Tetraizor.Utils;
 
 namespace Tetraizor.Tools;
 
-public class Eraser : Tool
+public class Eraser : TippedToolBase
 {
     private DrawManager _drawManager;
     private CameraManager _cameraManager;
 
-    private Image _eraserShape = new();
+    private Image _shape = new();
 
     private bool _isDrawing = false;
-
-    private int radius;
 
     private List<Stroke> _tempStrokes = new List<Stroke>();
 
     public override ToolType ToolType { get; protected set; } = ToolType.Eraser;
 
-    public Eraser(int radius)
+    public override void Initialize()
     {
+        base.Initialize();
+
         _drawManager = NodeManager.FindNodeOfType<DrawManager>();
         _cameraManager = NodeManager.FindNodeOfType<CameraManager>();
-
-        ChangeShape(radius);
     }
 
-    public void ChangeShape(int radius)
+    public void CreateShape()
     {
-        this.radius = radius;
+        var points = GraphicsUtils.GetFilledCirclePoints(_currentTip.Size).ToList();
+        int radius = _currentTip.Size;
 
-        var points = GraphicsUtils.GetFilledCirclePoints(radius).ToList<Vector2I>();
+        // Calculate the diameter of the circle
+        int diameter = radius * 2 + 1;
 
-        int extendedRadius = (radius * 2) + 1;
+        // Create a new brush image with the correct dimensions and format
+        _shape.SetData(diameter, diameter, false, Image.Format.Rgba8, new byte[diameter * diameter * 4]);
 
-        _eraserShape.SetData(extendedRadius, extendedRadius, false, Image.Format.Rgba8, new byte[extendedRadius * extendedRadius * 4]);
-        for (int x = 0; x < extendedRadius; x++)
+        for (int y = 0; y < diameter; y++)
         {
-            for (int y = 0; y < extendedRadius; y++)
+            for (int x = 0; x < diameter; x++)
             {
-                if (points.Contains(new Vector2I(x, y)))
-                    _eraserShape.SetPixel(x, y, new Color(0, 0, 0, 1));
+                // Correctly calculate the index in the points array
+                int index = y * diameter + x;
+
+                if (points[index])
+                    _shape.SetPixel(x, y, new Color(1, 1, 1, 1));
             }
         }
     }
@@ -60,14 +63,16 @@ public class Eraser : Tool
         Stroke stroke = new Stroke((Vector2I)_cameraManager.ScreenToWorldPosition(position), pressure);
         _tempStrokes.Add(stroke);
 
-        _drawManager.DrawTextureToBuffer(_eraserShape, stroke.Position - Vector2I.One * radius, DrawManager.DrawMode.Keep, ColorUtils.BlendMode.Erase);
+        _drawManager.DrawTextureToBuffer(_shape, stroke.Position - new Vector2I(_currentTip.Size, _currentTip.Size), DrawManager.DrawMode.Keep, ColorUtils.BlendMode.Erase);
     }
 
     public override void DragInput(Vector2 position, float pressure)
     {
         if (!_isDrawing) return;
 
-        Stroke stroke = new Stroke((Vector2I)_cameraManager.ScreenToWorldPosition(position), pressure);
+        var worldPosition = (Vector2I)_cameraManager.ScreenToWorldPosition(position);
+
+        Stroke stroke = new Stroke(worldPosition, pressure);
         _tempStrokes.Add(stroke);
 
         if (_tempStrokes.Count > 1)
@@ -78,7 +83,7 @@ public class Eraser : Tool
 
             foreach (var point in points)
             {
-                _drawManager.DrawTextureToBuffer(_eraserShape, point - Vector2I.One * radius, DrawManager.DrawMode.Keep, ColorUtils.BlendMode.Erase);
+                _drawManager.DrawTextureToBuffer(_shape, point - new Vector2I(_currentTip.Size, _currentTip.Size), DrawManager.DrawMode.Keep, ColorUtils.BlendMode.Alpha);
             }
         }
     }
@@ -89,5 +94,15 @@ public class Eraser : Tool
 
         _drawManager.SaveBuffer();
         _drawManager.ClearBuffer();
+    }
+
+    protected override void OnTipDataChanged()
+    {
+        CreateShape();
+    }
+
+    public override void ChangeTip(TipData tipData)
+    {
+        base.ChangeTip(tipData);
     }
 }

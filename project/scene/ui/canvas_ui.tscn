@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=3 uid="uid://dsmbwe0n6rnum"]
+[gd_scene load_steps=49 format=3 uid="uid://dsmbwe0n6rnum"]
 
 [ext_resource type="Script" path="res://src/Tetraizor/UI/CanvasUIManager.cs" id="1_w03sc"]
 [ext_resource type="Script" path="res://src/Tetraizor/UI/ControlHelpers/EmptySpaceClickDetector.cs" id="2_2xg1t"]
@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://d01tbjqbr2hya" path="res://res/ui/assets/redo_active.png" id="9_15fsr"]
 [ext_resource type="Texture2D" uid="uid://jyvy3xq2rchw" path="res://res/ui/assets/brush_deactive.png" id="9_ssx4w"]
 [ext_resource type="Texture2D" uid="uid://b4qa1bbadx8lj" path="res://res/ui/assets/redo_deactive.png" id="10_6xoih"]
+[ext_resource type="Texture2D" uid="uid://dtv2sgvngsa2l" path="res://res/ui/assets/button_active_gear.png" id="10_dkg1a"]
 [ext_resource type="Texture2D" uid="uid://pk408m251k4f" path="res://res/ui/assets/pen_deactive.png" id="11_6gnea"]
 [ext_resource type="Texture2D" uid="uid://dq1ckyyu0ilm7" path="res://res/ui/assets/brush_active.png" id="11_h00hq"]
 [ext_resource type="Texture2D" uid="uid://4dwmsp5njou3" path="res://res/ui/assets/pen_active.png" id="12_y5hjb"]
@@ -19,7 +20,6 @@
 [ext_resource type="Texture2D" uid="uid://c164ahq6phqq4" path="res://res/ui/assets/color_box.png" id="14_lu5gf"]
 [ext_resource type="Script" path="res://src/Tetraizor/UI/ColorPicker/ColorPickerModal.cs" id="17_142ol"]
 [ext_resource type="Script" path="res://src/Tetraizor/UI/PatternPicker/PatternPickerModal.cs" id="18_h0ppm"]
-[ext_resource type="Curve" uid="uid://bqfuhanlw86us" path="res://res/default/curve/bounce.tres" id="19_2ql03"]
 [ext_resource type="Texture2D" uid="uid://de8y6m45kikg1" path="res://res/ui/assets/color_box_content.png" id="19_ocair"]
 [ext_resource type="Texture2D" uid="uid://dn7pmf03y3r3f" path="res://res/ui/assets/arrow.png" id="20_1l1on"]
 [ext_resource type="Script" path="res://src/Tetraizor/UI/ColorPicker/MainSelectionArea.cs" id="20_55up5"]
@@ -34,13 +34,17 @@
 [ext_resource type="LabelSettings" uid="uid://c8f6kxylow01o" path="res://res/ui/config/label_h2.tres" id="30_bajhn"]
 [ext_resource type="Script" path="res://src/Tetraizor/UI/LayerManager/LayerManagerModal.cs" id="30_ych6e"]
 [ext_resource type="PackedScene" uid="uid://dfkndqkbav7n7" path="res://prefab/ui/layer_card.tscn" id="31_wuwyj"]
+[ext_resource type="PackedScene" uid="uid://b371xrxs7lmc0" path="res://prefab/ui/tip_card.tscn" id="32_eeuej"]
+[ext_resource type="Script" path="res://src/Tetraizor/UI/Modals/ToolPickerModal.cs" id="32_pndrl"]
 [ext_resource type="Texture2D" uid="uid://bfbpq7x4x8a5p" path="res://res/ui/assets/modal_with_header.png" id="33_jixhm"]
 [ext_resource type="PackedScene" uid="uid://1dti6jy6cgbs" path="res://prefab/ui/layer_card_ghost.tscn" id="34_cxwwx"]
+[ext_resource type="Texture2D" uid="uid://bs2ao2yp7hh8u" path="res://res/ui/assets/add_button.png" id="34_ukgd6"]
 [ext_resource type="Script" path="res://src/Tetraizor/UI/Modals/LayerPropertiesModal.cs" id="36_klol5"]
 [ext_resource type="Material" uid="uid://dn2sa2ip7qdrq" path="res://res/shader/ui/background_blur.tres" id="36_qsnr8"]
 [ext_resource type="LabelSettings" uid="uid://51c57d6w8wsg" path="res://res/ui/config/modal_header.tres" id="37_0odvs"]
 [ext_resource type="Texture2D" uid="uid://b4ye6vtamkdhi" path="res://res/ui/assets/close_icon.png" id="38_ermvp"]
 [ext_resource type="Script" path="res://src/Tetraizor/UI/Modals/MainMenuModal.cs" id="38_v23qp"]
+[ext_resource type="Script" path="res://src/Tetraizor/UI/Modals/ToolSettingsModal.cs" id="43_ikfli"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_o23k3"]
 font_size = 32
@@ -69,7 +73,7 @@ _buttonBrush = NodePath("Container/TopButtonsMargin/TopButtons/RightButtons/HBox
 _buttonPen = NodePath("Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons/PencilButton")
 _buttonEraser = NodePath("Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ToolButtons/EraserButton")
 
-[node name="Control" type="Control" parent="."]
+[node name="EmptySpaceClickDetector" type="Control" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -203,7 +207,7 @@ texture_filter = 1
 use_parent_material = true
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
-texture_normal = ExtResource("4_7v4n4")
+texture_normal = ExtResource("10_dkg1a")
 texture_disabled = ExtResource("5_cn0sk")
 ignore_texture_size = true
 stretch_mode = 5
@@ -250,7 +254,7 @@ use_parent_material = true
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 size_flags_horizontal = 0
-texture_normal = ExtResource("4_7v4n4")
+texture_normal = ExtResource("10_dkg1a")
 texture_disabled = ExtResource("5_cn0sk")
 ignore_texture_size = true
 stretch_mode = 5
@@ -296,7 +300,7 @@ use_parent_material = true
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 size_flags_horizontal = 4
-texture_normal = ExtResource("4_7v4n4")
+texture_normal = ExtResource("10_dkg1a")
 texture_disabled = ExtResource("5_cn0sk")
 ignore_texture_size = true
 stretch_mode = 5
@@ -374,7 +378,6 @@ grow_horizontal = 2
 grow_vertical = 0
 script = ExtResource("18_h0ppm")
 _toggleButton = NodePath("..")
-_transitionCurve = ExtResource("19_2ql03")
 _closedPosition = Vector2(70, -1500)
 _openedPosition = Vector2(70, 140)
 
@@ -493,7 +496,6 @@ _mainSelectionArea = NodePath("Background/SafeMargin/SafeSpace/GeneralMargin/VBo
 _subSelectionArea = NodePath("Background/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/MainColorBox/SubSelectionArea")
 _initialColorPreview = NodePath("Background/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/BottomBox/InıtialColor")
 _selectedColorPreview = NodePath("Background/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/BottomBox/NewColor")
-_transitionCurve = ExtResource("19_2ql03")
 _closedPosition = Vector2(70, -1500)
 _openedPosition = Vector2(70, 140)
 
@@ -776,6 +778,128 @@ rotation = -1.57079
 texture = ExtResource("20_1l1on")
 expand_mode = 1
 
+[node name="ToolPickerModal" type="Control" parent="Container/TopButtonsMargin/TopButtons/RightButtons" node_paths=PackedStringArray("_buttonAddNew", "_tipCardContainer")]
+layout_mode = 2
+anchors_preset = 0
+offset_top = -1700.0
+offset_bottom = -1560.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_force_pass_scroll_events = false
+script = ExtResource("32_pndrl")
+_buttonAddNew = NodePath("Background/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/HBoxContainer/MarginContainer/AddNewButton")
+_tipCardContainer = NodePath("Background/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/ScrollContainer/MarginContainer/ToolCardContainer")
+_tipCardScene = ExtResource("32_eeuej")
+_closedPosition = Vector2(0, -1700)
+
+[node name="Background" type="Control" parent="Container/TopButtonsMargin/TopButtons/RightButtons/ToolPickerModal"]
+use_parent_material = true
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -950.0
+offset_top = 50.0
+offset_right = -20.0
+offset_bottom = 1437.0
+grow_horizontal = 0
+grow_vertical = 0
+script = ExtResource("28_sclux")
+Texture = ExtResource("33_jixhm")
+MiddleRect = Rect2(48, 140, 100, 100)
+DrawScale = 1.4
+metadata/_edit_group_ = true
+
+[node name="Tail" type="TextureRect" parent="Container/TopButtonsMargin/TopButtons/RightButtons/ToolPickerModal/Background"]
+use_parent_material = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -515.0
+offset_top = -25.0
+offset_right = -465.0
+offset_bottom = 25.0
+grow_horizontal = 0
+texture = ExtResource("3_d3ipc")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="SafeMargin" type="MarginContainer" parent="Container/TopButtonsMargin/TopButtons/RightButtons/ToolPickerModal/Background"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 15
+
+[node name="SafeSpace" type="Control" parent="Container/TopButtonsMargin/TopButtons/RightButtons/ToolPickerModal/Background/SafeMargin"]
+layout_mode = 2
+
+[node name="GeneralMargin" type="MarginContainer" parent="Container/TopButtonsMargin/TopButtons/RightButtons/ToolPickerModal/Background/SafeMargin/SafeSpace"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 30
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Container/TopButtonsMargin/TopButtons/RightButtons/ToolPickerModal/Background/SafeMargin/SafeSpace/GeneralMargin"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Container/TopButtonsMargin/TopButtons/RightButtons/ToolPickerModal/Background/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Container/TopButtonsMargin/TopButtons/RightButtons/ToolPickerModal/Background/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Tools"
+label_settings = ExtResource("30_bajhn")
+
+[node name="Spacer" type="Control" parent="Container/TopButtonsMargin/TopButtons/RightButtons/ToolPickerModal/Background/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="Container/TopButtonsMargin/TopButtons/RightButtons/ToolPickerModal/Background/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_right = 16
+
+[node name="AddNewButton" type="Button" parent="Container/TopButtonsMargin/TopButtons/RightButtons/ToolPickerModal/Background/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/HBoxContainer/MarginContainer"]
+modulate = Color(0.292969, 0.292969, 0.292969, 1)
+layout_mode = 2
+theme_type_variation = &"TransparentButton"
+icon = ExtResource("34_ukgd6")
+
+[node name="Spacer" type="Control" parent="Container/TopButtonsMargin/TopButtons/RightButtons/ToolPickerModal/Background/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Container/TopButtonsMargin/TopButtons/RightButtons/ToolPickerModal/Background/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="Container/TopButtonsMargin/TopButtons/RightButtons/ToolPickerModal/Background/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_right = 16
+
+[node name="ToolCardContainer" type="VBoxContainer" parent="Container/TopButtonsMargin/TopButtons/RightButtons/ToolPickerModal/Background/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/ScrollContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 16
+
 [node name="BottomButtonsMargin" type="MarginContainer" parent="Container"]
 layout_mode = 1
 anchors_preset = 12
@@ -826,7 +950,6 @@ _layerCardContainer = NodePath("Background/SafeMargin/SafeArea/VBoxContainer/Scr
 _layerCardScene = ExtResource("31_wuwyj")
 _layerCardGhost = NodePath("Background/LayerCardGhost")
 _dividerGhost = NodePath("Background/DividerGhost")
-_transitionCurve = ExtResource("19_2ql03")
 _closedPosition = Vector2(70, 1400)
 _openedPosition = Vector2(70, 0)
 metadata/_edit_group_ = true
@@ -961,7 +1084,8 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="MainMenu" type="Control" parent="FullScreenModalContainer" node_paths=PackedStringArray("_buttonClose", "_sliderUIScale", "_labelUIScaleFeedback", "_background", "_panel")]
+[node name="MainMenu" type="Control" parent="FullScreenModalContainer" node_paths=PackedStringArray("_buttonClose", "_sliderUIScale", "_labelUIScaleFeedback")]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -972,8 +1096,6 @@ script = ExtResource("38_v23qp")
 _buttonClose = NodePath("Background/Panel/HeaderArea/CloseButton")
 _sliderUIScale = NodePath("Background/Panel/SafeArea/VBoxContainer/UIScaleSlider")
 _labelUIScaleFeedback = NodePath("Background/Panel/SafeArea/VBoxContainer/UIScaleLabelContainer/UIScaleFeedbackLabel")
-_background = NodePath("Background")
-_panel = NodePath("Background/Panel")
 
 [node name="Background" type="Panel" parent="FullScreenModalContainer/MainMenu"]
 material = ExtResource("36_qsnr8")
@@ -1067,11 +1189,12 @@ label_settings = ExtResource("30_bajhn")
 
 [node name="UIScaleSlider" type="HSlider" parent="FullScreenModalContainer/MainMenu/Background/Panel/SafeArea/VBoxContainer"]
 layout_mode = 2
+min_value = 0.5
 max_value = 1.5
 step = 0.05
 value = 1.0
 
-[node name="LayerProperties" type="Control" parent="FullScreenModalContainer" node_paths=PackedStringArray("_layerNameLineEdit", "_acceptButton", "_cancelButton", "_closeButton", "_panel")]
+[node name="LayerProperties" type="Control" parent="FullScreenModalContainer" node_paths=PackedStringArray("_layerNameLineEdit", "_acceptButton", "_cancelButton", "_closeButton")]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -1084,7 +1207,6 @@ _layerNameLineEdit = NodePath("Background/Panel/SafeArea/VBoxContainer/TextEdit"
 _acceptButton = NodePath("Background/Panel/SafeArea/VBoxContainer/HBoxContainer/AcceptButton")
 _cancelButton = NodePath("Background/Panel/SafeArea/VBoxContainer/HBoxContainer/CancelButton")
 _closeButton = NodePath("Background/Panel/HeaderArea/CloseButton")
-_panel = NodePath("Background/Panel")
 
 [node name="Background" type="Panel" parent="FullScreenModalContainer/LayerProperties"]
 material = ExtResource("36_qsnr8")
@@ -1196,3 +1318,143 @@ size_flags_vertical = 3
 custom_minimum_size = Vector2(240, 0)
 layout_mode = 2
 text = "Accept"
+
+[node name="ToolSettings" type="Control" parent="FullScreenModalContainer" node_paths=PackedStringArray("_buttonClose", "_buttonSave", "_buttonCancel", "_buttonRemove", "_sliderBrushSize", "_labelBrushSizeFeedback")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("43_ikfli")
+_buttonClose = NodePath("Background/Panel/HeaderArea/CloseButton")
+_buttonSave = NodePath("Background/Panel/SafeArea/VBoxContainer/ButtonContainer/SaveButton")
+_buttonCancel = NodePath("Background/Panel/SafeArea/VBoxContainer/ButtonContainer/CancelButton")
+_buttonRemove = NodePath("Background/Panel/SafeArea/VBoxContainer/ButtonContainer/RemoveButton")
+_sliderBrushSize = NodePath("Background/Panel/SafeArea/VBoxContainer/BrushScaleSlider")
+_labelBrushSizeFeedback = NodePath("Background/Panel/SafeArea/VBoxContainer/BrushScaleSliderContainer/BrushScaleFeedbackLabel")
+
+[node name="Background" type="Panel" parent="FullScreenModalContainer/ToolSettings"]
+material = ExtResource("36_qsnr8")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"TransparentBackground"
+
+[node name="Panel" type="Control" parent="FullScreenModalContainer/ToolSettings/Background"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -836.0
+offset_top = -388.0
+offset_right = 881.0
+offset_bottom = 414.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(543, 311)
+script = ExtResource("28_sclux")
+Texture = ExtResource("33_jixhm")
+MiddleRect = Rect2(60, 100, 60, 60)
+DrawScale = 1.5
+metadata/_edit_group_ = true
+
+[node name="HeaderArea" type="HBoxContainer" parent="FullScreenModalContainer/ToolSettings/Background/Panel"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 44.0
+offset_right = -50.0
+offset_bottom = 89.0
+grow_horizontal = 2
+
+[node name="Label" type="Label" parent="FullScreenModalContainer/ToolSettings/Background/Panel/HeaderArea"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Tool Settings"
+label_settings = ExtResource("37_0odvs")
+vertical_alignment = 1
+text_overrun_behavior = 3
+
+[node name="CloseButton" type="Button" parent="FullScreenModalContainer/ToolSettings/Background/Panel/HeaderArea"]
+modulate = Color(0.290196, 0.290196, 0.290196, 1)
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+theme_type_variation = &"TransparentButton"
+icon = ExtResource("38_ermvp")
+icon_alignment = 1
+
+[node name="SafeArea" type="MarginContainer" parent="FullScreenModalContainer/ToolSettings/Background/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 78.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 40
+
+[node name="VBoxContainer" type="VBoxContainer" parent="FullScreenModalContainer/ToolSettings/Background/Panel/SafeArea"]
+layout_mode = 2
+
+[node name="BrushScaleSliderContainer" type="HBoxContainer" parent="FullScreenModalContainer/ToolSettings/Background/Panel/SafeArea/VBoxContainer"]
+layout_mode = 2
+
+[node name="BrushScaleLabel" type="Label" parent="FullScreenModalContainer/ToolSettings/Background/Panel/SafeArea/VBoxContainer/BrushScaleSliderContainer"]
+layout_mode = 2
+text = "Brush Size"
+label_settings = ExtResource("30_bajhn")
+
+[node name="Spacer" type="Control" parent="FullScreenModalContainer/ToolSettings/Background/Panel/SafeArea/VBoxContainer/BrushScaleSliderContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BrushScaleFeedbackLabel" type="Label" parent="FullScreenModalContainer/ToolSettings/Background/Panel/SafeArea/VBoxContainer/BrushScaleSliderContainer"]
+layout_mode = 2
+text = "{{_brushSize}}"
+label_settings = ExtResource("30_bajhn")
+
+[node name="BrushScaleSlider" type="HSlider" parent="FullScreenModalContainer/ToolSettings/Background/Panel/SafeArea/VBoxContainer"]
+layout_mode = 2
+min_value = 1.0
+max_value = 150.0
+value = 5.0
+
+[node name="Spacer" type="Control" parent="FullScreenModalContainer/ToolSettings/Background/Panel/SafeArea/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ButtonContainer" type="HBoxContainer" parent="FullScreenModalContainer/ToolSettings/Background/Panel/SafeArea/VBoxContainer"]
+layout_mode = 2
+
+[node name="RemoveButton" type="Button" parent="FullScreenModalContainer/ToolSettings/Background/Panel/SafeArea/VBoxContainer/ButtonContainer"]
+layout_mode = 2
+theme_type_variation = &"ButtonDanger"
+text = "Delete"
+
+[node name="Spacer" type="Control" parent="FullScreenModalContainer/ToolSettings/Background/Panel/SafeArea/VBoxContainer/ButtonContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CancelButton" type="Button" parent="FullScreenModalContainer/ToolSettings/Background/Panel/SafeArea/VBoxContainer/ButtonContainer"]
+layout_mode = 2
+text = "Cancel"
+
+[node name="Spacer2" type="Control" parent="FullScreenModalContainer/ToolSettings/Background/Panel/SafeArea/VBoxContainer/ButtonContainer"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+
+[node name="SaveButton" type="Button" parent="FullScreenModalContainer/ToolSettings/Background/Panel/SafeArea/VBoxContainer/ButtonContainer"]
+layout_mode = 2
+text = "Save"

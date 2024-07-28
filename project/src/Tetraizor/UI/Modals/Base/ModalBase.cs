@@ -6,11 +6,6 @@ using Tetraizor.Autoloads;
 
 public abstract partial class ModalBase : Control
 {
-    #region Modal Access
-    private static ModalBase _instance;
-    public static ModalBase Instance => _instance;
-    #endregion
-
     public bool IsOn => _isOn;
     protected bool _isOn = false;
 
@@ -28,8 +23,6 @@ public abstract partial class ModalBase : Control
     #region Modal Controls
     public virtual void Register()
     {
-        _instance = this;
-
         _modalManager = ModalManager.Instance;
 
         _parent?._children.Add(this);
@@ -42,6 +35,8 @@ public abstract partial class ModalBase : Control
 
     public void Toggle(bool state)
     {
+        if (_isOn == state) return;
+
         _isOn = state;
 
         if (_isOn) Open();
