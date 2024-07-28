@@ -88,7 +88,7 @@ public partial class DrawManager : Node
 
         SaveBuffer();
         ClearBuffer();
-        ActionMemoryManager.AddAction(new DrawAction(_renderTexture, previousImage, currentImage));
+        ActionMemoryManager.AddAction(new DrawAction(_currentLayer, previousImage, currentImage));
     }
 
     /// <summary>

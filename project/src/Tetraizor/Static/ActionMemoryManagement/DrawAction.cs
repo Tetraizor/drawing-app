@@ -1,17 +1,19 @@
 namespace Tetraizor.Autoloads.ActionMemoryManagement;
 
 using Godot;
+using Tetraizor.Data;
 using Tetraizor.Drawing;
+using Tetraizor.Managers;
 
 public class DrawAction : IAction
 {
-    private ImageTexture _targetTexture;
+    private LayerData _targetLayer;
     private Image _previousImage;
     private Image _currentImage;
 
-    public DrawAction(ImageTexture renderTexture, Image previousImage, Image currentImage)
+    public DrawAction(LayerData targetLayer, Image previousImage, Image currentImage)
     {
-        _targetTexture = renderTexture;
+        _targetLayer = targetLayer;
         _previousImage = previousImage;
         _currentImage = currentImage;
 
@@ -22,6 +24,8 @@ public class DrawAction : IAction
     {
         var drawManager = NodeManager.FindNodeOfType<DrawManager>();
 
+        CanvasManager.Instance.SelectLayer(_targetLayer.Index);
+
         drawManager.DrawTextureToBuffer(_currentImage, Vector2I.Zero, DrawManager.DrawMode.Override, Utils.ColorUtils.BlendMode.Normal);
         drawManager.SaveBuffer();
         drawManager.ClearBuffer();
@@ -30,6 +34,8 @@ public class DrawAction : IAction
     public void Undo()
     {
         var drawManager = NodeManager.FindNodeOfType<DrawManager>();
+
+        CanvasManager.Instance.SelectLayer(_targetLayer.Index);
 
         drawManager.DrawTextureToBuffer(_previousImage, Vector2I.Zero, DrawManager.DrawMode.Override, Utils.ColorUtils.BlendMode.Normal);
         drawManager.SaveBuffer();
