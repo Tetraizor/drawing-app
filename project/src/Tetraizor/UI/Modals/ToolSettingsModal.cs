@@ -77,6 +77,8 @@ public partial class ToolSettingsModal : FullScreenModalBase
     {
         _originalTip.SetAll(_copyTip);
 
+        ToolManager.Instance.SelectTip(_originalTip);
+
         _copyTip = null;
         _originalTip = null;
 

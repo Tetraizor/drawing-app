@@ -28,7 +28,7 @@ offset_bottom = 100.0
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_sxxkv")
 script = ExtResource("1_hxowc")
-_layerPreview = NodePath("Control/MarginContainer/HBox/ColorRect/TextureRect")
+_layerPreview = NodePath("Control/MarginContainer/HBox/ColorRect/Preview")
 _layerNameLabel = NodePath("Control/MarginContainer/HBox/Label")
 _optionsButton = NodePath("Control/MarginContainer/HBox/TextureButton")
 _style = SubResource("StyleBoxFlat_sxxkv")
@@ -60,7 +60,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(90, 0)
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="Control/MarginContainer/HBox/ColorRect"]
+[node name="Preview" type="TextureRect" parent="Control/MarginContainer/HBox/ColorRect"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -87,7 +87,7 @@ custom_minimum_size = Vector2(72, 0)
 layout_mode = 2
 theme_type_variation = &"TransparentButton"
 
-[node name="TextureRect" type="TextureRect" parent="Control/MarginContainer/HBox/TextureButton"]
+[node name="ThreeDots" type="TextureRect" parent="Control/MarginContainer/HBox/TextureButton"]
 modulate = Color(0.337255, 0.337255, 0.337255, 1)
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 1
@@ -102,6 +102,7 @@ offset_right = 12.0
 offset_bottom = 12.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 texture = ExtResource("3_uusfn")
 expand_mode = 1
 stretch_mode = 5

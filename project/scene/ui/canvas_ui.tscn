@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=3 uid="uid://dsmbwe0n6rnum"]
+[gd_scene load_steps=52 format=3 uid="uid://dsmbwe0n6rnum"]
 
 [ext_resource type="Script" path="res://src/Tetraizor/UI/CanvasUIManager.cs" id="1_w03sc"]
 [ext_resource type="Script" path="res://src/Tetraizor/UI/ControlHelpers/EmptySpaceClickDetector.cs" id="2_2xg1t"]
@@ -45,6 +45,9 @@
 [ext_resource type="Texture2D" uid="uid://b4ye6vtamkdhi" path="res://res/ui/assets/close_icon.png" id="38_ermvp"]
 [ext_resource type="Script" path="res://src/Tetraizor/UI/Modals/MainMenuModal.cs" id="38_v23qp"]
 [ext_resource type="Script" path="res://src/Tetraizor/UI/Modals/ToolSettingsModal.cs" id="43_ikfli"]
+[ext_resource type="Texture2D" uid="uid://drqx4skgvbl1v" path="res://res/ui/assets/modal_input.png" id="45_8u8vo"]
+[ext_resource type="Script" path="res://src/Tetraizor/UI/Components/Checkbox.cs" id="45_1408o"]
+[ext_resource type="Texture2D" uid="uid://ufro8rghn2kr" path="res://res/ui/assets/tick.png" id="46_7dh8y"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_o23k3"]
 font_size = 32
@@ -945,7 +948,7 @@ _gap = 32
 _background = NodePath("Background")
 _toggleButton = NodePath("..")
 _closeButton = NodePath("Background/SafeMargin/SafeArea/VBoxContainer/HBoxContainer2/CloseButton")
-_addLayerButton = NodePath("Background/SafeMargin/SafeArea/VBoxContainer/HBoxContainer/Button")
+_addLayerButton = NodePath("Background/SafeMargin/SafeArea/VBoxContainer/HBoxContainer/AddLayerButton")
 _layerCardContainer = NodePath("Background/SafeMargin/SafeArea/VBoxContainer/ScrollContainer/MarginContainer/LayerCardContainer")
 _layerCardScene = ExtResource("31_wuwyj")
 _layerCardGhost = NodePath("Background/LayerCardGhost")
@@ -1048,21 +1051,51 @@ size_flags_vertical = 3
 layout_mode = 2
 theme_override_constants/separation = 20
 
-[node name="Button" type="Button" parent="Container/BottomButtonsMargin/HBoxContainer/RightButtons/Button/LayerManagerModal/Background/SafeMargin/SafeArea/VBoxContainer/HBoxContainer"]
+[node name="AddLayerButton" type="Button" parent="Container/BottomButtonsMargin/HBoxContainer/RightButtons/Button/LayerManagerModal/Background/SafeMargin/SafeArea/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(0, 96)
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Container/BottomButtonsMargin/HBoxContainer/RightButtons/Button/LayerManagerModal/Background/SafeMargin/SafeArea/VBoxContainer/HBoxContainer/AddLayerButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="Control2" type="Control" parent="Container/BottomButtonsMargin/HBoxContainer/RightButtons/Button/LayerManagerModal/Background/SafeMargin/SafeArea/VBoxContainer/HBoxContainer/AddLayerButton/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="PlusIcon" type="TextureRect" parent="Container/BottomButtonsMargin/HBoxContainer/RightButtons/Button/LayerManagerModal/Background/SafeMargin/SafeArea/VBoxContainer/HBoxContainer/AddLayerButton/HBoxContainer"]
+modulate = Color(0.337255, 0.337255, 0.337255, 1)
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("34_ukgd6")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Control3" type="Control" parent="Container/BottomButtonsMargin/HBoxContainer/RightButtons/Button/LayerManagerModal/Background/SafeMargin/SafeArea/VBoxContainer/HBoxContainer/AddLayerButton/HBoxContainer"]
+custom_minimum_size = Vector2(24, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="AddLayerLabel" type="Label" parent="Container/BottomButtonsMargin/HBoxContainer/RightButtons/Button/LayerManagerModal/Background/SafeMargin/SafeArea/VBoxContainer/HBoxContainer/AddLayerButton/HBoxContainer"]
+layout_mode = 2
 text = "Add Layer"
+label_settings = ExtResource("30_bajhn")
 
-[node name="Control" type="Control" parent="Container/BottomButtonsMargin/HBoxContainer/RightButtons/Button/LayerManagerModal/Background/SafeMargin/SafeArea/VBoxContainer/HBoxContainer"]
+[node name="Control" type="Control" parent="Container/BottomButtonsMargin/HBoxContainer/RightButtons/Button/LayerManagerModal/Background/SafeMargin/SafeArea/VBoxContainer/HBoxContainer/AddLayerButton/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-
-[node name="Button2" type="Button" parent="Container/BottomButtonsMargin/HBoxContainer/RightButtons/Button/LayerManagerModal/Background/SafeMargin/SafeArea/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(0, 96)
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Remove Layer"
+mouse_filter = 2
 
 [node name="LayerCardGhost" parent="Container/BottomButtonsMargin/HBoxContainer/RightButtons/Button/LayerManagerModal/Background" instance=ExtResource("34_cxwwx")]
 visible = false
@@ -1085,7 +1118,6 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="MainMenu" type="Control" parent="FullScreenModalContainer" node_paths=PackedStringArray("_buttonClose", "_sliderUIScale", "_labelUIScaleFeedback")]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1194,8 +1226,7 @@ max_value = 1.5
 step = 0.05
 value = 1.0
 
-[node name="LayerProperties" type="Control" parent="FullScreenModalContainer" node_paths=PackedStringArray("_layerNameLineEdit", "_acceptButton", "_cancelButton", "_closeButton")]
-visible = false
+[node name="LayerProperties" type="Control" parent="FullScreenModalContainer" node_paths=PackedStringArray("_layerNameLineEdit", "_acceptButton", "_cancelButton", "_closeButton", "_visibleCheckbox", "_renderSmoothCheckbox")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1207,6 +1238,8 @@ _layerNameLineEdit = NodePath("Background/Panel/SafeArea/VBoxContainer/TextEdit"
 _acceptButton = NodePath("Background/Panel/SafeArea/VBoxContainer/HBoxContainer/AcceptButton")
 _cancelButton = NodePath("Background/Panel/SafeArea/VBoxContainer/HBoxContainer/CancelButton")
 _closeButton = NodePath("Background/Panel/HeaderArea/CloseButton")
+_visibleCheckbox = NodePath("Background/Panel/SafeArea/VBoxContainer/VisibleCheckbox")
+_renderSmoothCheckbox = NodePath("Background/Panel/SafeArea/VBoxContainer/RenderSmoothCheckbox")
 
 [node name="Background" type="Panel" parent="FullScreenModalContainer/LayerProperties"]
 material = ExtResource("36_qsnr8")
@@ -1226,9 +1259,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -543.0
-offset_top = -310.0
+offset_top = -334.0
 offset_right = 543.0
-offset_bottom = 312.0
+offset_bottom = 336.0
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(543, 311)
@@ -1290,6 +1323,154 @@ label_settings = ExtResource("30_bajhn")
 custom_minimum_size = Vector2(0, 61.065)
 layout_mode = 2
 
+[node name="Spacer" type="Control" parent="FullScreenModalContainer/LayerProperties/Background/Panel/SafeArea/VBoxContainer"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+
+[node name="RenderSmoothCheckbox" type="Control" parent="FullScreenModalContainer/LayerProperties/Background/Panel/SafeArea/VBoxContainer" node_paths=PackedStringArray("_buttonClickArea", "_iconCheck")]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+script = ExtResource("45_1408o")
+_buttonClickArea = NodePath("HBoxContainer2")
+_iconCheck = NodePath("HBoxContainer2/CheckBackground/IconCheck")
+
+[node name="HBoxContainer2" type="Button" parent="FullScreenModalContainer/LayerProperties/Background/Panel/SafeArea/VBoxContainer/RenderSmoothCheckbox"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"TransparentButton"
+
+[node name="Label" type="Label" parent="FullScreenModalContainer/LayerProperties/Background/Panel/SafeArea/VBoxContainer/RenderSmoothCheckbox/HBoxContainer2"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -26.0
+offset_bottom = 26.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Smooth Rendering"
+label_settings = ExtResource("30_bajhn")
+
+[node name="CheckBackground" type="Control" parent="FullScreenModalContainer/LayerProperties/Background/Panel/SafeArea/VBoxContainer/RenderSmoothCheckbox/HBoxContainer2"]
+custom_minimum_size = Vector2(40, 20)
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -65.0
+grow_horizontal = 0
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+script = ExtResource("28_sclux")
+Texture = ExtResource("45_8u8vo")
+MiddleRect = Rect2(64, 64, 128, 128)
+DrawScale = 0.5
+
+[node name="IconCheck" type="TextureRect" parent="FullScreenModalContainer/LayerProperties/Background/Panel/SafeArea/VBoxContainer/RenderSmoothCheckbox/HBoxContainer2/CheckBackground"]
+modulate = Color(0.345098, 0.345098, 0.345098, 1)
+custom_minimum_size = Vector2(40, 20)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -19.5
+offset_top = -15.0
+offset_right = 20.5
+offset_bottom = 15.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(20, 16)
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+texture = ExtResource("46_7dh8y")
+expand_mode = 1
+
+[node name="Spacer2" type="Control" parent="FullScreenModalContainer/LayerProperties/Background/Panel/SafeArea/VBoxContainer"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+
+[node name="VisibleCheckbox" type="Control" parent="FullScreenModalContainer/LayerProperties/Background/Panel/SafeArea/VBoxContainer" node_paths=PackedStringArray("_buttonClickArea", "_iconCheck")]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+script = ExtResource("45_1408o")
+_buttonClickArea = NodePath("HBoxContainer2")
+_iconCheck = NodePath("HBoxContainer2/CheckBackground/IconCheck")
+
+[node name="HBoxContainer2" type="Button" parent="FullScreenModalContainer/LayerProperties/Background/Panel/SafeArea/VBoxContainer/VisibleCheckbox"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"TransparentButton"
+
+[node name="Label" type="Label" parent="FullScreenModalContainer/LayerProperties/Background/Panel/SafeArea/VBoxContainer/VisibleCheckbox/HBoxContainer2"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -26.0
+offset_bottom = 26.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Visible"
+label_settings = ExtResource("30_bajhn")
+
+[node name="CheckBackground" type="Control" parent="FullScreenModalContainer/LayerProperties/Background/Panel/SafeArea/VBoxContainer/VisibleCheckbox/HBoxContainer2"]
+custom_minimum_size = Vector2(40, 20)
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -65.0
+grow_horizontal = 0
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+script = ExtResource("28_sclux")
+Texture = ExtResource("45_8u8vo")
+MiddleRect = Rect2(64, 64, 128, 128)
+DrawScale = 0.5
+
+[node name="IconCheck" type="TextureRect" parent="FullScreenModalContainer/LayerProperties/Background/Panel/SafeArea/VBoxContainer/VisibleCheckbox/HBoxContainer2/CheckBackground"]
+modulate = Color(0.345098, 0.345098, 0.345098, 1)
+custom_minimum_size = Vector2(40, 20)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -19.5
+offset_top = -15.0
+offset_right = 20.5
+offset_bottom = 15.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(20, 16)
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+texture = ExtResource("46_7dh8y")
+expand_mode = 1
+
 [node name="Control" type="Control" parent="FullScreenModalContainer/LayerProperties/Background/Panel/SafeArea/VBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
@@ -1320,6 +1501,7 @@ layout_mode = 2
 text = "Accept"
 
 [node name="ToolSettings" type="Control" parent="FullScreenModalContainer" node_paths=PackedStringArray("_buttonClose", "_buttonSave", "_buttonCancel", "_buttonRemove", "_sliderBrushSize", "_labelBrushSizeFeedback")]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
