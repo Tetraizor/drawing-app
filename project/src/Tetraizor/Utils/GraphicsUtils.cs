@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Godot;
 
 namespace Tetraizor.Utils;
 
 public class GraphicsUtils
 {
-    public static Vector2I[] GetBresenhamsPoints(Vector2I start, Vector2I end)
+    public static Vector2I[] GetBresenhamsPoints(Vector2I start, Vector2I end, int step = 0)
     {
         int x0 = start.X;
         int y0 = start.Y;
@@ -59,7 +60,19 @@ public class GraphicsUtils
             }
         }
 
-        return points;
+        if (step <= 0) return points;
+
+        int stepCount = Mathf.CeilToInt((float)points.Length / step);
+
+        Vector2I[] result = new Vector2I[stepCount];
+        for (int i = 0; i < stepCount; i += 1)
+        {
+            int current = Math.Min(i * step, points.Length - 1);
+
+            result[i] = points[current];
+        }
+
+        return result;
     }
 
     public static bool[] GetFilledCirclePoints(int radius)

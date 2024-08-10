@@ -29,12 +29,7 @@ public partial class ToolManager : AutoloadBase<ToolManager>
     private Dictionary<ToolType, ToolBase> _tools;
 
     public List<TipData> TipList => _tipList;
-    private List<TipData> _tipList = new List<TipData>() {
-        new TipData(5),
-        new TipData(10),
-        new TipData(15),
-        new TipData(20),
-    };
+    private List<TipData> _tipList;
 
     [Signal] public delegate void ToolChangedEventHandler(ToolType toolType);
     [Signal] public delegate void ToolTipChangedEventHandler(int tipIndex);
@@ -61,6 +56,14 @@ public partial class ToolManager : AutoloadBase<ToolManager>
             { ToolType.Brush, new Brush() },
             { ToolType.Eraser, new Eraser() },
             { ToolType.Pen, new Eraser() },
+        };
+
+        _tipList = new List<TipData>
+        {
+            new TipData(5),
+            new TipData(10),
+            new TipData(15),
+            new TipData(20),
         };
 
         foreach (var tool in _tools.Values)

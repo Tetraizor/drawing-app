@@ -5,7 +5,9 @@ namespace Tetraizor.UI.ColorPicker;
 
 public partial class SubSelectionArea : Control
 {
+    [Export] private ColorPickerModal _colorPickerModal;
     [Export] private Control _cursor;
+
     private Vector2 _cursorDefaultPosition;
 
     private bool _isSelecting = false;
@@ -14,6 +16,7 @@ public partial class SubSelectionArea : Control
     private float _normalizedPosition = 0;
 
     [Signal] public delegate void SelectionPositionChangedEventHandler(float normalizedPosition);
+    [Signal] public delegate void SelectionPositionFinishedChangingEventHandler(float normalizedPosition);
 
     public override void _Ready()
     {
@@ -27,6 +30,8 @@ public partial class SubSelectionArea : Control
 
     public override void _Input(InputEvent @event)
     {
+        if (!_colorPickerModal.IsOn) return;
+
         if (@event is InputEventMouseButton mouseButton)
         {
             if (mouseButton.ButtonIndex == MouseButton.Left)
@@ -43,13 +48,17 @@ public partial class SubSelectionArea : Control
                 {
                     ToggleCursor(false);
                     MoveCursorToMousePosition(mouseButton.Position.Y);
+
+                    if (_isOnControl)
+                        EmitSignal(SignalName.SelectionPositionFinishedChanging, _normalizedPosition);
                 }
             }
         }
 
         if (@event is InputEventMouseMotion mouseMotion)
         {
-            MoveCursorToMousePosition(mouseMotion.Position.Y);
+            if (_isOnControl)
+                MoveCursorToMousePosition(mouseMotion.Position.Y);
         }
     }
 

@@ -581,12 +581,13 @@ size_flags_horizontal = 3
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 
-[node name="MainSelectionArea" type="ColorRect" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPickerModalToggleButton/ColorPickerModal/Background/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/MainColorBox" node_paths=PackedStringArray("_cursor")]
+[node name="MainSelectionArea" type="ColorRect" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPickerModalToggleButton/ColorPickerModal/Background/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/MainColorBox" node_paths=PackedStringArray("_colorPickerModal", "_cursor")]
 material = ExtResource("20_vw3dy")
 clip_contents = true
 custom_minimum_size = Vector2(700, 700)
 layout_mode = 2
 script = ExtResource("20_55up5")
+_colorPickerModal = NodePath("../../../../../../..")
 _cursor = NodePath("Cursor")
 
 [node name="Cursor" type="TextureRect" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPickerModalToggleButton/ColorPickerModal/Background/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/MainColorBox/MainSelectionArea"]
@@ -605,11 +606,12 @@ stretch_mode = 5
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="SubSelectionArea" type="ColorRect" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPickerModalToggleButton/ColorPickerModal/Background/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/MainColorBox" node_paths=PackedStringArray("_cursor")]
+[node name="SubSelectionArea" type="ColorRect" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPickerModalToggleButton/ColorPickerModal/Background/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/MainColorBox" node_paths=PackedStringArray("_colorPickerModal", "_cursor")]
 material = ExtResource("23_bxr57")
 custom_minimum_size = Vector2(70, 0)
 layout_mode = 2
 script = ExtResource("24_bqq0f")
+_colorPickerModal = NodePath("../../../../../../..")
 _cursor = NodePath("ArrowPoint")
 
 [node name="ArrowPoint" type="Control" parent="Container/TopButtonsMargin/TopButtons/RightButtons/HBox/ColorButtons/ColorPickerModalToggleButton/ColorPickerModal/Background/SafeMargin/SafeSpace/GeneralMargin/VBoxContainer/MainColorBox/SubSelectionArea"]

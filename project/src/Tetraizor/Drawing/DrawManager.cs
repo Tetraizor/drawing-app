@@ -109,7 +109,7 @@ public partial class DrawManager : Node
         _isRectDirty = true;
     }
 
-    private void BlendImage(Image backgroundImage, Image overlayImage, Vector2I position, ColorUtils.BlendMode blendMode)
+    public void BlendImage(Image backgroundImage, Image overlayImage, Vector2I position, ColorUtils.BlendMode blendMode)
     {
         int overlayWidth = overlayImage.GetWidth();
         int overlayHeight = overlayImage.GetHeight();

@@ -51,8 +51,6 @@ public partial class LayerPropertiesModal : FullScreenModalBase
     {
         _layerToEdit = layerData;
 
-        GD.Print(_layerToEdit.Renderer.TextureFilter);
-
         _layerNameLineEdit.Text = _layerToEdit.DisplayName;
         _visibleCheckbox.SetState(_layerToEdit.Renderer.Visible, true, true);
         _renderSmoothCheckbox.SetState(_layerToEdit.Renderer.TextureFilter == TextureFilterEnum.Linear, true, true);

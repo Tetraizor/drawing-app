@@ -1,8 +1,10 @@
 namespace Tetraizor.UI.ToolManagement;
 
 using System;
+using System.Linq;
 using Godot;
 using Tetraizor.Autoloads;
+using Tetraizor.Drawing;
 using Tetraizor.Tools;
 using Tetraizor.Utils;
 
@@ -29,12 +31,16 @@ public partial class TipCard : Control
 
     private bool _isPointerOverControl = false;
 
+    private DrawManager _drawManager;
+
     public void Initialize(TipData tip)
     {
         MouseEntered += OnMouseEntered;
         MouseExited += OnMouseExited;
 
         _settingsButton.Pressed += () => ToolManager.Instance.EditTip(tip);
+
+        _drawManager = NodeManager.FindNodeOfType<DrawManager>();
 
         ToolManager.Instance.ToolTipChanged += OnToolTipChanged;
 
@@ -88,6 +94,22 @@ public partial class TipCard : Control
             Image.Format.Rgba8,
             new byte[(int)_previewTextureRect.Size.X * (int)_previewTextureRect.Size.Y * 4]
         );
+
+        int height = (int)_previewTextureRect.Size.Y;
+        int width = (int)_previewTextureRect.Size.X;
+
+        var points = GraphicsUtils.GetBresenhamsPoints(new Vector2I(height / 2, 0), new Vector2I(width - (height / 2), 0), _tip.Size / 4).ToList();
+
+        foreach (var point in points)
+        {
+            int offset = (int)(Mathf.Sin((float)(point.X - height / 2) / (width - height) * Mathf.Pi * 2) * (height / 4)) + height / 2;
+
+            _drawManager.BlendImage(
+                _previewImage,
+                _tip.Shape,
+                point - new Vector2I(_tip.Size, _tip.Size - offset),
+                ColorUtils.BlendMode.Alpha);
+        }
 
         _previewTexture.SetImage(_previewImage);
     }

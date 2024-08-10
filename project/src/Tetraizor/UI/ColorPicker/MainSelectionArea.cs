@@ -1,11 +1,12 @@
-using System;
 using Godot;
 
 namespace Tetraizor.UI.ColorPicker;
 
 public partial class MainSelectionArea : Control
 {
+    [Export] private ColorPickerModal _colorPickerModal;
     [Export] private Control _cursor;
+
     private Vector2 _cursorDefaultPosition;
 
     private bool _isSelecting = false;
@@ -14,6 +15,7 @@ public partial class MainSelectionArea : Control
     private Vector2 _normalizedPosition = Vector2.Zero;
 
     [Signal] public delegate void SelectionPositionChangedEventHandler(Vector2 normalizedPosition);
+    [Signal] public delegate void SelectionPositionFinishedChangingEventHandler(Vector2 normalizedPosition);
 
     public override void _Ready()
     {
@@ -27,6 +29,8 @@ public partial class MainSelectionArea : Control
 
     public override void _Input(InputEvent @event)
     {
+        if (!_colorPickerModal.IsOn) return;
+
         if (@event is InputEventMouseButton mouseButton)
         {
             if (mouseButton.ButtonIndex == MouseButton.Left)
@@ -43,6 +47,8 @@ public partial class MainSelectionArea : Control
                 {
                     ToggleCursor(false);
                     MoveCursor(mouseButton.Position);
+
+                    EmitSignal(SignalName.SelectionPositionFinishedChanging, _normalizedPosition);
                 }
             }
         }

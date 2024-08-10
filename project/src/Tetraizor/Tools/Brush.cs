@@ -39,15 +39,8 @@ public class Brush : TippedToolBase
         _cameraManager = NodeManager.FindNodeOfType<CameraManager>();
         _drawManager = NodeManager.FindNodeOfType<DrawManager>();
 
-        ColorPickerModal.Instance.PrimaryColorChanged += OnPrimaryColorChanged;
     }
     #endregion
-
-    private void OnPrimaryColorChanged(Color color)
-    {
-        _color = color;
-        CreateShape();
-    }
 
     public override void ChangeTip(TipData tipData)
     {
@@ -57,34 +50,7 @@ public class Brush : TippedToolBase
 
     protected override void OnTipDataChanged()
     {
-        CreateShape();
-    }
-
-    public void CreateShape()
-    {
-        // TODO: Change brush generation. It currently only works with filled circles.
-        _shape = new Image();
-
-        var points = GraphicsUtils.GetFilledCirclePoints(_currentTip.Size).ToList();
-        int radius = _currentTip.Size;
-
-        // Calculate the diameter of the circle
-        int diameter = radius * 2 + 1;
-
-        // Create a new brush image with the correct dimensions and format
-        _shape.SetData(diameter, diameter, false, Image.Format.Rgba8, new byte[diameter * diameter * 4]);
-
-        for (int y = 0; y < diameter; y++)
-        {
-            for (int x = 0; x < diameter; x++)
-            {
-                // Correctly calculate the index in the points array
-                int index = y * diameter + x;
-
-                if (points[index])
-                    _shape.SetPixel(x, y, _color);
-            }
-        }
+        _shape = _currentTip.Shape;
     }
 
     #region Input Callbacks
@@ -112,7 +78,7 @@ public class Brush : TippedToolBase
         {
             Stroke lastStroke = _tempStrokes[_tempStrokes.Count - 2];
 
-            var points = GraphicsUtils.GetBresenhamsPoints(lastStroke.Position, stroke.Position).ToList();
+            var points = GraphicsUtils.GetBresenhamsPoints(lastStroke.Position, stroke.Position, _currentTip.Size).ToList();
 
             foreach (var point in points)
             {

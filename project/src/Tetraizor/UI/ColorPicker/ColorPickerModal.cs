@@ -44,22 +44,28 @@ public partial class ColorPickerModal : SlidingModalBase
     #endregion
 
     #region Signals
-    [Signal] public delegate void PrimaryColorChangedEventHandler(Color color);
+    [Signal] public delegate void ColorDraggingEventHandler(Color color);
+    [Signal] public delegate void ColorSelectedEventHandler(Color color);
     #endregion
 
     #region Godot Methods
     public override void _Ready()
     {
         _mainSelectionArea.SelectionPositionChanged += OnMainSelectionPositionChanged;
-        _subSelectionArea.SelectionPositionChanged += OnSubSelectionPositionChanged;
+        _mainSelectionArea.SelectionPositionFinishedChanging += OnMainSelectionPositionFinishedChanging;
 
-        PrimaryColorChanged += OnPrimaryColorChanged;
+        _subSelectionArea.SelectionPositionChanged += OnSubSelectionPositionChanged;
+        _subSelectionArea.SelectionPositionFinishedChanging += OnSubSelectionPositionFinishedChanging;
+
+
+        ColorDragging += OnColorDragging;
 
         _toggleButton.Pressed += () => Toggle();
 
-        OnPrimaryColorChanged(new Color(0, 0, 0, 1));
+        OnColorDragging(new Color(0, 0, 0, 1));
     }
     #endregion
+
 
     #region Modal Controls
     protected override void Open()
@@ -82,7 +88,7 @@ public partial class ColorPickerModal : SlidingModalBase
     #endregion
 
     #region Callbacks
-    private void OnPrimaryColorChanged(Color color)
+    private void OnColorDragging(Color color)
     {
         _primaryColor = color;
 
@@ -96,7 +102,7 @@ public partial class ColorPickerModal : SlidingModalBase
         _hsv.Z = normalizedPosition.Y;
 
         _primaryColor = ColorUtils.HSVtoRGB(_hsv);
-        EmitSignal(SignalName.PrimaryColorChanged, _primaryColor);
+        EmitSignal(SignalName.ColorDragging, _primaryColor);
     }
 
     private void OnSubSelectionPositionChanged(float normalizedPosition)
@@ -105,7 +111,21 @@ public partial class ColorPickerModal : SlidingModalBase
 
         _hsv.X = normalizedPosition;
         _primaryColor = ColorUtils.HSVtoRGB(_hsv);
-        EmitSignal(SignalName.PrimaryColorChanged, _primaryColor);
+        EmitSignal(SignalName.ColorDragging, _primaryColor);
+    }
+
+    private void OnMainSelectionPositionFinishedChanging(Vector2 normalizedPosition)
+    {
+        OnMainSelectionPositionChanged(normalizedPosition);
+
+        EmitSignal(SignalName.ColorSelected, _primaryColor);
+    }
+
+    private void OnSubSelectionPositionFinishedChanging(float normalizedPosition)
+    {
+        OnSubSelectionPositionChanged(normalizedPosition);
+
+        EmitSignal(SignalName.ColorSelected, _primaryColor);
     }
     #endregion
 }
